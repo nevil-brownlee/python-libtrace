@@ -1,0 +1,58 @@
+
+Release notes for python-libtrace
+---------------------------------
+
+python-libtrace-1.6, June 2015
+  Reworked ippmodule to use inet-ntop() and inet_pton(),
+    with check to make sure we don't use :: where it should
+    be :0:
+  Fixed PV_free_self define in pv.h, plt builds properly for python3 now
+  Made new py2 and py3 test *.res files for test programs whose
+    output depended on string formas of IPv6 addresses
+
+python-libtrace-1.5, April 2015
+  Fixed memory leak reported by John Green.
+  Made improvements to the documentation reported by Perry Lorier
+
+python-libtrace-1.4, January 2015
+  Improved the doc/*.html pages after feedback from NZNOF 2015
+    python-libtrace workshop
+
+python-libtrace-1.3, December 2015
+  Small improvements prompted by Nevil's tcp-analyse program
+
+python-libtrace-1.2, June 2014
+  Added trace function pkt_accepts(),
+    changed packet_drops() to pkt_drops()
+  Re-worked packet trace read routines, now both read_packet()
+    and next_packet() call get_packet(), which handles ethertype 
+    0x8100 packets with vlan tags.
+  Added new attributes and functions:
+    packet.vlan_id    802.1Q vlan id, or zero for non-vlan packets
+    packet.direction  libtrace direction, for interfaces that support it
+    internet.test_l2_cksm()  test whether l3 (IPv4) checksum is correct
+    internet.set_l2_cksm()   set l3 (IPv4) checksum
+    internet.test_trans_cksm()  test whether transport checksum is correct
+    internet.set_trans_cksm()   set l3 transport checksum
+      Note: the cksm functions can be used for ip, ip6, tcp, udp, icmp
+        and icmp6, i.e. all internet's child classes
+      Note also: the cksm functions do not use the libtrace checksum
+        routines; instead they compute the checksums in-place, so
+	they don't call memcpy().
+
+python-libtrace-1.1, April 2014
+  Correct IPprefix module name in doc files; it's ipp, not IPprefix
+  Fix transport layer get routines (e.g. ip6.tcp):
+    They were returning None if there weren't enough bytes for
+      most of the header
+    Now they reurn as much of the header as they can get,
+      i.e. at least the first field of the header
+    Note that fields further along the header, e.g. tcp.checksum
+      will return None if that field was beyond the packet's
+      snap length!
+
+python-libtrace-1.0, March 2014
+  First release, development started July 2013
+
+-----------------------------------------------------------------
+
