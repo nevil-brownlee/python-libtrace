@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><title>Trace Management</title>
+
+<meta name="generator" content="KompoZer">
+<link rel="stylesheet" type="text/css" href="plt-doc.css"></head>
+<body>
+<h2 style="text-align: left;">Trace Management<br></h2>
+<h3>What is a <span style="font-style: italic;">libtrace</span> 'trace?'</h3>
+<p>A trace is an object, either a live interface or a trace file,
+identified by a URI, of the form format:name, e.g. pacpfile:sample.bpf
+for a pcap file, &nbsp;int:eth0 for a live interface.</p>In a python-libtrace program you must create a Trace object using <span style="font-style: italic;">trace(),</span> then 'start' the trace using <span style="font-style: italic;">trace.start(); </span>after that you can read Packets from it using <span style="font-style: italic;">tfor packet in trace: </span>or <span style="font-style: italic;">trace.read_packet().</span><p>If you need to configure a live trace, you must specify its <span style="font-style: italic;">snap length</span>, any input <span style="font-style: italic;">Filter</span> it should use, and whether or not it should capture in<span style="font-style: italic;"> promiscuous </span>mode, using the <span style="font-style: italic;">Trace.conf_ </span>methods. &nbsp;Furthermore, you must configure the trace <span style="font-style: italic;">before</span> you start it.</p><h3>Class Trace</h3><table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="2">Class Methods</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>trace()</strong><br>
+</td>
+<td class="name descriptionwidth"><em>trace(uri) -&gt; aNewTrace</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Returns a <span style="font-style: italic;">
+  libtrace</span> Trace object. &nbsp;The object's name is given by a 
+  string containing its URI, e.g.&nbsp;pcapfile:xxx.bpf,
+  &nbsp;int:eth0, ...<br>
+</td>
+</tr>
+
+<tr>
+<td class="name methodwidth"><strong>conf_filter()</strong></td>
+<td class="name descriptionwidth"><em>trace.conf_filter(filter)&nbsp;</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Specifies that the Trace will filter its packets
+  using the&nbsp; <span style="font-style: italic;">BPF filter supplied as its argument. &nbsp;See the&nbsp;Filter page for details of how to create a filter object.<br>Throws a <span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;">plt_exc_libtrace </span></span></span><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"> </span></span></span>exception if the <span style="font-style: italic;">conf</span> fails.<span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"></span></span></span></span></span></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>conf_snaplen()</strong></td>
+<td class="name descriptionwidth"><em>trace.conf_snaplen(Integer)&nbsp;</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Sets <span style="font-style: italic;">snaplen</span>
+  for a live-interface Trace; at most the first <span style="font-style: italic;">snaplen</span> bytes of each packet will be recorded for each
+  packet. <br>Throws a <span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;">plt_exc_libtrace </span></span></span><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"> </span></span></span>exception if the <span style="font-style: italic;">conf</span> fails.<span style="font-style: italic;"><br><span style="font-style: italic;"><span style="font-style: italic;"></span></span></span></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>conf_promisc()</strong></td>
+<td class="name descriptionwidth"><em>trace.promisc(arg)</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description vspace1">Specifices that a live-interface Trace should capture
+  all (if <span style="font-style: italic;">arg</span> is 
+  <span style="font-style: italic;">true</span>) packets, oherwise it should
+  only capture packets intended for the Trace's interface.<br>Throws a <span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;">plt_exc_libtrace </span></span></span><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"> </span></span></span>exception if the <span style="font-style: italic;">conf</span> fails.<span style="font-style: italic;"><br><span style="font-style: italic;"><span style="font-style: italic;"></span></span></span></td>
+</tr>
+
+<tr>
+<td class="name methodwidth"><strong>start()</strong></td>
+<td class="name descriptionwidth"><em>trace.start ()</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Starts the capture (from a live inteferace), or opens&nbsp; a trace file for reading.<br>Throws a <span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;">plt_exc_libtrace </span></span></span>exception if the <span style="font-style: italic;">start</span> fails.<span style="font-style: italic;"><span style="font-style: italic;"> </span></span></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>pause()<br></strong></td>
+<td class="name descriptionwidth"><em>trace.pause()&nbsp;</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Pauses the capture from a live interface.<br>Throws a <span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;">plt_exc_libtrace </span></span></span><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"> </span></span></span>exception if the <span style="font-style: italic;">pause</span> fails.<span style="font-style: italic;"><br>Note: if you can <span style="font-style: italic;">pause</span>() a trace, you may change its configuration, then <span style="font-style: italic;">start</span>() it again.<br><span style="font-style: italic;"> </span></span></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>close()</strong></td>
+<td class="name descriptionwidth"><em>trace.close()</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description vspace1">Shuts down a live interface, or closes a trace file.<br><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"></span></span><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"></span></span></span><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"> </span></span></span></span></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>read_packet()</strong></td>
+<td class="name descriptionwidth"><em>trace.read_packet(aPacket) -&gt; True or False</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Gets a packet from <span style="font-style: italic;">Trace</span>, and returns it in a <span style="font-style: italic;">Packet.<br></span>Returns<span style="font-style: italic;"> true </span>if a packet was read,<span style="font-style: italic;"> false </span>at &nbsp;End-Of-File<span style="font-style: italic;">.<br></span>Throws a&nbsp;<span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;">plt_exc_libtrace </span></span></span><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"></span></span></span><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"></span></span>exception if the <span style="font-style: italic;">read</span> fails.<span style="font-style: italic;"> </span></span></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong style="font-style: italic;">trace iterator</strong><br>
+</td>
+<td class="name descriptionwidth"><em>for packet in trace:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; block<br>
+</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description vspace1">Reads <span style="font-style: italic;">Packets</span> from trace, and passes them (in arrival order) to the indented<span style="font-style: italic;"> block</span> to be processed.<br>Does not return anything after the last packet.<br>Throws a <span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;">plt_exc_libtrace </span></span></span><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"> </span></span></span>exception if a <span style="font-style: italic;">read</span> fails.<span style="font-style: italic;"><br> </span></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>pkt_drops()</strong></td>
+<td class="name descriptionwidth"><em>Trace.packet_drops -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Returns the number of packets <span style="font-style: italic;">Trace</span> captured, but that were dropped because of buffer overruns.  </td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>pkt_accepts()</strong></td>
+<td class="name descriptionwidth"><em>Trace.accepted_packets -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Returns the number of packets <span style="font-style: italic;">Trace</span> captured, and that were successfully read from it.  </td>
+</tr>
+
+</tbody></table><br><br>
+Nevil Brownlee<br>
+Tue, 6 May 14&nbsp; (NZDT)
+<br></body></html>

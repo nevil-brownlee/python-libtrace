@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><title>IPprefix</title>
+
+<meta name="generator" content="amaya 8.5, see http://www.w3.org/Amaya/">
+<link rel="stylesheet" type="text/css" href="plt-doc.css"></head>
+<body>
+<h2>IPprefix Module</h2>
+<p>This Module (<big><span style="font-family: Courier New,Courier,monospace;">ipp</span></big>) provides methods to store and use IPv4 and IPv6
+addresses.</p>
+<p>When you use <span style="font-style: italic;">python-libtrace</span> (<span style="font-family: Courier New,Courier,monospace;">import plt</span>), &nbsp;IPprefix is
+automatically&nbsp;<br>loaded -&nbsp;you don't need to import <big><span style="font-family: Courier New,Courier,monospace;">ipp</span> </big>as well.</p>
+<h3>Class IPprefix</h3>
+<p>Represents an IP adress or&nbsp;prefix.</p>
+<table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="2">Instance
+Variables</td>
+</tr>
+<tr>
+<td class="name methodwidth" valign="top">
+<strong>version</strong>
+</td>
+<td class="name descriptionwidth">4 for IPv4, 6 for IPv6
+</td>
+</tr>
+<tr>
+<td class="name" valign="top">
+<strong>addr</strong>
+</td>
+<td class="name">
+4- or 16-byte array containing actual address; the array bytes contain the actual bytes of the
+address
+</td>
+</tr>
+<tr>
+<td class="name" valign="top">
+<span style="font-weight: bold;">length</span></td>
+<td class="name">
+Number of bits in prefix. If length is None the <span style="font-style: italic;">IPprefix</span> represents just
+an IP address
+</td>
+</tr>
+</tbody></table>
+<br>
+
+<table class="indent1"><tbody>
+<tr>
+<td class="heading" colspan="2">Class Methods</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>from_s()</strong></td>
+<td class="name descriptionwidth"><em>ipp.from_s(aString)-&gt;
+aNewIPprefix</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">
+Parses str to find version and address, e.g.<br>
+&nbsp; &nbsp;p = ipp.from_s('192.168.1.1') <br>
+&nbsp; &nbsp;p = ipp.from_s('fe80::20d:60ff:fe38:18b/64')
+</td>
+</tr><tr>
+<td class="name"><strong> </strong></td>
+<td class="name descriptionwidth"><em><em>IPprefix -&gt; aString</em></em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">
+Returns a string containing a printable version of the
+<span style="font-style: italic;">IPprefix'</span>s address (and /width, if width is not None)<br><span style="font-style: italic;">ipp will convert an IPprefix to a python string by calling its (built-in) str() function</span>
+</td></tr>
+</tbody></table>
+<br>
+
+<table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="2">Instance Methods</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>&lt;, &lt;=, ==, &gt;=, &gt;, !=<br>
+</strong></td>
+<td class="name descriptionwidth"><em>IPprefix op OtherIPprefix
+-&gt; True or False<br>
+</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">'Rich compare' operators: comparisions use the versions, addresses and
+lengths of two IPprefixes.&nbsp; These can be used to sort IPprefixes into
+ascending or descending order, IPprefixes with the same addr compare
+based on their lengths.</td>
+</tr>
+
+
+<tr>
+<td class="name methodwidth"><strong>IPprefix(v, a)</strong><br>
+</td>
+<td class="name descriptionwidth"><em>IPprefix(version,address)
+-&gt;
+aNewIPprefix</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">
+Returns an IPprefix conatining an IP address, e.g. 192.168.0.3<br>
+&nbsp; &nbsp;version&nbsp; = 4 for
+IPv4, 6 for IPv6<br>
+&nbsp; &nbsp;address = 4- or 16-byte array containing<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; actual address</td>
+</tr>
+<tr>
+<td class="name"><strong>IPprefix(v, a, len)</strong></td>
+<td class="name"><em>IPprefix(version,
+address, length)
+-&gt;
+aNewIPprefix</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Returns an IPprefix containing a network prefix, e.g.
+192.168.0.0/16. <br>
+&nbsp; &nbsp;version, address - as above<br>
+&nbsp; &nbsp;length = number of bits in prefix</td>
+</tr>
+<tr>
+<td class="name"><strong>version</strong></td>
+<td class="name"><em>IPprefix.version -&gt;
+anIinteger</em></td>
+</tr>
+<tr>
+<td class="name"><strong>addr</strong></td>
+<td class="name"><em>IPprefix.addr -&gt;
+aString</em></td>
+</tr>
+<tr>
+<td class="name" valign="top"><strong>length</strong></td>
+<td class="name"><em>IPprefix.length-&gt;
+anIinteger</em><br>
+</td>
+</tr>
+<tr><td><br>
+</td><td class="description">Read values of the instance variables.</td></tr>
+<tr>
+<td class="name"><strong>length=</strong></td>
+<td class="name"><em>IPprefix.length = anInteger -&gt; anIinteger</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">
+Se<span>t</span>s value for an IPprefix width.<br>
+</td>
+</tr>
+
+
+</tbody></table>
+<br>
+
+<table class="indent1"><tbody>
+<tr><td class="heading" colspan="2">Instance Methods for prefix testing</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>is_prefix</strong></td>
+<td class="name descriptionwidth"><em>IPprefix .is_prefix(OtherIPprefix)
+-&gt; True or False</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Returns true if this <span style="font-style: italic;">IPprefix</span> is a prefix of <span style="font-style: italic;">OtherIPprefix</span>, i.e. their first <span style="font-style: italic;">IPprefix.length </span>bits are the same.<br></td>
+</tr>
+<tr>
+<td class="name"><strong>equal</strong></td>
+<td class="name"><em><em>IPprefix.equal(OtherIPprefix)
+-&gt; True or False </em></em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Two IPprefixes are equal if they have the same&nbsp;<span style="font-weight: bold;">version and </span><span style="font-weight: bold;">addr. </span><span style="font-weight: bold;"><br>
+</span></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>width</strong></td>
+<td class="name descriptionwidth"><em>IPprefix.width
+-&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Returns<span style="font-style: italic;"> IPprefix.length - 1</span><br></td>
+</tr>
+<tr>
+<td class="name"><strong>has_bit_set</strong></td>
+<td class="name"><em>IPprefix.has_bit_set(Integer) -&gt; True or False</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Returns true if the bit specified by <span style="font-style: italic;">Integer</span> is 1.<br>For example, if <span style="font-style: italic;">Integer</span> is 0, has_bit_set is true if the leftmost bit of <span style="font-style: italic;">IPprefix</span> is 1.</td>
+</tr>
+
+
+
+
+<tr>
+<td class="name"><strong>first_bit_different</strong></td>
+<td class="name"><em>IPprefix.first_bit_different(OtherIPprefix) -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Returns an <span style="font-style: italic;">Integer</span>, the (0-origin) bit position where the two IPprefixes are different.<br></td>
+</tr>
+<tr>
+<td class="name"><strong>complement</strong></td>
+<td class="name"><em>IPprefix.complement -&gt; OtherIPprefix</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">
+Returns the complement of an <span style="font-style: italic;">IPprefix,</span> i.e. one having the same length, but&nbsp;all bits the ones-complement of those in <span style="font-style: italic;">IPprefix</span>.</td>
+</tr>
+<tr><td class="name"><strong>is_rfc1918</strong></td>
+<td class="name"><em>IPprefix.is_rfc1918 -&gt; True or False<br>
+</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">
+Returns True if the IPprefix's address is in the IPv4 range specified in RFC 1918, i.e. in one of the Private prefixes below.<br>
+</td>
+</tr>
+</tbody>
+</table>
+
+<br>
+<table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="3">Global
+Constants</td>
+</tr>
+<tr>
+<td class="name methodwidth"><em>'Private'&nbsp; prefixes<br>
+</em></td>
+<td class="name" colspan="2">See RFC 1918 for more details</td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="c2width">ipp.rfc1918s16</td>
+<td class="c3width">192.168.0.0/16<br>
+</td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td>ipp.rfc1918s12</td>
+<td>172.16.0.0/12</td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td>ipp.rfc1918s8</td>
+<td>10.0.0.0/8</td>
+</tr>
+</tbody>
+</table>
+
+<p>Nevil Brownlee<br>Tue, 4 Nov 14 (NZDT)</p></body></html>

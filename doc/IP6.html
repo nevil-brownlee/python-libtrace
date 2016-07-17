@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>Protocol Decodes: IP6</title>
+
+<meta name="generator" content="KompoZer" />
+<link rel="stylesheet" type="text/css" href="plt-doc.css" /></head><body>
+<h2>Network Layer Decodes</h2>
+<h3>Class IP6</h3>
+<p>Provides access to fields in an IPv6 header.</p>
+
+<table class="indent1">
+<tbody>
+<tr><td class="heading" colspan="2">Instance Variables</td>
+</tr><tr>
+<td class="name methodwidth"><strong>version</strong></td>
+<td class="name descriptionwidth"><em>ip6.version -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">IP version, 6 for IPv6 
+</td>
+</tr><tr>
+<td class="name"><strong>traffic_class</strong></td>
+<td class="name"><em>ip6.traffic_class -&gt; anInteger</em></td>
+</tr><tr>
+<td><br />
+</td>
+<td class="description">IPv6 Traffic Class (DSCP and ECN)
+</td>
+</tr><tr>
+<td class="name"><strong>flow_label</strong></td>
+<td class="name"><em>ip6.flow_label -&gt; anInteger</em></td>
+</tr><tr>
+<td><br />
+</td>
+<td class="description">IPv6 Flow Label (20 bits)
+</td>
+</tr><tr>
+<td class="name"><strong>payload_len</strong></td>
+<td class="name"><em>ip6.payload_len -&gt; anInteger</em></td>
+</tr><tr>
+<td><br />
+</td>
+<td class="description">IPv6 Payload Length (doesn't include the IPv6 header)
+</td>
+</tr><tr>
+<td class="name"><strong>next_hdr</strong></td>
+<td class="name"><em>ip6.next_hdr -&gt; anInteger</em></td>
+</tr><tr>
+<td><br />
+</td>
+<td class="description">IPv6 Next Header; selector for whatever follows the
+IPv6 header</td>
+</tr><tr>
+<td class="name"><strong>hop_limit</strong></td>
+<td class="name"><em>ip6.hop_limit -&gt; anInteger</em></td>
+</tr><tr>
+<td><br />
+</td>
+<td class="description">IPv6 Hop Limit
+ </td>
+</tr><tr>
+<td class="name"><strong>src_prefix</strong></td>
+<td class="name"><em>ip6.src_address -&gt; anIPprefix</em></td>
+</tr><tr>
+<td><br />
+</td>
+<td class="description">IPv6 Source Address</td>
+</tr><tr>
+<td class="name"><strong>dst_prefix</strong></td>
+<td class="name"><em>ip6.dst_address -&gt; anIPprefix</em></td>
+</tr><tr>
+<td><br />
+</td>
+<td class="description">IPv6 Destination Address
+ </td>
+</tr>
+<tr><td class="name"><strong>payload</strong></td>
+<td class="name"><em>ip6.payload -&gt; aByteArray</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Byte array containing the IPv6 object's payload<br />
+<span style="font-style: italic;" />
+ </td>
+</tr>
+</tbody></table>
+<p>A few of the fields in an IP object may be set to new values, as follows:<br /></p>
+<table class="indent1">
+<tbody>
+<tr><td class="heading" colspan="2">Class <span style="font-style: italic;">set</span> &nbsp;Methods</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>hop_limit=</strong></td>
+<td class="name descriptionwidth"><em>ip6.hop_limit = anInteger</em></td>
+</tr><tr>
+<td><br />
+</td>
+<td class="description">Sets the <span style="font-style: italic;">hop_limit</span> value in an <span style="font-style: italic;">IP6</span>
+ </td>
+</tr><tr>
+<td class="name"><strong>src_address=</strong></td>
+<td class="name"><em>ip6.src_address = anIPprefix</em></td>
+</tr><tr>
+<td><br />
+</td>
+<td class="description">Sets the <span style="font-style: italic;">src_address</span> value in an <span style="font-style: italic;">IP6</span></td>
+</tr><tr>
+<td class="name"><strong>dst_address=</strong></td>
+<td class="name"><em>ip6.dst_address = anIPprefix</em></td>
+</tr><tr>
+<td><br />
+</td>
+<td class="description">Sets the <span style="font-style: italic;">dst_address</span> value in an <span style="font-style: italic;">IP6</span>
+ </td>
+</tr>
+</tbody>
+</table>
+
+<p />
+<p>Nevil Brownlee<br />Mon,&nbsp; 30 Jun 14 (NZST)</p>
+</body></html>

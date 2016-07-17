@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><title>Internet</title><meta name="generator" content="LompoZer"><link rel="stylesheet" type="text/css" href="plt-doc.css"></head>
+<body>
+<h2>Network Layer Decodes</h2>
+<h3>Class Internet</h3><p>'Internet' is not a user-accessible class -
+you can't create an Internet object. &nbsp;Rather, it's a parent for the IP,
+IP6, TCP, UDP, ICMP6 and ICMP classes, providing access to the fields in an IP or IP6
+header, and functions for testing and setting checksums.</p>
+
+<br>
+
+<table class="indent1">
+<tbody>
+<tr><td class="heading" colspan="2">Instance Variables</td></tr>
+<tr>
+<td class="name"><strong>version</strong></td>
+<td class="name"><em>internet.version -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">IP version: 4 for IPv4, 6 for IPv6
+</td>
+</tr>
+<tr>
+<td class="name"><span style="font-weight: bold;">proto</span><strong></strong></td>
+<td class="name"><em>internet.proto -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">IP Protocol, e.g. 6 = TCP, 17 = UDP, 1 = ICMP, 58 = ICMPv6
+ </td>
+</tr>
+<tr>
+<td class="name"><strong>traffic_class</strong></td>
+<td class="name"><em>internet.traffic_class -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">Originally IPv4 Type-Of-Service, now used for DSCP and ECN. &nbsp;Traffic Class is its IPv6 name
+</td>
+</tr>
+<tr><td class="name"><strong>hop_limit</strong></td>
+<td class="name"><em>internet.hop_limit -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">Max number of hops IP packet can pass through.
+   IPv4 used its 'Time to Live' (TTL) field in the same way</td>
+</tr>
+<tr>
+<td class="name"><strong>pkt_len</strong></td>
+<td class="name"><em>internet.pkt_len -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">Total Length of IPv4 packet, <span style="font-style: italic;">None</span>l for an IPv6 packet
+</td>
+</tr>
+<tr>
+<td class="name"><strong>hdr_len</strong></td>
+<td class="name"><em>internet.pkt_len -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">IPv4 Header Length in 4-byte units, <span style="font-style: italic;">None</span> for an IPv6 packet
+</td>
+</tr>
+<tr>
+<td class="name"><strong>src_prefix<em></em></strong></td>
+<td class="name"><em>internet.src_prefix -&gt; anIPprefix</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">IP source address (see IPprefix page for details)
+ </td>
+</tr>
+<tr>
+<td class="name"><strong>dst_prefix</strong></td>
+<td class="name"><em>internet.dst_prefix -&gt; anIPprefix</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">IP destination address (see IPprefix page for details)
+ </td>
+</tr>
+</tbody></table><br><br><table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="2">Class&nbsp;Functions</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>test_l3_cksm()</strong></td>
+<td class="name descriptionwidth"><em>internet.test_l3_cksm()
+-&gt; True, False or None</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Tests the IP
+header (layer 3) checksum for IPv4 Packets.<br>Returns <span style="font-style: italic;">True</span> if the checksum is correct, <span style="font-style: italic;">False</span> if it is incorrect, or <span style="font-style: italic;">None</span> if the checksum could not be computed (i.e. too few bytes were captured).<span style="font-style: italic;"></span></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>set_l3_cksm()</strong></td>
+<td class="name descriptionwidth"><em>i</em><em>nternet.set_l3_cksm()
+-&gt; True or None</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Computes and sets the IP header (layer 3) checksum for IPv4 Packets.<br>Returns <span style="font-style: italic;">True</span> if the checksum was set, or <span style="font-style: italic;">None</span> if the checksum could not be computed (i.e. too few bytes were captured).<span style="font-style: italic;"></span></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>test_trans_cksm()</strong></td>
+<td class="name descriptionwidth"><em>i</em><em>nternet.test_trans_cksm()
+-&gt; True, False or None</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Tests the TCP, UDP, ICMP or ICMP6 (transport) checksum for IPv4 and IPv6 packets.<br>Returns <span style="font-style: italic;">True</span> if the checksum is correct, <span style="font-style: italic;">False</span> if it is incorrect, or <span style="font-style: italic;">None</span> if the checksum could not be computed (i.e. too few bytes were captured).<span style="font-style: italic;"></span></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>set_trans_cksm()</strong></td>
+<td class="name descriptionwidth"><em>i</em><em>nternet.tset_trans_cksm()
+-&gt; True or None</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Tests the TCP, UDP, ICMP or ICMP6 (transport) checksum for IPv4 and IPv6 packets.<br>Returns <span style="font-style: italic;">True</span> if the checksum was set, or <span style="font-style: italic;">None</span> if the checksum could not be computed (i.e. too few bytes were captured).<span style="font-style: italic;"></span></td>
+</tr>
+</tbody>
+
+</table><br><p>Nevil Brownlee<br>Tue, &nbsp;3 Jun 14 (NZST)</p><br></body></html>

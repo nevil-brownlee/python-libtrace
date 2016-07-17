@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>Layers</title><meta name="generator" content="KompoZer" /><link rel="stylesheet" type="text/css" href="plt-doc.css" /></head><body>
+<h2 style="text-align: left;">Header Structure Decodes</h2>
+<h3>Looking into each layer of a packet</h3>
+<p><span style="font-style: italic;">libtrace's</span> structure decodes (IP, IP6, UDP, TCP, ICMP, ICMP6) are all
+retrieved from a Packet by methods belonging to Packet, e.g. TCP =
+packet.tcp. &nbsp;However, a <span style="font-family: Courier New,Courier,monospace;">libtrace_packet struct</span> doesn't
+have
+a way to tell you how many bytes of the structure were actually
+captured. &nbsp;Because of that, <span style="font-style: italic;">python-libtrace</span> can't simply return
+the data bytes that belong to a structure but are in a part of
+it&nbsp;following the fixed-length part, e.g. IP and TCP options, and
+IP6 header
+extensions.</p>
+<p>Instead, <span style="font-style: italic;">python-libtrace</span> uses <span style="font-style: italic;">libtrace's</span> 'get_layer' routines, so that it can
+return objects that know how many header bytes were actually captured.
+&nbsp;Note that objects may be truncated because on-the-wire they
+extended past the SNAPLEN used when the trace was captured. </p>
+<h3>Class Layer2</h3>
+<table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="2">Instance
+Variables</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>linktype</strong></td>
+<td class="name descriptionwidth">Link Type for the
+trace, see below for values</td>
+</tr>
+
+</tbody>
+</table>
+<br />
+<table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="2">Class Method</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>layer2</strong></td>
+<td class="name descriptionwidth"><em>Packet.layer2
+-&gt;
+aNewLayer2</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns a Layer2 object,
+containing it's link type and header bytes for this packet. </td>
+</tr>
+</tbody>
+</table>
+<br />
+<table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="3">Global
+Constants</td>
+</tr>
+<tr>
+<td class="name methodwidth"><em>trace types</em></td>
+<td class="name" colspan="2">See the libtrace
+documentation for more details</td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="c2width"><font size="-1">TRACE_TYPE_ETH</font></td>
+<td class="c3width"><font size="-1">802.3-style
+Ethernet</font></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td><font size="-1">TRACE_TYPE_ATM</font></td>
+<td><font size="-1">ATM frames</font></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td><font size="-1">TRACE_TYPE_80211</font></td>
+<td><font size="-1">802.11 frames</font></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td><font size="-1">TRACE_TYPE_NONE</font></td>
+<td><font size="-1">Raw IP frames</font></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td><font size="-1">TRACE_TYPE_LINUX_SLL</font></td>
+<td><font size="-1">Linux "null" framing</font></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td><font size="-1">TRACE_TYPE_PFLOG</font></td>
+<td><font size="-1">FreeBSD's PFlog</font></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td><font size="-1">TRACE_TYPE_DUCK</font></td>
+<td><font size="-1">Pseudo link layer for DUCK
+packets</font></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td><font size="-1">TRACE_TYPE_80211_RADIO</font></td>
+<td><font size="-1">Radiotap + 802.11</font></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td><font size="-1">TRACE_TYPE_LLCSNAP</font></td>
+<td><font size="-1">Raw LLC/SNAP</font></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td><font size="-1">TRACE_TYPE_PPP</font></td>
+<td><font size="-1">PPP frames</font></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description"><font size="-1">TRACE_TYPE_METADATA</font></td>
+<td class="description"><font size="-1">WDCAP-style meta-data</font></td>
+</tr>
+</tbody>
+</table>
+<br />
+<h3>Class Layer3</h3>
+<table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="2">Instance
+Variables</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>ethertype</strong></td>
+<td class="name descriptionwidth">Ethernet Type for
+the packet, e.g. 0x0800 = IPv4, 0x08dd = IPv6, 0x080b = ARP, etc.</td>
+</tr>
+
+</tbody>
+</table>
+<br />
+<table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="2">Class Method</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>layer3</strong></td>
+<td class="name descriptionwidth"><em>Packet.layer3
+-&gt;
+aNewLayer3</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns a Layer3 object,
+containing it's link type and header bytes for this packet. </td>
+</tr>
+</tbody>
+</table>
+<table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="2">Class <span style="font-style: italic;">set</span> &nbsp;Method</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>set_checksums()</strong></td>
+<td class="name descriptionwidth"><em>Layer3.set_checksums
+-&gt; True or False</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Computes and sets&nbsp;TCP, UDP and ICMP
+checksums for IPv4 and IPv6 packets, and IP checksum for IPv4 packets.
+&nbsp;This can be useful when using a Layer3 object to anonymise a
+packet.<br /><br />Returns <span style="font-style: italic;">true</span> if the checksums were set;&nbsp; they are set only&nbsp;if the Layer3 object came from a complete packet, i.e. one with <span style="font-style: italic;">capture_len == wire_len.</span></td>
+</tr>
+</tbody>
+</table>
+<br />
+<h3>Class Transport</h3>
+<table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="2">stringInstance
+Variables</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>proto</strong></td>
+<td class="name descriptionwidth">IP protocol
+number, (provided this was an IP or IP6 packet), e.g. 6 = TCP, 17 =
+UDP, 1 = ICMP, 58 = ICMP6<br />
+</td>
+</tr>
+
+</tbody>
+</table>
+<br />
+<table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="2">Class Method</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>transport</strong></td>
+<td class="name descriptionwidth"><em>Packet.transport-&gt;
+aNewTransport</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns a Transport object,
+containing the protocol number and header bytes for this packet. </td>
+</tr>
+</tbody>
+</table>
+<p>
+</p><p>Nevil Brownlee<br />Mon, 13 Apr 15 (NZST)</p>
+</body></html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>pldns</title>
+
+<meta name="generator" content="amaya 8.5, see http://www.w3.org/Amaya/" />
+<link rel="stylesheet" type="text/css" href="plt-doc.css" /></head><body>
+<h2>pldns Module</h2>
+<p>ldns is a C library developed by NLnetLabs,&nbsp; It provides a
+complete set of functions for handling dns records, as well as DNS
+resolvers, etc.<br />
+This Module provides methods from ldns that can be used to analyse DNS records;<br />
+it is <span style="font-style: italic;">not</span> a complete python extension of all the ldns functionality.<br />
+</p>
+
+
+<h3>Module Methods</h3>These allow you acess to the ldns routines that map a (small integer) DNS object into a descriptive string.<br />
+<br />
+
+<table class="indent1">
+<tbody>
+<tr><td class="name methodwidth"><strong>opcodestr()</strong></td>
+<td class="name descriptionwidth"><em>pldns.opcodestr(integer) -&gt;&nbsp; aString<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns a string describing a DNS operation code value<br /></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>rcodestr()</strong><br />
+</td>
+<td class="name descriptionwidth"><em>pldns.rcodestr(integer) -&gt; aString</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns a string describing a DNS result code value</td>
+</tr>
+
+
+<tr>
+<td class="name"><strong>typestr</strong>()<br />
+</td>
+<td class="name"><em><em>pldns.typestr(integer)
+-&gt; aString<br />
+ </em></em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns a string describing a DNS Resource Record type  <span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;" /></span></span></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>errorstr</strong>()<br />
+</td>
+<td class="name descriptionwidth"><em>r</em><em>ldns_obj.</em><em>errorstr(ldns_obj.status) -&gt;&nbsp; anInteger<br />
+      </em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns a string describing an ldns status code. 
+</td>
+</tr>
+</tbody></table>
+<br />
+
+<h3>Class LdnsRR<br />
+</h3>Ldns functions (see below) return tuples of LdnsRR objects.&nbsp;
+Each such object contains all the information from a single Resource
+Record in a DNS datagram.<br />
+<br /><table class="indent1"><tbody><tr><td class="heading" colspan="2">Instance Attributes</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>owner</strong><br />
+</td>
+<td class="name descriptionwidth"><em>rr.owner -&gt; aString<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns the RR owner's FQDN (fully qualified domain name)<br />
+<span style="font-family: monospace;" /></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>type</strong><br />
+</td>
+<td class="name descriptionwidth"><em>rr.type -&gt; anInteger</em><br />
+</td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns the RR's type as a small integer<br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>ttl</strong><br />
+</td>
+<td class="name descriptionwidth"><em>rr.ttl -&gt;&nbsp; anInteger<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns the RR's TTL (Time To Live) in seconds<br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>rdata<br />
+</strong></td>
+<td class="name descriptionwidth"><em>rr.rdata-&gt;&nbsp; aString<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns a string with all the information about
+the RR.&nbsp; Since different RR types have different data items, the
+string is similar to those returned by dig for RRs.<br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>str</strong><br />
+</td>
+<td class="name descriptionwidth"><em>ipf.proto -&gt;&nbsp; aString</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns a string containing all the information about the RR, in a format similar to that returned by dig for an RR.<br />
+</td>
+</tr>
+
+</tbody></table>
+<br />
+
+<h3>Class Ldns<br />
+</h3>An Ldns object contains all the information from a DNS datagram.<br />
+<br /><table class="indent1"><tbody>
+<tr><td class="heading" colspan="2">Class functions</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>ldns()</strong><br />
+</td>
+<td class="name descriptionwidth"><em>pldns.ldns(udp.payload) -&gt; anLdns_obj<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">This function creates an ldns object. It's argument is a DNS datagram from plt, either udp.payload or tcp.payload.<br />
+<span style="font-family: monospace;" /></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>is_ok</strong>()<br />
+</td>
+<td class="name descriptionwidth"><em>rldns_obj.status-&gt; True or False</em><br />
+</td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns True if the ldns object was created without problems.<br />
+</td>
+</tr>
+<tr><td class="heading" colspan="2">Instance Attributes</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>status</strong><br />
+</td>
+<td class="name descriptionwidth"><em>rldns_obj.status-&gt; anInteger</em><br />
+</td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns zero if the ldns object was created without problems, <br />or an ldns status code otherwise.<br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+</tr><tr>
+<td style="font-weight: bold;" class="name methodwidth"><strong>ident</strong></td>
+<td class="name descriptionwidth"><em>ldns_obj.ident</em><em>-&gt;&nbsp; anInteger<br />
+      </em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns the datagram's ident value (16-bit unsigned integer).<br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>is_response</strong><br />
+</td>
+<td class="name descriptionwidth"><em><em>ldns_obj.</em><em>is_response -&gt;&nbsp; True or False<br />
+</em></em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns True if the datagram is a response.<br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>opcode</strong><br />
+</td>
+<td class="name descriptionwidth"><em>ldns_obj.</em><em>opcode -&gt;&nbsp; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns the datagram's opcode field.<br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>rcode</strong><br />
+</td>
+<td class="name descriptionwidth"><em>i</em><em>ldns_obj.rcode</em><em> -&gt;&nbsp; aString</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns the datagram's rcode field.<br />
+</td>
+</tr>
+<tr>
+</tr>
+
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>query_rr_list</strong><br />
+</td>
+<td class="name descriptionwidth"><em><em>ldns_obj.</em><em>query_rr_list -&gt;&nbsp; a list of LdnsRRs<br />
+</em></em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns a a list of LdnsRR objects from the datagram's <br />Query section.
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>response_rr_list</strong><br />
+</td>
+<td class="name descriptionwidth"><em>ldns_obj.</em><em>response_r_list -&gt;&nbsp; </em><em><em>a list of LdnsRRs</em></em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns a a list of LdnsRR objects from the datagram's <br />Response section.
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>auth_rr_list</strong>
+</td>
+<td class="name descriptionwidth"><em>ldns_obj.auth_rr_list </em><em>-&gt;&nbsp; </em><em><em>a list of LdnsRRs</em></em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns a a list of LdnsRR objects from the datagram's <br />Authority section.
+</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>addit_rr_list</strong>
+</td>
+<td class="name descriptionwidth"><em>ldns_obj.</em><em>-&gt;&nbsp; </em><em><em>a list of LdnsRRs</em></em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns a a list of LdnsRR objects from the datagram's <br />Additional section.</td>
+</tr>
+
+</tbody></table>
+<br />
+
+<p /><p>Nevil Brownlee<br />
+Tue, 19 Aug 14 (NZST)</p>
+</body></html>

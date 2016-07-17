@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+
+
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>Handling Packets</title><meta name="generator" content="KompoZer" /><link rel="stylesheet" type="text/css" href="plt-doc.css" /></head><body>
+<h2>Handling Packets</h2>
+<h3>Class Packet</h3>
+<p>Gives you access to fieds within (the captured part of) a packet. &nbsp;You will normally work on Packets returned from&nbsp; <span style="font-style: italic;">Trace.read_packet()&nbsp;</span> or a  <span style="font-style: italic;">Trace iterator</span> &nbsp;(see Trace Handling), but you can create a new packet instance with&nbsp; <span style="font-style: italic;">packet()</span>&nbsp; (see below).</p><p>Note
+that the Layer and Decode methods return None if their requested object
+was not present in the packet, or was not completely captured.</p>
+
+<table class="indent1">
+<tbody>
+<tr><td class="heading" colspan="2">Class Methods</td></tr>
+<tr>
+<td class="name methodwidth"><strong>packet()</strong><br />
+</td>
+<td class="name descriptionwidth"><em>Packet() -&gt; aPacket</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description vspace1">Makes a new Python Packet.&nbsp; A
+python-libtrace packet maintains a set of pointers into a libtrace
+packet or a python-libtrace data object.&nbsp; In a newly-created
+Packet, all such pointers are NULL.<br />
+</td>
+</tr>
+</tbody></table>
+
+<br /><br />
+<table class="indent1">
+<tbody>
+<tr><td class="heading" colspan="2">Instance Methods</td></tr>
+
+
+<tr>
+<td class="name methodwidth"><strong>layer2</strong></td>
+<td class="name descriptionwidth"><em>pkt.layer2 -</em><em><em>&gt; aLayer2</em></em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Gets a Layer2 object from the packet; see Layers page</td>
+</tr>
+<tr>
+<td class="name"><strong>layer3</strong></td>
+<td class="name"><em>pkt.layer3 -&gt; aLayer3</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Gets a Layer3 object from the packet; see Layers page<br />
+</td>
+</tr>
+<tr>
+<td class="name"><strong>transport</strong></td>
+<td class="name"><em>pkt.transport -&gt; aTransport</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">
+Gets a Transport object from the packet; see Layers page<br />
+</td>
+</tr>
+<tr>
+<td class="name"><strong>ip</strong></td>
+<td class="name"><em>pkt.ip -&gt; anIP</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Gets an IPv4 header from the packet</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name"><strong>ip6</strong></td>
+<td class="name"><em>pkt.ip6 -&gt; anIP6</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Gets an IPv6 header from the packet</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name"><strong>tcp</strong></td>
+<td class="name"><em>pkt.tcp-&gt; aTCP</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Gets a TCP header from the packet</td>
+</tr>
+<tr>
+<td class="name"><strong>tcp_payload</strong></td>
+<td class="name"><em>pkt.tcp_payload -&gt; aData</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Gets a TCP payload&nbsp; from the packet, or None if it wasn't TCP.<br />
+tcp_payload.data returns a ByteArray of the data<br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name"><strong>udp</strong></td>
+<td class="name"><em>pkt.udp -&gt; aUDP</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Gets a UDP header from the packet</td>
+</tr>
+<tr>
+<td class="name"><strong>udp_payload</strong></td>
+<td class="name"><em>pkt.udp_payload -&gt; aData</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">
+Gets a UDP payload&nbsp; from the packet, or None if it wasn't UDP.<br />
+udp_payload.data returns a ByteArray of the data<br />
+</td>
+</tr>
+<tr>
+  <td class="name"><strong>icmp</strong></td>
+  <td class="name"><em>pkt.icmp -&gt; anICMP</em></td>
+</tr>
+<tr>
+  <td><br />
+  </td>
+  <td class="description">Gets an ICMP header from the packet</td>
+</tr>
+<tr>
+  <td class="name"><strong>icmp6</strong></td>
+  <td class="name"><em>pkt.icmp -&gt; anICMP</em></td>
+</tr>
+<tr>
+  <td><br />
+  </td>
+  <td class="description">Gets an ICMP v6header from the packet</td>
+</tr>
+    <tr>
+      <td style="vertical-align: top;"><br />
+      </td>
+      <td style="vertical-align: top;"><br />
+      </td>
+    </tr>
+<tr>
+<td class="name"><strong>apply_filter()</strong></td>
+<td class="name"><em>pkt.apply_filter(aFilter) -&gt; result</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Tests whether the current contents of the packet
+match <span style="font-style: italic;">aFilter.</span>
+<br /> Result is <span style="font-style: italic;">True</span> if the filter matches, <span style="font-style: italic;">False</span> if it doesn't, or <span style="font-style: italic;">None</span> if the filter was invalid
+</td>
+</tr>
+</tbody></table>
+
+<br />
+<table>
+</table><table class="indent1">
+<tbody>
+<tr><td class="heading" colspan="2">Instance Variables</td></tr>
+<tr>
+<td class="name"><strong>data</strong></td>
+<td class="name"><em>pkt.data -&gt; aByteArray </em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description vspace1">Byte array containing object's header and its following bytes.<br />
+May be used for any python-libtrace object<br />
+
+ </td>
+</tr>
+<tr><td class="name methodwidth"><strong>time</strong></td><td class="name descriptionwidth"><em>pkt.time -&gt; aTimeval</em></td></tr><tr><td><br />
+</td><td class="description">Packet Arrival Time as a Python Time</td></tr><tr>
+<td class="name"><strong>seconds</strong></td>
+<td class="name descriptionwidth"><em>pkt.seconds -&gt; aFloat</em> </td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Packet Arrival Time in Unix seconds (double) </td>
+</tr>
+<tr>
+<td class="name"><strong>ts_sec<br /></strong></td>
+<td class="name"><em>pkt.ts_sec -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">
+ Packet Arrival Time in Unix seconds (integer)</td>
+</tr>
+<tr>
+<td class="name"><span style="font-weight: bold;">erf_time</span><strong /></td>
+<td class="name"><em>pkt.erf_time -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description vspace1">Packet Arrival Time as a DAG ERF time (64-bit)
+ </td>
+</tr>
+<tr>
+<td class="name"><strong>wire_len</strong></td>
+<td class="name"><em>pkt.wire_len</em><em> -&gt; anInteger</em> </td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Original size of packet on the wire
+</td>
+</tr>
+<tr>
+<td class="name"><strong>capture_len<em /></strong></td>
+<td class="name"><em>pkt.capture_len -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Number of bytes captured; may be less than wire_len
+ </td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>ethertype</strong></td>
+<td class="name descriptionwidth"><em>internet.ethertype -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Ethertype for the packet that contained this object
+</td>
+</tr>
+<tr>
+<td class="name"><strong>linktype<br /></strong></td>
+<td class="name"><em>pkt.linktype -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Packet's link type; see Layer2 on Layers page for linktype values</td>
+</tr>
+<tr>
+<td class="name"><strong>vlan_id<br /></strong></td>
+<td class="name"><em>pkt.vlan_id -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">VLAN ID for packets with an 802.1Q VLAN tag, zero otherwise</td></tr>
+<tr>
+<td class="name"><strong>direction<br /></strong></td>
+<td class="name"><em>pkt.direction -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">'Direction' of packet, for traces from interfaces that support this, <br />e.g. ERF traces. &nbsp;Direction values are:<br />
+<font size="-1">TRACE_DIR_INCOMING, TRACE_DIR_INCOMING and TRACE_DIR_OTHER</font>
+</td></tr>
+</tbody></table>
+
+<p>
+</p><table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="2">Class <span style="font-style: italic;">Set</span> &nbsp;Method</td>
+</tr>
+<tr><td class="name methodwidth"><span style="font-weight: bold;">data=</span></td>
+<td class="name descriptionwidth"><em>Packet.data = aByteArray</em></td>
+</tr>
+<tr>
+<td><br />
+</td><td class="vspace1">Overwrites the data bytes in a Data object
+with bytes from a byte array.&nbsp; The byte array&nbsp; may not be longer than the
+original data from the packet.</td></tr>
+</tbody>
+</table>
+
+<br />
+<p>Nevil Brownlee<br />Mon,&nbsp; 13 Apr 15 (NZST)</p>
+</body></html>

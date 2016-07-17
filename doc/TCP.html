@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" /><title>Protocol Decodes: TCP</title><meta content="KompoZer" name="generator" /><link rel="stylesheet" type="text/css" href="plt-doc.css" /></head><body>
+<h2>Transport Layer Decodes</h2>
+<h3>Class TCP</h3>
+<p>Provides access to fields in a TCP header.</p><table class="indent1">
+<tbody>
+<tr><td class="heading" colspan="2"><span style="font-weight: bold;">Instance Variables</span></td></tr><tr>
+<td class="name methodwidth"><strong>src_port</strong></td>
+<td class="name descriptionwidth"><em>tcp.src_port -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td class="description"><br />
+</td>
+<td class="description">Source Port (16-bit) </td>
+</tr>
+<tr>
+<td class="name"><strong>dst_port</strong></td>
+<td class="name"><em>tcp.dst_port -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Destination Port (16-bit) </td>
+</tr>
+<tr>
+<td class="name"><strong>seq_nbr</strong></td>
+<td class="name"><em>tcp.seq_nbr -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Sequence Number (32-bit) </td>
+</tr>
+<tr>
+<td class="name"><strong>ack_nbr</strong></td>
+<td class="name"><em>tcp.ack_nbr -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Acknowledgement Number
+(32-bit) </td>
+</tr>
+<tr>
+<td class="name"><strong>doff</strong></td>
+<td class="name"><em>tcp.doff -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Data Offset (4-byte units);
+header is doff*4 bytes long </td>
+</tr>
+<tr>
+<td class="name"><strong>flags</strong></td>
+<td class="name"><em>tcp.flags -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">12-bit integer, with the 6 flags below in its 6 low-order bits </td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name"><strong>urg_flag</strong></td>
+<td class="name"><em>tcp.urg_flag -&gt; true
+or false</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">True if 'Urgent' flag is 1 </td>
+</tr>
+<tr>
+<td class="name"><strong>ack_flag</strong></td>
+<td class="name"><em>tcp.ack_flag -&gt; true
+or false</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">True if 'Acknowledge' flag
+is 1 </td>
+</tr>
+<tr>
+<td class="name"><strong>psh_flag</strong></td>
+<td class="name"><em>tcp.psh_flag -&gt; true
+or false</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">True if 'Push' flag is 1 </td>
+</tr>
+<tr>
+<td class="name"><strong>rst_flag</strong></td>
+<td class="name"><em>tcp.rst_flag -&gt; true
+or false</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">True if 'Reset'' flag is 1 </td>
+</tr>
+<tr>
+<td class="name"><strong>syn_flag</strong></td>
+<td class="name"><em>tcp.syn_flag -&gt; true
+or false</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">True if 'Synchronise' flag
+is 1 </td>
+</tr>
+<tr>
+<td class="name"><strong>fin_flag</strong></td>
+<td class="name"><em>tcp.fin_flag -&gt; true
+or false</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">True if 'Finish' flag is 1 </td>
+</tr>
+<tr>
+<td class="name"><strong>window</strong></td>
+<td class="name"><em>tcp.window-&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Receive Window size </td>
+</tr>
+<tr>
+<td class="name"><strong>checksum</strong></td>
+<td class="name"><em>tcp.checksum -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">TCP Checksum </td>
+</tr>
+<tr>
+<td class="name"><strong>urg_ptr</strong></td>
+<td class="name">tcp.urgent -&gt; anInteger</td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">TCP Urgent Pointer&nbsp;</td>
+</tr>
+
+<tr>
+<td class="name"><strong>payload</strong></td>
+<td class="name">tcp.payload -&gt; aPayloadObject</td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">None if tcp had no payload, otherwise<br />
+an object containing the packet's TCP payload<br />
+</td>
+</tr>
+
+</tbody>
+</table>
+
+<span style="font-weight: bold;" /><p>Nevil Brownlee<br />&nbsp;Sat, 15 Mar 14 (PDT)</p></body></html>

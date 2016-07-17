@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><title>Output Traces</title><meta name="generator" content="KompoZer"><link rel="stylesheet" type="text/css" href="plt-doc.css"></head>
+<body>
+<h2 style="text-align: left;">Output Traces<br>
+</h2><p>An output Trace is a trace, indentified by a URI, that a
+python-libtrace progrm can write Packets to. &nbsp;As with input
+traces, you
+must create<span style="font-style: italic;"> (output_trace() )</span> and start <span style="font-style: italic;">(output_trace.start)()&nbsp; an</span> output trace before you can write Packets to it with <span style="font-style: italic;">output_trace.write_packet().</span></p><h3>Class OutputTrace</h3>
+
+<table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="3">Global Constants</td>
+</tr>
+<tr>
+<td class="name bigmethodwidth"><em>compression types</em></td>
+<td class="name" colspan="3">See the libtrace
+documentation for more details</td>
+</tr>
+<tr>
+</tr><tr><td><br>
+</td>
+<td class="bigc2width"><font size="-1">NO_COMPRESSION</font></td>
+<td class="bigc3width"><font size="-1">Write uncompressed trace</font></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td><font size="-1">ZLIB_COMPRESSION</font></td>
+<td><font size="-1">Write using zlib compression</font></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td><font size="-1">BZIP2_COMPRESSION</font></td>
+<td><font size="-1">Write using bzip2 compresion</font></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td><font size="-1">LZO_COMPRESSION</font></td>
+<td><font size="-1">Write using LZO compression</font></td>
+</tr>
+</tbody></table><br>
+
+ 
+
+<table style="width: 606px; height: 816px;" class="indent1">
+<tbody><tr>
+<td style="width: 612px;" class="heading" colspan="2">Class Methods</td>
+</tr>
+<tr>
+<td class="name bigmethodwidth"><strong>output_trace()</strong><br>
+</td>
+<td style="width: 250px;" class="name bigdescriptionwidth"><em>output_trace.new(uri)
+-&gt; aNewOutputTrace</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Returns a <span style="font-style: italic;"> libtrace</span> OutputTrace
+object. &nbsp;The object's name is given by a string containing its
+URI, e.g.&nbsp;pcapfile:xxx.pcap, &nbsp;int:eth0, ...<br>
+ </td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>conf_file_flags()</strong></td>
+<td class="name descriptionwidth"><em>output_trace.conf_file_flags(Integer)</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Sets file creation flags for an OutputTrace; e.g. O_APPEND or&nbsp; 0iii (linux user/group/other permissions).<br>
+Throws a <span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;">plt_exc_libtrace&nbsp;</span></span></span><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"></span><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"> </span></span></span>exception if the <span style="font-style: italic;">conf</span> &nbsp;fails.<span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"></span></span></span></span></span></td>
+</tr>
+
+
+
+<tr>
+<td class="name methodwidth"><strong>conf_compress_type()&nbsp;</strong></td>
+<td class="name descriptionwidth"><em>output_trace.conf_compress_type(compression_type)</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Sets the compression type that <span style="font-style: italic;">libtrace</span> will use when writing the OutputTrace.<br>
+Throws a <span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;">plt_exc_libtrace</span></span></span><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"> </span></span></span>exception if the <span style="font-style: italic;">conf</span>&nbsp; fails.<span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"></span></span></span></td>
+</tr>
+
+<tr>
+<td class="name methodwidth"><strong>conf_compress_level()&nbsp;</strong></td>
+<td class="name descriptionwidth"><em>output_trace.conf_compress_level(Integer)</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Sets the compression level that <span style="font-style: italic;">libtrace</span> will use when writing the OutputTrace. &nbsp;Higher levels give more compression, but lower writing speed. <br>Levels may be from&nbsp;<span style="font-style: italic;">1</span> (minimum) to &nbsp;<span style="font-style: italic;">9</span> (maximum), <br>the default level is <span style="font-style: italic;">5.</span><br>
+Throws a <span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;">plt_exc_libtrace</span></span></span><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"> </span></span></span>exception if the <span style="font-style: italic;">conf</span> &nbsp;fails.<span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"></span></span></span></td>
+</tr>
+
+
+<tr>
+<td class="name methodwidth"><strong>start_output()</strong></td>
+<td class="name descriptionwidth"><em>output_trace.start_output()<br>
+</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description">Starts the sending of packets (from a
+live inteferace), or opens&nbsp; a trace file for writing.<br>
+Throws a <span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;">plt_exc_libtrace</span></span></span><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"> </span></span></span>exception if the <span style="font-style: italic;">start</span> fails.<span style="font-style: italic;"><span style="font-style: italic;"> </span></span></td>
+</tr>
+
+
+<tr>
+<td class="name methodwidth"><strong>close_output()</strong></td>
+<td class="name descriptionwidth"><em>output_trace.close_output()</em></td>
+</tr>
+<tr>
+<td><br>
+</td>
+<td class="description vspace1">Shuts down a live
+interface, or closes a trace file.<br><span style="font-style: italic;"><span style="font-style: italic;"> </span></span></td>
+</tr>
+
+
+
+
+<tr><td class="name"><span style="font-weight: bold;">write_packet()</span></td><td class="name"><em>output_trace.write_packet(Packet)</em></td></tr><tr><td><br>
+</td><td class="vspace1">Writes the data from a Packet to an OutputTrace.<br>Throws a <span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;">plt_exc_libtrace</span></span></span><span style="font-style: italic;"><span style="font-style: italic;"><span style="font-style: italic;"> </span></span></span>exception if the <span style="font-style: italic;">write</span> fails.<span style="font-style: italic;"><span style="font-style: italic;"></span></span></td></tr>
+
+
+
+</tbody>
+</table>
+<br>
+
+
+<p>Nevil Brownlee<br>Thu, 17 Jul 14 (NZST)</p>
+</body></html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><title>python-libtrace</title>
+
+<meta name="generator" content="KompoZer">
+<link rel="stylesheet" type="text/css" href="plt-doc.css"></head>
+<body style="width: 600px;">
+<h3>python-libtrace</h3><span style="font-style: italic;">
+python-libtrace (plt) </span>is a Python module that allows
+you to work with packet trace data using WAND's <span style="font-style: italic;">libtrace</span> library,<span style="text-decoration: underline;"><br></span>&nbsp; &nbsp; &nbsp;<a href="http://research.wand.net.nz/software/libtrace.php">&nbsp;http://research.wand.net.nz/software/libtrace.php</a><br>
+
+<p>It's intended to provide a clean, simple, Python-like way of working
+with <span style="font-style: italic;">libtrace</span>, rather than a simple translation of the <span style="font-style: italic;">libtrace</span> calls
+from C into Python. For example, for the protocol header decodes, I have
+generally used the field names from the RFCs, rather than <span style="font-style: italic;">libtrace's</span> names.
+
+</p><p><span style="font-style: italic;">python-libtrace</span> provides a class inheritance hierarchy that
+can simplify programs that work on encapsulated packets.
+See the <a href="Hierarchy.html">Hierarchy</a> page for details.
+
+</p><p>For <span style="font-style: italic;">libtrace</span> documentation, see the <span style="font-style: italic;">libtrace</span> pages at WAND
+(above). To help you get started with <span style="font-style: italic;">python-libtrace</span>, I've provided a
+collection of examples; you can get their source code from the
+Examples page.
+
+</p><h4>Documentation Index</h4>
+
+<p><a href="IPprefix.html">IPprefix</a>
+Methods for handling IP addresses and prefixes</p>
+<p><br><a href="IP.html">IP</a> IPv4 header fields</p>
+
+<p><a href="IP6.html">IPv6</a> IPv6 header
+fields</p>
+
+<p><a href="TCP.html">TCP</a> TCP header fields</p>
+
+<p><a href="UDP.html">UDP</a> UDP header fields</p>
+
+<p><a href="ICMP.html">ICMP</a> ICMP (v4) packet
+fields</p>
+
+<p><a href="ICMP6.html">ICMP6</a> ICMPv6 packet
+fields</p>
+
+<p><a href="Internet.html">Internet</a> Classes for accessing IPv4
+or IPv6 data from Internet-protocol layer 3 objects</p>
+
+<p><a href="Layers.html">Layers</a> Methods to
+decode packets in layers, and to return Data objects for<br> headers
+(useful for looking at anything other than the 'header' decodes above)</p> 
+
+<p><a href="NewObjects.html">New Objects</a> Methods
+for creating new objects from parts of existing ones (e.g. for working
+on encapsulated IPv6 packets), or from strings</p>
+
+
+<p><br><a href="Packet.html">Packet</a> Methods
+for working with Packets</p>
+
+<p><a href="Trace.html">Trace</a> Routines for
+working with Traces</p>
+
+<p><a href="Filter.html">Filter</a> Routines for
+creating and using BPF filters</p>
+
+
+
+
+<p><a href="Output.html">OutputTrace</a>
+Routines for writing trace files</p><p><br><a href="natkit.html">natkit</a>
+Network Analysis Toolkit: additional routines for trace analysis</p>
+
+<p><a href="pldns.html">pldns</a>
+Python ldns: ldns library routines for analysing DNS records</p>
+
+
+<p><br><a href="Examples.html">Examples</a>
+Example python-libtrace programs</p>
+
+<p><a href="tests.html">Tests</a> Test suite for python-libtrace <br>
+</p>
+<p>Please send bug reports or suggestions for new features to
+<br> &nbsp; &nbsp; &nbsp; n.brownlee@auckland.ac.nz
+
+</p>
+<p><br>Nevil Brownlee
+<br>Mon,  6 Jan 14 (NZDT)</p></body></html>

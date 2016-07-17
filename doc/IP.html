@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>Protocol Decodes: IP</title><meta name="generator" content="LompoZer" /><link rel="stylesheet" type="text/css" href="plt-doc.css" /></head><body>
+<h2>Network Layer Decodes</h2>
+<h3>Class IP</h3>
+<p>Provides access to fields in an IPv4 header. &nbsp; Further, you can see any following IP Options by using&nbsp; <span style="font-style: italic;">pkt.Layer3;&nbsp; </span>see the Layers Decode page.</p>
+
+<br />
+
+<table class="indent1">
+<tbody>
+<tr><td class="heading" colspan="2">Instance Variables</td></tr><tr>
+<td class="name methodwidth"><strong>version</strong></td>
+<td style="background-color: rgb(153, 255, 153);" class="name descriptionwidth"><em>ip.version -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">IP Version, 4 for IPv4
+</td>
+</tr>
+<tr>
+<td class="name"><strong>hdr_len</strong></td>
+<td class="name"><em>ip.hdr_len -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">IP Header Length, in 4-byte units
+</td>
+</tr>
+<tr>
+<td class="name"><strong>traffic_class</strong></td>
+<td class="name"><em>ip.traffic_class -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Originally IPv4 Type-Of-Service, now used for DSCP and ECN. &nbsp;(Traffic Class is its IPv6 name)
+</td>
+</tr>
+<tr>
+<td class="name"><strong>pkt_len</strong></td>
+<td class="name"><em>ip.pkt_len -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Total Length of IP packet
+</td>
+</tr>
+<tr>
+<td class="name"><strong>ident</strong></td>
+<td class="name"><em>ip.iden t-&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">IP Identification
+</td>
+</tr>
+<tr>
+<td class="name"><strong>has_rf</strong></td>
+<td class="name"><em>ip.has_rf -&gt; true or false</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">True if 'Reserved' IP flag is 1
+</td>
+</tr>
+<tr>
+<td class="name"><strong>has_df</strong></td>
+<td class="name"><em>ip.has_df --&gt; true or false</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">True if 'Don't Fragment' IP flag is 1
+</td>
+</tr>
+<tr>
+<td class="name"><strong>has_mf</strong></td>
+<td class="name"><em>ip.has_mf -&gt; true or false</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">True if 'More Fragments' IP flag is 1
+</td>
+</tr>
+<tr>
+<td class="name"><strong>frag_offset</strong></td>
+<td class="name"><em>ip.frag_offset -&gt; anInteger</em> </td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Fragment Offset, in 8-byte units
+ </td>
+</tr>
+<tr>
+<td class="name"><strong>ttl</strong></td>
+<td class="name"><em>ip.ttl -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">IP Time to Live (TTL)
+ </td>
+</tr>
+<tr>
+<td class="name"><span style="font-weight: bold;">proto</span><strong /></td>
+<td class="name"><em>ip.proto -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">IP Protocol, e.g. 6 = TCP, 17 = UDP, 1 = ICMP
+ </td>
+</tr>
+<tr>
+<td class="name"><strong>hdr_checksum</strong></td>
+<td class="name"><em>ip.hdr_checksum -&gt; anInteger</em> </td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">IP Header Checksum
+</td>
+</tr>
+<tr>
+<td class="name"><strong>src_prefix<em /></strong></td>
+<td class="name"><em>ip.src_prefix -&gt; anIPprefix</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">IPv4 source address
+ </td>
+</tr>
+<tr>
+<td class="name"><strong>dst_prefix</strong></td>
+<td class="name"><em>ip.dst_prefix -&gt; anIPprefix</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">IPv4 destination address
+ </td>
+</tr>
+<tr>
+<td class="name"><strong>payload</strong></td>
+<td class="name"><em>ip.payload -&gt; aByteArray</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Byte array containing the IP object's payload<br />
+<span style="font-style: italic;"></span>
+ </td>
+</tr>
+</tbody></table>
+
+<br />A few of the fields in an IP object may be set to new values, as follows:<br /><br /><table class="indent1">
+<tbody>
+<tr><td class="heading" colspan="2">Class <span style="font-style: italic;">set</span> &nbsp;Methods</td></tr>
+
+<tr>
+<td class="name methodwidth"><strong>traffic_class=</strong></td>
+<td class="name descriptionwidth"><em>ip.traffic_class = anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Sets the <span style="font-style: italic;">traffic_class</span> value in an <span style="font-style: italic;">IP</span>
+</td>
+</tr>
+
+<tr>
+<td class="name"><strong>ttl=</strong></td>
+<td class="name"><em>ip.ttl = anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Sets the Time to Live (TTL) in an <span style="font-style: italic;">IP</span>
+</td>
+</tr>
+
+<tr>
+<td class="name"><span style="font-weight: bold;">checksum=</span></td>
+<td class="name"><em>ip.checksum = anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Sets Header Checksum in an <span style="font-style: italic;">IP</span>
+</td>
+</tr>
+
+<tr>
+<td class="name"><strong>src_prefix=<em /></strong></td>
+<td class="name"><em>ip.src_prefix = anIPprefix</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Sets the IPv4 source address in an <span style="font-style: italic;">IP</span>
+ </td>
+</tr>
+<tr>
+<td class="name"><strong>dst_prefix=</strong></td>
+<td class="name"><em>ip.dst_prefix = anIPprefix</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Sets the IPv4 destination address in an <span style="font-style: italic;">IP</span>
+ </td>
+</tr>
+
+</tbody>
+</table>
+<br />
+<p>Nevil Brownlee<br />Mon, &nbsp;30 Jun 14 (NZST)</p>
+</body></html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>Making new objects</title><meta name="generator" content="KompoZer" /><link rel="stylesheet" type="text/css" href="plt-doc.css" /></head><body>
+<h2>Making New Objects</h2>
+
+<p>Many of python-libtrace's classes have a <span style="font-style: italic;">new-instance</span> function, so you can
+create a new object; this is most useful for handling encapsulated
+packets.  These methods take a single argument, which may be an
+existing object or a byte array.  In most cases the argument
+will be something you have unpacked from an incoming package.  This
+allows you to work on encapsulated packets, e.g.&nbsp;
+</p>
+<p style="font-family: Courier New,Courier,monospace;">
+     &nbsp; for pkt in trace:<br /> &nbsp; &nbsp;&nbsp;&nbsp; trans = pkt.transport
+<br /> &nbsp; &nbsp;&nbsp;&nbsp; if trans.proto != 41:  # IPv6 over IPv4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; continue
+<br /> &nbsp; &nbsp;&nbsp;&nbsp; ip6 = ip6.new(trans)<br />&nbsp; &nbsp; &nbsp;  ...  # Process the encapsulated IPv6 packet</p>
+<p style="font-family: Courier New,Courier,monospace;"><br />
+
+</p>
+
+
+<table class="indent1">
+<tbody>
+<tr><td class="heading" colspan="2">Class Methods</td></tr>
+<tr>
+<td class="name methodwidth"><strong>ip()</strong><br />
+</td>
+<td class="name descriptionwidth"><em>ip(object or byte array) -&gt; anIP</em></td>
+</tr><tr>
+<td><br />
+</td>
+<td class="description vspace1">Makes a new IP (IPv4) object</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>ip6()</strong><br />
+</td>
+<td class="name descriptionwidth"><em>ip6bject or byte array) -&gt; anIP6</em></td></tr>
+<tr>
+<td><br />
+</td>
+<td class="description vspace1">Makes a new IP6 (IPv6)  object</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>tcp()</strong><br />
+</td>
+<td class="name descriptionwidth"><em>tcp(object or byte array) -&gt; aTCP</em></td>
+</tr><tr>
+<td><br />
+</td>
+<td class="description vspace1">Makes a new TCP object</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>udp()</strong><br />
+</td>
+<td class="name descriptionwidth"><em>udp(object or byte array) -&gt; aUDPP</em></td>
+</tr><tr>
+<td><br />
+</td>
+<td class="description vspace1">Makes a new UDP object</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>icmp()</strong><br />
+</td>
+<td class="name descriptionwidth"><em>icmp(object or byte array) -&gt; anICMP</em></td>
+</tr><tr>
+<td><br />
+</td>
+<td class="description vspace1">Makes a new ICMP object</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>icmp6()</strong><br />
+</td>
+<td class="name descriptionwidth"><em>icmp6(object or byte array) -&gt; anICMP</em></td>
+</tr><tr>
+<td><br />
+</td>
+<td class="description vspace1">Makes a new ICMPv6 object</td>
+</tr>
+</tbody></table>
+
+<br />
+<table>
+</table><br />
+Nevil Brownlee<br />Mon, 27 Jan 14 (NZDT)
+</body></html>

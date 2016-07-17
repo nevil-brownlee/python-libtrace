@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>python-libtrace example programs</title>
+<meta name="generator" content="KompoZer" />
+<link rel="stylesheet" type="text/css" href="plt-doc.css" /></head><body>
+
+<h2 style="text-align: left;">Example Programs</h2>
+Some simple programs that demonstrate how to use python-libtrace.
+
+<br /><h3>Notes</h3>
+
+<!-- <h4>Ruby version 1.9</h4>
+In version 1.8 a single byte selected from a string returns an integer,
+<br>&nbsp; &nbsp;e.g. s = 'ab c'; &nbsp; s[2] retured 0x20
+<br>In version 1.9 s[2] returns a 1-char string, ' '
+<br>To convert that 1-char string to an integer, you say s[2].ord
+  ( -&gt; 0x20 )
+
+<br><h4>Sample trace files</h4>
+Two short trace files are included with the programs, they are
+<br><ul><li>anon-v4.bpf
+   &nbsp; &nbsp; A trace file with mostly IPv4 records.
+     &nbsp;It also includes<br>&nbsp;
+   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    &nbsp; ARP records, containing anonymised IP addresses.
+</li><li>anon-v6.bpf &nbsp; &nbsp; A trace file with mostly IPv6 records.
+</li></ul>
+-->
+
+<h4>Source Code</h4>
+<span style="font-weight: normal;">
+Python source code for all these example programs is supplied in the
+distribution's doc/examples directory, together with a few example
+trace files that they read. &nbsp;
+<br />Click on the links below to reach the sources.</span>
+
+<br /><h3>Python support code for the example programs</h3>
+<span style="font-style: italic;">
+<a href="examples/plt_testing.py">plt_testing.py</a>
+</span><br />A collection of handy functions used in these example 
+  programs for things like opening trace files and
+  displaying the contents of python-libtrace objects.<br />
+
+<h3>Programs that read and display trace files</h3>
+
+<span style="font-style: italic;">
+<a href="examples/ip.py">IP.py</a>,&nbsp;
+<a href="examples/ip6.py">ip6.py</a>,&nbsp; 
+<a href="examples/udp.py">udp.py</a>,&nbsp;
+<a href="examples/tcp.py">tcp.py</a>,&nbsp;
+<a href="examples/icmp.py">icmp.py</a>,&nbsp;
+<a href="examples/icmp.py">icmp6.py</a>.</span>
+<br />Demonstrate libtrace's protocol header decodes.<br /><br />
+
+<span style="font-style: italic;">
+<a href="examples/ip.py">plt-test.py</a>.</span>
+<br />Demonstrates packet-level attributes, e.g. ethertype and times.<br /><br />
+
+<span style="font-style: italic;">
+<a href="examples/layers.py">layers.py</a>
+</span><br />Demonstrates decoding of packets as a series of 
+  protocol layers,
+<br />and looking at the data in each layer.
+
+<!-- <br><br><span style="font-style: italic;">
+<a href="examples/trace-test.py">trace-test.py</a>
+</span><br>Demonstrates a few trace-management methods,
+and shows how to use python-libtrace Global Constants. -->
+
+<br /><br /><span style="font-style: italic;">
+<a href="examples/arp-anon.py">arp-anon.py</a>
+</span><br />Reads a trace file, changes 'source' and 'target' IP addresses 
+  in ARP records.
+<br />Demonstrates using <span style="font-style: italic;">class set 
+  methods</span> to change&nbsp;<span style="font-style: italic;">
+  </span>fields within a Packet
+
+<h3>Programs that decapsulate parts of a packet</h3>
+<span style="font-style: italic;">
+<a href="examples/encap_pkt.py">encap-pkt.py</a>,&nbsp;
+<a href="examples/encap_pkt6.py">encap-pkt.py</a>.</span>
+<br />Creates new objects from various parts of IPv4/IPv6 packets,
+and compares those with their original forms.
+
+<h3>Programs that write trace files</h3>
+<span style="font-style: italic;">
+<a href="examples/copy-first-n.py">copy-first-n.py</a>
+</span><br />Copies the first n records from one trace to another
+
+<br /><br /><span style="font-style: italic;">
+<a href="examples/arp-anon.py">arp-anon.py</a>
+</span><br />Reads a trace file, changes 'source' and 'target' IP addresses 
+  in ARP records.
+<br />Demonstrates using <span style="font-style: italic;">class set 
+  methods</span> to change&nbsp;<span style="font-style: italic;">
+  </span>fields within a Packet
+
+<br /><br /><span style="font-style: italic;">
+<a href="examples/sw-filter.py">sw-filter.py</a>
+</span><br />Looks through a trace for UDP records with source or destination port
+<br />53, i.e. DNS records. &nbsp;Displays their UDP and UDP payload data.
+
+<br /><br /><span style="font-style: italic;">
+<a href="examples/bpf-filter.py">bpf-filter.py</a>
+</span><br />Same as sw-filter.py, but uses a bpf filter 'udp port 53'. &nbsp;
+  Also demonstrates how to get and print libtrace errors.
+
+<br /><br /><span style="font-style: italic;">
+<a href="examples/change-filter.py">change-filter.py</a>
+
+</span><br />Same as bpf-filter.py, but demonstrates how to
+catch <span style="font-style: italic;">plt_exc_libtrace</span>
+exceptions, and how to change a Trace's bpf filter part-way through
+the trace.
+Also demonstrates working with the payload from UDP and TCP packets.
+<br /><br /><span style="font-style: italic;">
+
+
+<!-- <a href="examples/Packet.py">Packet.py</a>
+</span><br>Demonstrates how to use copy_packet to save a copy of a Packet 
+<span style="font-style: italic;">together with its data bytes.</span> -->
+
+<br />Nevil Brownlee<br />Thu, 15 Mar 14 (PDT)
+</span></body></html>

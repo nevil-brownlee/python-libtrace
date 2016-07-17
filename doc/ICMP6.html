@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><title>IProtocol Decodes: ICMP6</title>
+
+<meta name="generator" content="KompoZer">
+<link rel="stylesheet" type="text/css" href="plt-doc.css"></head>
+<body>
+<h2 style="text-align: left;">Network Layer Decodes</h2>
+<h3>Class ICMP6</h3>
+<p>Provides access to fields in an (IPv6) ICMP header.</p>
+
+<table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="2">Instance Variables</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>type</strong></td>
+<td class="name descriptionwidth"><em>icmp.type -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">ICMP message type </td>
+</tr>
+<tr>
+<td class="name"><strong>code</strong></td>
+<td class="name"><em>icmp.code -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">ICMP message code </td>
+</tr>
+<tr>
+<td class="name"><strong>checksum</strong></td>
+<td class="name"><em>icmp.checksum -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">ICMP checksum </td>
+</tr>
+<tr><td style="font-weight: bold;" class="name">data</td><td class="name"><em>icmp.data -&gt;
+aByteArray</em></td>
+</tr>
+<tr>
+<td></td><td class="description">All the ICMP bytes, i.e. header and payload. 
+&nbsp;Use this if you need to work with some of the ICMP message types that
+python-libtrace doesn't decode fully</td>
+</tr>
+<tr>
+<td style="font-weight: bold;" class="name">payload</td><td class="name"><em>icmp.payload -&gt;anIP6 for types 1, 2, 3 and 4, otherwise aData</em></td>
+</tr>
+<tr>
+<td></td><td class="description">Some ICMP messages carry&nbsp;content
+from the packet that triggered them; &nbsp;icmp6.payload returns as much
+as it can of the triggering packet</td>
+</tr>
+</tbody>
+</table>
+<p>The content of an&nbsp; (IPv6) ICMP header varies depending on its <span style="font-style: italic;">type</span> field. &nbsp;python-libtrace decodes the following types ...<span style="font-style: italic;"></span></p>
+
+
+<span style="font-weight: bold;"></span><table class="indent1"><tbody><tr><td class="heading" colspan="2">Echo Request (type 128) and Echo Reply (type 129)</td></tr><tr><td class="name methodwidth"><strong style="font-weight: bold;"></strong><span style="font-weight: bold;">ident</span></td>
+<td class="name descriptionwidth"><em>icmp6.echo.ident -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">Echo identifier </td>
+</tr>
+<tr>
+<td class="name"><strong>sequence&nbsp;</strong></td>
+<td class="name"><em>icmp6.echo.sequence -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">Echo sequence number </td>
+</tr>
+</tbody>
+</table><br>
+<span style="font-weight: bold;"></span><table class="indent1"><tbody><tr><td class="heading" colspan="2">Packet too big (type 2)</td></tr><tr><td class="name methodwidth"><strong style="font-weight: bold;"></strong><span style="font-weight: bold;">mtu</span></td>
+<td class="name descriptionwidth"><em>icmp6.toobig.mtu -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">MTU of link causing problem. &nbsp;Used as part of the Path MTU Discovery process</td>
+</tr>
+
+
+</tbody>
+</table><br>
+<span style="font-weight: bold;"></span><table class="indent1"><tbody><tr><td class="heading" colspan="2">Parameter problem (type 4)</td></tr><tr><td class="name methodwidth"><strong style="font-weight: bold;"></strong><span style="font-weight: bold;">pointer</span></td>
+<td class="name descriptionwidth"><em>icmp6.param.pointer-&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">Offset within the invoking packet where an error was detected</td>
+</tr>
+
+
+</tbody>
+</table><br>
+<span style="font-weight: bold;"></span><table class="indent1"><tbody><tr><td class="heading" colspan="2">Neighbour discovery (types 135-136), Redirect (type 137)</td></tr><tr><td class="name methodwidth"><strong style="font-weight: bold;"></strong><span style="font-weight: bold;">target_prefix</span></td>
+<td class="name descriptionwidth"><em>icmp6.neighbour.target_prefix -&gt;
+anIPprefix</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description"> IPv6 address&nbsp;of the solicitation's target</td>
+</tr>
+<tr>
+<td class="name"><strong>dest-prefix</strong></td>
+<td class="name"><em>icmp6.neighbour.target.dest_prefix -&gt; anIPprefix</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">Source Address of the packet that triggered the&nbsp;redirect message </td>
+</tr>
+</tbody>
+</table><br><p>Nevil Brownlee<br>
+Thu, 16 Jan 14 (NZDT)</p>
+</body></html>

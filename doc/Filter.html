@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>BPF Filters</title>
+
+<meta name="generator" content="KompoZer" />
+<link rel="stylesheet" type="text/css" href="plt-doc.css" /></head><body>
+<h2>BPF Filters</h2>
+<h3>Class Filter</h3><span style="font-weight: bold;">Allow you to
+create BPF filters. &nbsp;These may be applied to a trace (so as to select a subset of that trace's packets) using <span style="font-style: italic;">trace.conf_filter(),</span> or to an individual packet using <span style="font-style: italic;">packet.apply_filter().</span><br style="font-style: italic;" /><br /></span>
+
+<table class="indent1"><tbody><tr><td class="heading" colspan="2">Class Methods</td>
+</tr><tr>
+<td class="name methodwidth"><strong>filter()</strong><br />
+</td>
+<td class="name descriptionwidth"><em>filter(filterString) -&gt; aFilter</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Creates a BPF filter that wil select packets
+  using the&nbsp; <span style="font-style: italic;">tcpdump-style</span> 
+  filter experssion given in <span style="font-style: italic;">
+  filterString</span>. &nbsp;For example, &nbsp;'udp port 53' selects DNS
+  packets. &nbsp;See the <span style="font-style: italic;">tcpdump</span>
+  man page for the filter expression syntax.
+  <span style="font-style: italic;" /> 
+</td>
+</tr></tbody>
+</table>
+
+<br />Nevil Brownlee<br />Mon, 27 Jan 14 (NZDT)
+</body></html>

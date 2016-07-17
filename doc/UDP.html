@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>IProtocol Decodes: UDP</title><meta name="generator" content="amaya 8.5, see http://www.w3.org/Amaya/" /><link rel="stylesheet" type="text/css" href="plt-doc.css" /></head><body>
+<h2 style="text-align: left;">Transport Layer Decodes</h2>
+<h3>Class UDP</h3>
+<p>Provides access to fields in a UDP header.</p><br /><table class="indent1">
+<tbody>
+<tr><td class="heading" colspan="2">Instance Variables</td></tr><tr>
+<td class="name methodwidth"><strong>src_port</strong></td>
+<td class="name descriptionwidth"><em>udp.src_port -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Source Port (16-bit) </td>
+</tr>
+<tr>
+<td class="name"><strong>dst_port</strong></td>
+<td class="name"><em>udp.dst_port-&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Destination Port (16-bit) </td>
+</tr>
+<tr>
+<td class="name"><strong>len</strong></td>
+<td class="name"><em>udp.len -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">UDP length, i.e. header +
+payload </td>
+</tr>
+<tr>
+<td class="name"><strong>checksum</strong></td>
+<td class="name"><em>udp.checksum -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">UDP Checksum<br />
+</td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">TCP Checksum </td>
+</tr>
+<tr>
+<td class="name"><strong>payload</strong></td>
+<td class="name">udp.payload -&gt; aPayloadObject</td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">None if udp had no payload,&nbsp; otherwise<br />
+
+an object containing the packet's TCP payload</td>
+</tr>
+
+</tbody>
+</table>
+<p />
+<p>Nevil Brownlee<br />Sat, 15 Mar 14 (NZDT)</p>
+</body></html>

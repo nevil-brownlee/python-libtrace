@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type" /><title>Class Hierarchy</title>
+
+<meta name="generator" content="LompoZer" /><!-- <link rel="stylesheet" type="text/css" href="ss-font.css">
+rlt-doc uses white borders for cells!  --></head><body style="width: 600px; font-family: sans-serif;">
+
+<h3>Class Hierarchy</h3>
+<span style="font-style: italic;">libtrace</span> is a C API, i.e.a
+library of functions that allow you to create Traces and Packets, to
+read Packets, and to extract 'decodes' for various parts of the
+Packets, e.g. IP (i.e. IPv4), TDP and UDP headers, etc.  That means
+that in C, you need to keep pointers to each part of the Packet you're
+interested in.
+
+<p><span style="font-style: italic;">python-libtrace (plt)</span> provides Python access to <span style="font-style: italic;">libtrace</span> objects via a set of Python classes.  Each class
+has methods that provide access to
+various <span style="font-style: italic;">libtrace</span> functions,
+and to fields in <span style="font-style: italic;">libtrace's</span>
+  'decodes.' &nbsp;
+
+  Trace objects read or write libtrace <span style="font-style: italic;">python-libtrace</span> Packets; the Trace class functions only specify
+  details of the trace itself.  
+
+From the Packet object, the classes are arranged in an
+  inheritance hierarchy, as shown in the diagram below.  
+
+</p><table style="text-align: left; background-image: url(table-image.svg); background-color: transparent; height: 355px; width: 555px;" class="indent1" border="0" cellpadding="1" cellspacing="2"><tbody>
+<tr><td style="width: 94px;"><br />
+</td>
+  <td style="width: 88px; text-align: center;"><a href="Trace.html">Trace</a></td>
+  <td style="width: 92px;"><br />
+</td><td style="width: 96px;">
+  <br />
+</td><td style="width: 71px;"><br />
+</td><td style="width: 88px;"><br />
+</td></tr>
+
+<tr><td style="width: 94px;">&nbsp; </td><td style="width: 88px;"><br />
+</td><td style="width: 92px;"><br />
+</td><td style="width: 96px;"><br />
+</td><td style="width: 71px;"><br />
+</td><td style="width: 88px;"><br />
+</td></tr>
+
+<tr><td style="width: 94px;">&nbsp; </td>
+  <td style="width: 88px; text-align: center;"><a href="Packet.html">Packet</a></td>
+  <td style="width: 92px;"><br />
+</td><td style="width: 96px;"><br />
+</td>
+  <td style="width: 71px;"><br />
+</td><td style="width: 88px;"><br />
+</td></tr>
+
+<tr><td style="width: 94px;">&nbsp; </td><td style="width: 88px;"><br />
+</td><td style="width: 92px;"><br />
+</td><td style="width: 96px;"><br />
+</td><td style="width: 71px;"><br />
+</td><td style="width: 88px;"><br />
+</td></tr>
+
+
+
+
+<tr><td style="width: 94px;">&nbsp; </td>
+  <td style="width: 88px; text-align: center;"><a href="Layers.html">Layer2</a></td>
+  <td style="width: 92px;"><br />
+</td><td style="width: 96px;"><br />
+</td>
+  <td style="width: 71px;"><br />
+</td><td style="width: 88px;"><br />
+</td></tr>
+
+<tr><td style="width: 94px;">&nbsp; </td><td style="width: 88px;"><br />
+</td><td style="width: 92px;"><br />
+</td><td style="width: 96px;"><br />
+</td><td style="width: 71px;"><br />
+</td><td style="width: 88px;"><br />
+</td></tr>
+
+<tr><td style="width: 94px; text-align: center;"><a href="Layers.html">Layer3</a></td>
+  <td style="width: 88px;"><br />
+</td><td style="width: 92px;"><br />
+</td>
+  <td style="width: 96px; text-align: center;"><a href="Internet.html">Internet</a></td>
+  <td style="width: 71px;"><br />
+</td><td style="width: 88px;"><br />
+</td></tr>
+
+<tr><td style="width: 94px;">&nbsp; </td><td style="width: 88px;"><br />
+</td><td style="width: 92px;"><br />
+</td><td style="width: 96px;"><br />
+</td><td style="width: 71px;"><br />
+</td><td style="width: 88px;"><br />
+</td></tr>
+
+<tr><td style="width: 94px;">&nbsp; </td>
+  <td style="width: 88px; text-align: right;"><a href="IP.html">IP</a></td>
+  <td style="width: 92px; text-align: center;"><a href="IP6.html">IP6</a></td>
+  <td style="width: 96px;"><br />
+</td><td style="width: 71px;"><br />
+</td><td style="width: 88px;"><br />
+</td></tr>
+
+<tr><td style="width: 94px;">&nbsp; </td><td style="width: 88px;"><br />
+</td><td style="width: 92px;"><br />
+</td><td style="width: 96px;"><br />
+</td><td style="width: 71px;"><br />
+</td><td style="width: 88px;"><br />
+</td></tr>
+
+<tr><td style="width: 94px; text-align: center;"><a href="Layers.html">Transport</a> </td>
+  <td style="width: 88px;"><br />
+</td><td style="width: 92px;"><br />
+</td>
+  <td style="text-align: center; width: 96px;"><a href="TCP.html">TCP</a></td>
+  <td style="width: 71px;"><a href="UDP.html">UDP</a></td>
+  <td style="width: 100px;"><a href="ICMP.html">ICMP</a>, 
+  <a href="ICMP6.html">ICMP6</a></td></tr>
+</tbody>
+
+</table>
+
+<p><br />The important thing about this is that classes at lower levels
+in the Hierarchy can use all the methods in any of their predecessor
+classes, i.e. any that can be reached by tracing up the black lines
+in the diagram.
+</p><p>For example:</p><ul>
+<li>Packet &nbsp; provides &nbsp;<span style="font-style: italic;">.wire_len</span> &nbsp;&nbsp; (on-the-wire packet length in bytes)</li>
+<li>Internet &nbsp;provides <span style="font-style: italic;">&nbsp;.src_prefix</span>&nbsp; (IPv4 or IPv6 source address)</li>
+<li>TCP &nbsp; &nbsp; &nbsp; provides&nbsp; <span style="font-style: italic;">.src_port</span> &nbsp; &nbsp; (TCP source port)</li>
+</ul>
+Therefore, classes IP, IPv6, TCP, UDP and ICMP can all use <span style="font-style: italic;">.wire_len</span> and <span style="font-style: italic;">.src_prefix</span>.
+
+<p>If you are writing methods that work on a TCP object, you
+should use the higher-level methods within your own methods. Doing that
+means that you don't have to make, for example, an IP6 object within
+your method - which Python will later have to garbage-collect.
+<br /></p><p /><p>Nevil Brownlee
+<br />Mon, &nbsp;6 Jan 14 (NZDT)<br />
+</p>
+
+</body></html>

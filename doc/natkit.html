@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>natkit</title>
+
+<meta name="generator" content="amaya 8.5, see http://www.w3.org/Amaya/" />
+<link rel="stylesheet" type="text/css" href="plt-doc.css" /></head><body>
+<h2>natkit Module</h2>
+<p>This Module provides methods that are useful when analysing network trace files.</p>
+
+<h3>Module Functions</h3>
+<h4>get_short() and get_long()</h4>
+<p>Provide methods for&nbsp;getting unsigned numbers ('Network
+Integers') from a byte array.&nbsp;<br />Assumes that the bytes are in
+network order in that array, for example because it contains bytes
+from a packet payload.</p>
+
+<table class="indent1">
+<tbody>
+<tr>
+<td class="name methodwidth"><strong>ba_get_short()</strong></td>
+<td class="name descriptionwidth"><em>natkit.ba_get_short(ByteArray, Integer) -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Gets an unsigned 16-bit number from <span style="font-style: italic;">ByteArray[Integer]. &nbsp;</span> <br />For example, <span style="font-style: italic;">natkit.get_short(IP.data, 20)</span> returns the number contained in <span style="font-style: italic;">IP.data[20]</span> &nbsp;through <span style="font-style: italic;">IP.data[21]</span><br /></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>ba_get_long()</strong></td>
+<td class="name descriptionwidth"><em>natkit.ba_get_long(ByteArray, Integer) -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Gets an unsigned 32-bit number from <span style="font-style: italic;">ByteArray[Integer]. &nbsp; </span><br />For example, <span style="font-style: italic;">natkit.get_short(IP.data, 33)</span> returns the number contained in <span style="font-style: italic;">IP.data[33]</span> &nbsp;through <span style="font-style: italic;">IP.data[36]</span></td>
+</tr>
+</tbody></table>
+
+<br />
+<h4>TCP sequence number arithmetic<br />
+</h4>
+<table class="indent1">
+<tbody>
+<tr><td class="name methodwidth"><strong>u32_add()</strong></td>
+<td class="name descriptionwidth"><em>natkit.seq_add(seq_a, seq_b) -&gt; &nbsp;anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns <span style="font-style: italic;">seq_a + seq_b</span><br /></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>u32_sub()</strong></td>
+<td class="name descriptionwidth"><em>natkit.u32_sub(seq_a, seq_b) -&gt; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns <span style="font-style: italic;">seq_a - seq_b</span></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>seq_lt()</strong></td>
+<td class="name descriptionwidth"><em><em>natkit.seq_lt(seq_a, seq_b)
+-&gt; True or False </em></em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns <span style="font-style: italic;">True</span> if <span style="font-style: italic;">&nbsp;seq_a &lt; U32_b</span><span style="font-style: italic;" /></td>
+</tr>
+<tr>
+<td class="name"><strong>seq_ge()</strong></td>
+<td class="name"><em><em>natkit.seq_ge(ne(seq_a, seq_b)
+-&gt; True or False </em></em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns <span style="font-style: italic;">True</span> if&nbsp; <span style="font-style: italic;">SEQ_a &gt;= seq_b</span><span style="font-style: italic;"><span style="font-weight: bold;" /></span></td>
+</tr>
+<tr>
+<td class="name"><strong>seq_gt()</strong></td>
+<td class="name"><em><em>natkit.seq_gt(seq_a, seq_b)
+-&gt; True or False </em></em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns <span style="font-style: italic;">True</span> if&nbsp; <span style="font-style: italic;">seq_a &gt; seq_b,</span><span style="font-style: italic;"><span style="font-weight: bold;" /></span></td>
+</tr>
+</tbody></table>
+<br />
+
+<h3>Class FlowHome<br />
+</h3>
+<p>Allows you to specify a tuple of IPprefixes for addresses that lie within a <span style="font-style: italic;">home</span> network.&nbsp; A FlowHome object can then be used to create IPflows (see below).&nbsp; IPflows created in this way
+have the same flow-key string for packets in each direction, i.e. the
+direction matching is done by natkit in C, so you don't have to do it
+yourself in Python.<br />
+<span style="font-style: italic;" /></p>
+<table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="2">Class Functions <br />
+</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>FlowHome</strong>()<br />
+</td>
+<td class="name descriptionwidth"><em>natkit.FlowHome(IPP1, IPP2, ..., IPPn) -&gt;&nbsp; aFlowHome<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Makes an object that specifies a home network for IP flows<span style="font-style: italic;">.</span>&nbsp; <br />
+IPP1 ..., IPPn is a tuple of IPprefixes that are owned by the home
+network.&nbsp; The IPprefixes can be any mix of IPv4 and IP6 prefixes.<br />
+<span style="font-family: monospace;" /></td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>flow()</strong></td>
+<td class="name descriptionwidth"><em>flow_home.flow(plt_obj)-&gt; &nbsp;anIPflow</em></td>
+</tr>
+    <tr>
+      <td style="vertical-align: top;"><br />
+      </td>
+      <td style="vertical-align: top;">Uses
+a FlowHome object to create
+an IPflow, with its source and destination fields ordered such that the
+IPflow's destination address beongs to the home network, and its source
+address does not. This function's argument can be any python-libtrace
+object that was
+derived from a packet; it will usually be either a Packet or an
+Internet object.<br />
+      </td>
+    </tr>
+
+</tbody></table>
+<br />
+
+
+
+
+<h3>Class IPflow</h3>
+<p>Provides methods for creating and using network <span style="font-style: italic;">flow keys</span>, i.e. <span style="font-style: italic;">Strings</span> that describe a flow, and which can be used as keys for a Python Dictionary.<br />For a simple flow, the first-seen packet is assumed to be in <span style="font-style: italic;">forward</span> order.<span style="font-style: italic;">&nbsp; </span><br />
+For a flow created using a FlowHome, forward order is<span style="font-style: italic;"> into the home network.</span><br />
+Note: a<span style="font-style: italic;">n IPflow</span> is a bi-directional <span style="font-style: italic;">flow</span>, it's key is the 6-tuple <span style="font-style: italic;">(IP version, protocol, source port, destination port, source IP address, destination IP address).&nbsp;</span> <br />
+
+</p>
+<table class="indent1"><tbody>
+<tr><td class="heading" colspan="2">Class Function</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>flow()</strong><br />
+</td>
+<td class="name descriptionwidth"><em>natkit.IPflow(plt_obj) -&gt; anIPflow<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Makes an IPflow (as described above).<br />
+This function's argument can be any python-libtrace obje<strong>ct that
+was derived from a packet; it will usually be either a Packet or an
+Internet object.<br />
+<span style="font-family: monospace;" /></strong></td>
+</tr>
+
+<tr><td class="heading" colspan="2">Instance Attributes</td>
+</tr>
+
+<tr>
+<td class="name methodwidth"><strong>fwd_key</strong><br />
+</td>
+<td class="name descriptionwidth"><em>ipf.fwd_key -&gt; aString</em><br />
+</td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns a key string, with source and destination in flow order for an IPflow.<br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>rev_key</strong><br />
+</td>
+<td class="name descriptionwidth"><em>ipf.rev_key -&gt;&nbsp; aString<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns a key string, with source and destination in the order opposite to that returned by ipf.fwd_key.<br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>version<br />
+</strong></td>
+<td class="name descriptionwidth"><em>ipf.version -&gt;&nbsp; 4 or 6<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns the IP version number for the packet.<br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>proto</strong><br />
+</td>
+<td class="name descriptionwidth"><em>ipf.proto -&gt;&nbsp; anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">IP protocol number from Internet header.<br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong><span style="font-weight: bold;">src_port</span><br />
+</strong></td>
+<td class="name descriptionwidth"><em>ipf.src_port -&gt;&nbsp; anInteger<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Source port number from TCP or UDP header.<br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>dst_port</strong></td>
+<td class="name descriptionwidth"><em>ipf.dst_port-&gt;&nbsp; anInteger<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Destination port number from TCP or UDP header.<br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>src_prefix</strong></td>
+<td class="name descriptionwidth"><em>ipf.src_prefix-&gt;&nbsp; anIPprefix<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Source IP address from Internet header.<br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>dst_prefix</strong></td>
+<td class="name descriptionwidth"><em>ipf.dst_prefix -&gt;&nbsp; anIPprefix<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Destination IP address from Internet header.<br /><br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>home_key</strong><br />
+</td>
+<td class="name descriptionwidth"><em>ipf.home_key -&gt;&nbsp; aString<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns a key string, with source and
+destination in flow order. Returns None for an IPflow for an IPflow
+created using a FlowHome.
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>src_in_home</strong></td>
+<td class="name descriptionwidth"><em>ipf.src_in_home-&gt;&nbsp; True or False<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns True if the packet's source IP address is in the home network.<br />
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>dst_in_home</strong></td>
+<td class="name descriptionwidth"><em>ipf.dst_in_home-&gt;&nbsp; True or False<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns True if the packet's destination IP address is in the home network.
+</td>
+</tr>
+<tr>
+</tr><tr>
+<td class="name methodwidth"><strong>is_inward</strong><br />
+</td>
+<td class="name descriptionwidth"><em>ipf.is_inward -&gt;&nbsp; True or False<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Returns True if the packet's destination IP
+address is in the home network, i.e. only one of it's source and
+destination addresses is in the home network.
+</td>
+</tr>
+
+
+</tbody></table>
+<br />
+
+<p /><p>Nevil Brownlee<br />
+Mon, 13 Apr 15 (NZST)</p>
+</body></html>

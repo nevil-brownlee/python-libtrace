@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><title>IProtocol Decodes: ICMP</title>
+
+<meta name="generator" content="KompoZer">
+<link rel="stylesheet" type="text/css" href="plt-doc.css"></head>
+<body>
+<h2 style="text-align: left;">Network Layer Decodes</h2>
+<h3>Class ICMP</h3>
+<p>Provides access to fields in an (IPv4) ICMP header.</p>
+
+<table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="2">Instance Variables</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>type</strong></td>
+<td class="name descriptionwidth"><em>icmp.type -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">ICMP message type </td>
+</tr>
+<tr>
+<td class="name"><strong>code</strong></td>
+<td class="name"><em>icmp.code -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">ICMP message code </td>
+</tr>
+<tr>
+<td class="name"><strong>checksum</strong></td>
+<td class="name"><em>icmp.checksum -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">ICMP checksum </td>
+</tr>
+<tr><td style="font-weight: bold;" class="name">data</td><td class="name"><em>icmp.data -&gt;
+aByteArray</em></td>
+</tr>
+<tr>
+<td></td><td class="description">All the ICMP bytes, i.e. header and payload. 
+&nbsp;Use this if you need to work with some of the ICMP message types that
+python-libtrace doesn't decode fully</td>
+</tr>
+<tr>
+<td style="font-weight: bold;" class="name">payload</td><td class="name"><em>icmp.payload -&gt;anIP for types 3, 4, 5, 11 and 12, otherwise aData</em></td>
+</tr>
+<tr>
+<td></td><td class="description">Most ICMP messages carry some content
+from the packet that triggered them; &nbsp;icmp.payload returns as much
+as it can of the triggering packet</td>
+</tr>
+</tbody>
+</table>
+<p>The content of an&nbsp; (IPv4) ICMP header varies depending on its <span style="font-style: italic;">type</span> field. &nbsp;python-libtrace decodes the following types ...<span style="font-style: italic;"></span></p>
+
+
+<span style="font-weight: bold;"></span><table class="indent1"><tbody><tr><td class="heading" colspan="2">Echo Request (type 8) and Echo Reply (type 0)</td></tr><tr><td class="name methodwidth"><strong style="font-weight: bold;"></strong><span style="font-weight: bold;">ident</span></td>
+<td class="name descriptionwidth"><em>icmp.echo.ident -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">Echo identifier </td>
+</tr>
+<tr>
+<td class="name"><strong>sequence&nbsp;</strong></td>
+<td class="name"><em>icmp.echo.sequence -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">Echo sequence number </td>
+</tr>
+</tbody>
+</table><br><table class="indent1"><tbody><tr><td class="heading" colspan="2">Redirect (type 5)</td></tr><tr><td class="name methodwidth"><strong style="font-weight: bold;"></strong><span style="font-weight: bold;">gateway</span></td>
+<td class="name descriptionwidth"><em>icmp.redirect.gateway -&gt;
+anIPprefix</em></td>
+</tr>
+<tr>
+<td></td>
+<td class="description">Returns IPv4 address of the gateway</td>
+</tr>
+
+
+
+
+
+
+</tbody>
+</table>
+
+<br><p>Nevil Brownlee<br>
+Thu, 16 Jan 14 (NZDT)</p>
+</body></html>

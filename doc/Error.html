@@ -1,0 +1,12 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>Libtrace Errors</title>
+
+<meta name="generator" content="KompoZer" />
+<link rel="stylesheet" type="text/css" href="plt-doc.css" /></head><body>
+<h2 style="text-align: left;">Handling libtrace errors</h2><big><span style="font-weight: bold;">Exception plt_exc_libtrace</span></big><br /><br /><span style="font-style: italic;">plt_libtrace_exc&nbsp;</span> is a subclass of Python's <span style="font-style: italic;">SystemError</span> exception. &nbsp;Python-libtrace checks for errors during operations on traces, see the <span style="font-style: italic;">Trace</span> and <span style="font-style: italic;">OutputTrace</span> page for further information.<br /><br />For most purposes you can simply invoke the <span style="font-style: italic;">Trace</span> and <span style="font-style: italic;">OutputTrace</span> methods, knowing that if python-libtrace encounters an error it will throw a <span style="font-style: italic;">LibtraceError</span> and <span style="font-style: italic;">exit</span>, with the Python interpreter printing a diagnostic line to tell you what it thinks caused the problem.<br />Alternatively, you can catch the exception using a "try-except block," like this:
+
+<br /><br />&nbsp; &nbsp; &nbsp;<span style="font-style: italic;">try:</span><br style="font-style: italic;" /><span style="font-style: italic;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;f = plt.trace(ARGV[0])</span><br style="font-style: italic;" /><span style="font-style: italic;">&nbsp; &nbsp; &nbsp;except:</span><br style="font-style: italic;" /><span style="font-style: italic;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;print "helpful message\n"</span><br style="font-style: italic;" /><span style="font-style: italic;">&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;sys.exc_clear()</span><br style="font-style: italic;" /><span style="font-style: italic;"><br /></span>Here, the&nbsp;<span style="font-style: italic;">sys.exc_clear() </span>statement simply clears the exception history.<p>Nevil Brownlee<br />Mon, 30 Jun 14 (NZST)</p>
+</body></html>

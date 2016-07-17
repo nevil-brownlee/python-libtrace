@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="6.9000001in"
+   height="4.4000001in"
+   viewBox="-12 -12 8292 5269"
+   id="svg2"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="table-image.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="926"
+     inkscape:window-height="796"
+     id="namedview20"
+     showgrid="false"
+     inkscape:zoom="2.115942"
+     inkscape:cx="195.91555"
+     inkscape:cy="294.45405"
+     inkscape:window-x="325"
+     inkscape:window-y="1072"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="g4" />
+  <metadata
+     id="metadata38">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs36" />
+  <g
+     id="g4"
+     style="fill:none;stroke-width:0.025in">
+    <polyline
+       points="2173,897 2173,425 "
+       style="stroke:#000000;stroke-width:40.05797101;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:40.05797101,40.05797101;stroke-dashoffset:0"
+       id="polyline14"
+       transform="translate(-400.57967,-53.410628)" />
+    <polyline
+       points="2173,2503 2173,2031 "
+       style="stroke:#000000;stroke-width:36.1257019;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none"
+       id="polyline16"
+       transform="matrix(1,0,0,1.0484144,-400.57967,-954.36302)" />
+    <polyline
+       points="897,3302 1937,2877 "
+       style="stroke:#000000;stroke-width:32;stroke-linecap:butt;stroke-linejoin:miter"
+       id="polyline18"
+       transform="matrix(0.87985209,0,0,1,-89.200551,-854.56994)" />
+    <polyline
+       points="4582,3307 2409,2880 "
+       style="stroke:#000000;stroke-width:32;stroke-linecap:butt;stroke-linejoin:miter"
+       id="polyline20"
+       transform="matrix(0.78658368,0,0,0.90136845,165.69771,-571.76422)" />
+    <polyline
+       points="755,4913 755,3732 "
+       style="stroke:#000000;stroke-width:39.1935613;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none"
+       id="polyline22"
+       transform="matrix(1,0,0,1.0445962,-142.17943,-1083.6094)" />
+    <polyline
+       points="2745,4062 4351,3681 "
+       style="stroke:#000000;stroke-width:26.520434;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none"
+       id="polyline24"
+       transform="matrix(0.92762126,0,0,1.0931089,-299.61746,-1223.8977)" />
+    <polyline
+       points="3732,4062 4629,3699 "
+       style="stroke:#000000;stroke-width:22.47163429;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none"
+       id="polyline26"
+       transform="matrix(1.1723638,0,0,1.2046577,-1370.6902,-1662.0629)" />
+    <polyline
+       points="5007,4818 5007,3685 "
+       style="stroke:#000000;stroke-width:19.87931823;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none"
+       id="polyline28"
+       transform="matrix(1.7065198,0,0,1.0575017,-4363.2459,-1087.8151)" />
+    <polyline
+       points="6047,4826 5149,3692 "
+       style="stroke:#000000;stroke-width:28.96461479;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none"
+       id="polyline30"
+       transform="matrix(0.80401794,0,0,1.05729,206.70428,-1094.0379)" />
+    <polyline
+       points="7181,4854 5338,3673 "
+       style="stroke:#000000;stroke-width:26.19524002;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none"
+       id="polyline32"
+       transform="matrix(0.95285805,0,0,1.029699,-567.05259,-990.04803)" />
+  </g>
+</svg>
