@@ -1,0 +1,17 @@
+build
+dist
+env
+*.egg-info
+
+*.pyc
+*.pyo
+
+*.log
+
+*~
+\#*#
+*.out
+*.swp
+*.swo
+*.autosave
+.idea
