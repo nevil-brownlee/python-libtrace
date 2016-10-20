@@ -86,7 +86,6 @@ static PyObject *icmp_new(PyTypeObject *type, PyObject *args) {
          }
       if (l4p && proto == 1) {
          if (remaining >= 2) {  /* Need at least type and code */
-	    Py_INCREF(arg);
     	    DataObject *icmp_obj = plt_new_object(&IcmpType,
 	       RLT_TYPE_ICMP, RLT_KIND_CPY, arg->data, (PyObject *)arg,
 	       arg->l2p, arg->l2_rem,
@@ -108,7 +107,6 @@ static PyObject *icmp_new(PyTypeObject *type, PyObject *args) {
       PyErr_SetString(PyExc_ValueError,
          "Not a Data, Packet or ByteArray object");  return NULL;
       }
-   Py_INCREF(arg);
    DataObject *icmp_obj = plt_new_object(&IcmpType,
       RLT_TYPE_ICMP, RLT_KIND_CPY, NULL, (PyObject *)arg,
       NULL, 0, 0, 0x0800, 0, NULL, 0, 1,  l4p, remaining);
@@ -211,7 +209,6 @@ static PyObject *get_payload(DataObject *self, void *closure) {
 set_read_only(payload);
 
 static PyObject *get_echo(DataObject *self) {
-   Py_INCREF(self);
    DataObject *echo_obj = plt_new_object(&EchoType,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,
@@ -223,7 +220,6 @@ static PyObject *get_echo(DataObject *self) {
 set_read_only(echo); 
 
 static PyObject *get_redirect(DataObject *self) {
-   Py_INCREF(self);
    DataObject *redirect_obj = plt_new_object(&RedirectType,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,
@@ -304,6 +300,8 @@ PyTypeObject IcmpType = {
 /* Echo class */
 
 static void echo_dealloc(PyObject *self) {
+   // xdecref just to be sure we are not leaking mem
+   Py_XDECREF(((DataObject *)self)->mom);
    self->ob_type->tp_free((PyObject *)self);
    }
 
@@ -396,6 +394,8 @@ PyTypeObject EchoType = {
 /* Redirect class */
 
 static void redirect_dealloc(PyObject *self) {
+   // xdecref just to be sure we are not leaking mem
+   Py_XDECREF(((DataObject *)self)->mom);
    self->ob_type->tp_free((PyObject *)self);
    }
 
