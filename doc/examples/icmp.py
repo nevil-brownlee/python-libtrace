@@ -6,7 +6,8 @@
 
 from plt_testing import *
 
-t = get_example_trace('icmp-sample.pcap')
+#t = get_example_trace('icmp-sample.pcap')
+t = get_example_trace('unknown-icmp.pcap')
 
 n = 0;  nicmp = 0
 offset = 12
