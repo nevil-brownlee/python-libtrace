@@ -85,7 +85,7 @@ def print_udp(udp, margin):
     t = (' ' * 8) + 'UDP'
 #    print_data(t, margin, udp.data, 64)
 
-def print_icmp_ip(p, margin):
+def print_icmp_ip(p, margin):  # Print info for encapsulated IP pkt
     print "proto=%d, TTL=%d, pkt_len=%d" % (
        p.proto, p.ttl, p.pkt_len)
 
@@ -94,7 +94,8 @@ def print_icmp(icmp, offset):  # IPv4 only  (IPv6 uses ICMP6 protocol)
     print "%sICMP, type=%u, code=%u, checksum=%04x,  wlen=%d, clen=%d, %s" % (
         margin, icmp.type, icmp.code, icmp.checksum,
         icmp.wire_len, icmp.capture_len, icmp.time)
-    type = icmp.type;  p = icmp.payload;  pt = 'IP  '
+    pd = p = icmp.payload
+    type = icmp.type;  pt = 'IP  '
     if type == 0 or type == 8:  # Echo Reply, Echo Request
         if type == 8:
             which = 'request,'
@@ -106,23 +107,24 @@ def print_icmp(icmp, offset):  # IPv4 only  (IPv6 uses ICMP6 protocol)
         pt = 'Echo'
     elif type == 3:  # Destination Unreachable
         print "%sDestination unreachable," % (margin),
-        print_icmp_ip(p, margin)
+        print_icmp_ip(p, margin);  pd = p.data
     elif type == 4:  # Source Quench
         print "%sSource quench," % (margin),
-        print_icmp_ip(p, margin)
+        print_icmp_ip(p, margin);  pd = p.data
     elif type == 5:  # Redirect
         redirect = icmp.redirect;
         print "%sRedirect, gateway=%s," % (margin, redirect.gateway),
-        print_icmp_ip(p, margin)
+        print_icmp_ip(p, margin);  pd = p.data
     elif type == 11:  # Time Exceeded
         print "%sTime exceeded," % (margin),
-        print_icmp_ip(p, margin)
+        print_icmp_ip(p, margin);  pd = p.data
+    elif type == 12:  # Parameter problem
+        print "%sParameter Probl\em," % (margin),
+        print_icmp_ip(p, margin);  pd = p.data
     else:
-        print "%sOther,",
-        pt = 'Data:'
-        print_icmp_ip(p,margin)
+        pt = 'Other'
     t = margin + pt
-    print_data(t, offset+len(pt), p.data, 64)
+    print_data(t, offset+len(pt), pd, 64)
 
 def print_ip6_info(ip6):
     print "%s -> %s, TTL=%d" % (
