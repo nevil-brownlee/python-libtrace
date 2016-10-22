@@ -133,15 +133,15 @@ def print_ip6_info(ip6):
 
 def print_icmp6(icmp6, offset):  # IPv6 only
     margin = ' ' * (offset-3)
-    print "%sICMP6: stype=%u, code=%u, checksum=%04x, wlen=%d, clen=%d, %s" % (
+    print "%sICMP6: type=%u, code=%u, checksum=%04x, wlen=%d, clen=%d, %s" % (
         margin, icmp6.type, icmp6.code, icmp6.checksum,
         icmp6.wire_len, icmp6.capture_len, icmp6.time)
     margin = ' ' * offset
-    type = icmp6.type;  p = icmp6.payload;  pt = 'Echo'
+    type = icmp6.type;  pd = p = icmp6.payload;  pt = 'Echo'
     if type == 1:  # Destination Unreachable
         print "%sDestination unreachable:" % (margin),
         pt = 'IP6 '
-        print_ip6_info(p)
+        print_ip6_info(p);  pd = p.data
     elif type == 128 or type == 129:  # Echo Request, Echo Reply
         if type == 128:
             which = 'request:'
@@ -154,15 +154,15 @@ def print_icmp6(icmp6, offset):  # IPv6 only
     elif type == 2:  # Packet Too Big
         print "%sPacket Too Big; MTU=%d:" % (margin, icmp6.toobig.mtu),
         pt = 'IP  '
-        print_ip6_info(p)
+        print_ip6_info(p);  pd = p.data
     elif type == 3:  # Time Exceeded
         print "%sTime Exceeded:" % (margin),
         pt = 'IP6 '
-        print_ip6_info(p)
+        print_ip6_info(p);  pd = p.data
     elif type == 4:  # Parameter Problem
         print "%sParameter Problem; pointer=%d," % (margin, icmp6.param.pointer),
         pt = 'IP6 '
-        print_ip6_info(p)
+        print_ip6_info(p);  pd = p.data
     else:
         if type == 133:
             s = "Router Solicitation"
@@ -185,4 +185,4 @@ def print_icmp6(icmp6, offset):  # IPv6 only
             print "%s%s: src_prefix=%s" % (margin, s, icmp6.src_prefix)
         pt = 'Data'
     t = margin + pt
-    print_data(t, offset+3, p.data, 64)
+    print_data(t, offset+3, pd, 64)
