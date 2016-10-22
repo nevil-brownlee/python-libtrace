@@ -36,8 +36,7 @@ Return IP object from byte 8 ...
 11  Time exceeded
 12  Parameter problem
 
-Return Da
-ta object from byte 8 ...
+Return Data object from byte 8 ...
 Echo req,reply
  8,0 Ident in bytes 2-3, seq nbr in 4-5, Data follows from byte 8
 
@@ -121,7 +120,7 @@ static int icmp_init(DataObject *self, PyObject *args) {
    }
 
 static struct icmp *get_icmp(DataObject *op, int x) {
-   /*  Python gets to objects vistheir PythonTypes, so we can
+   /*  Python gets to objects via their PythonTypes, so we can
        use this for all the objects that use our icmp struct */
    if (op->rem < x) return NULL;
    struct icmp *icmp = op->dp;
@@ -187,27 +186,31 @@ static PyObject *get_payload(DataObject *self, void *closure) {
       PyErr_SetString(PyExc_ValueError,
          "Data too short for payload");  return NULL;
       }
-   PyTypeObject *py_type;  int rlt_type;
    switch (icmp->type) {
    case  3:  /* Dest unreachable */
    case  4:  /* Source quench */
    case  5:  /* Redirect (gateway address in icmp bytes 4-7) */
    case 11:  /* Time exceeded */
    case 12:  /* Parameter problem */
-      py_type = &IpType;  rlt_type = RLT_TYPE_IP;
-      break;
-   default:
-      py_type = &DataType;  rlt_type = RLT_TYPE_DATA;
+         Py_INCREF(self);  /* Return anIP */
+	 uint8_t *new_l3p = self->dp+8, proto = new_l3p[9];
+	 int new_rem = self->rem-8;
+	 DataObject *icmp_obj = plt_new_object(&IpType,
+	    RLT_TYPE_IP, RLT_KIND_CPY, NULL, (PyObject *)self,
+	    NULL, 0, 0, 0x0800, 0, new_l3p, new_rem, proto,  new_l3p, new_rem);
+	 // pltData_dump(icmp_obj, "*leaving icmp.get_payload(Data)");  //debug
+	 return (PyObject *)icmp_obj;
       }
-   Py_INCREF(self);
-   DataObject *icmp_obj = plt_new_object(py_type,
-      rlt_type, RLT_KIND_CPY, NULL, (PyObject *)self,
-      self->l2p, self->l2_rem,
-      self->linktype, self->ethertype, self->vlan_tag,
-      self->l3p, self->l3_rem, 1,  self->dp+8, self->rem-8);
-   // pltData_dump(icmp_obj, "*leaving icmp.get_payload(Data)");  //debug
-   return (PyObject *)icmp_obj;
+   PyObject *result;  /* Return aByteArray */
+   uint8_t *dp = self->dp+8;  int size = self->rem-8;
+   if (size < 0) {  /* Zero-length ByteArray is OK */
+      result = Py_None;  Py_INCREF(result);  return result;
+      }
+   result = PyByteArray_FromStringAndSize((char *)dp, size);
+   if (result == NULL) return NULL;
+   return result;
    }
+
 set_read_only(payload);
 
 static PyObject *get_echo(DataObject *self) {
