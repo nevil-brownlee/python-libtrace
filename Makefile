@@ -20,7 +20,7 @@
 
 
 SHELL=/bin/sh
-RM=rm -rf # Don't complain it files don't exist
+RM=rm -rf # Don't complain if files don't exist
 T_MAKE=	make
 BKFILES=build *~ \#* .*~
 VERSION=
