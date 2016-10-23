@@ -201,15 +201,15 @@
 [<module>:25]    67:
 [<module>:27:{n:67}][print_ip6:54] fe80::2d0:2bff:fe4b:751b -> 2001:48d0:101:501:20d:60ff:fe38:18b, proto=58, tclass=0,
 [<module>:27:{n:67}][print_ip6:56]             ttl=255, hlen=None, plen=None flow_label=0, payload_len=32, next_hdr=58
-[<module>:43:{n:67}][print_icmp6:139]         ICMP6: stype=135, code=0, checksum=926e, wlen=90, clen=86, 2008-03-19 13:45:48.007895
-[<module>:43:{n:67}][print_icmp6:185]            Neighbour Solicitation: target_prefix=2001:48d0:101:501:20d:60ff:fe38:18b, src_prefix=fe80::2d0:2bff:fe4b:751b
-[<module>:43:{n:67}][print_icmp6:191][print_data:32]              Data 20 01 48 d0 01 01 05 01   02 0d 60 ff fe 38 01 8b   01 01 00 d0 2b 4b 75 1b
+[<module>:43:{n:67}][print_icmp6:138]         ICMP6: stype=135, code=0, checksum=926e, wlen=90, clen=86, 2008-03-19 13:45:48.007895
+[<module>:43:{n:67}][print_icmp6:184]            Neighbour Solicitation: target_prefix=2001:48d0:101:501:20d:60ff:fe38:18b, src_prefix=fe80::2d0:2bff:fe4b:751b
+[<module>:43:{n:67}][print_icmp6:190][print_data:32]              Data 20 01 48 d0 01 01 05 01   02 0d 60 ff fe 38 01 8b   01 01 00 d0 2b 4b 75 1b
 [<module>:25]    68:
 [<module>:27:{n:68}][print_ip6:54] 2001:48d0:101:501:20d:60ff:fe38:18b -> fe80::2d0:2bff:fe4b:751b, proto=58, tclass=0,
 [<module>:27:{n:68}][print_ip6:56]             ttl=255, hlen=None, plen=None flow_label=0, payload_len=24, next_hdr=58
-[<module>:43:{n:68}][print_icmp6:139]         ICMP6: stype=136, code=0, checksum=f3ad, wlen=82, clen=78, 2008-03-19 13:45:48.007949
-[<module>:43:{n:68}][print_icmp6:185]            Neighbour Advertisment: target_prefix=2001:48d0:101:501:20d:60ff:fe38:18b, src_prefix=2001:48d0:101:501:20d:60ff:fe38:18b
-[<module>:43:{n:68}][print_icmp6:191][print_data:32]              Data 20 01 48 d0 01 01 05 01   02 0d 60 ff fe 38 01 8b
+[<module>:43:{n:68}][print_icmp6:138]         ICMP6: stype=136, code=0, checksum=f3ad, wlen=82, clen=78, 2008-03-19 13:45:48.007949
+[<module>:43:{n:68}][print_icmp6:184]            Neighbour Advertisment: target_prefix=2001:48d0:101:501:20d:60ff:fe38:18b, src_prefix=2001:48d0:101:501:20d:60ff:fe38:18b
+[<module>:43:{n:68}][print_icmp6:190][print_data:32]              Data 20 01 48 d0 01 01 05 01   02 0d 60 ff fe 38 01 8b
 [<module>:25]    69:
 [<module>:27:{n:69}][print_ip6:54] 2001:48d0:101:501:20d:60ff:fe38:18b -> 2001:1890:1112:1::20, proto=6, tclass=0,
 [<module>:27:{n:69}][print_ip6:56]             ttl=64, hlen=None, plen=None flow_label=0, payload_len=515, next_hdr=6
