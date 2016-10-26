@@ -94,12 +94,14 @@ def print_icmp_ip(p, margin, tag=''):
     print(tag+get_tag()+" proto=%d, TTL=%d, pkt_len=%d" % (
        p.proto, p.ttl, p.pkt_len))
 
-def print_icmp(icmp, offset, tag=''):  # IPv4 only  (IPv6 uses ICMP6 protocol)
+def print_icmp(icmp, offset, 
+tag=''):  # IPv4 only  (IPv6 uses ICMP6 protocol)
     margin = ' ' * offset
     print(tag+get_tag()+"%sICMP, type=%u, code=%u, checksum=%04x,  wlen=%d, clen=%d, %s" % (
         margin, icmp.type, icmp.code, icmp.checksum,
         icmp.wire_len, icmp.capture_len, icmp.time))
-    type = icmp.type;  p = icmp.payload;  pt = 'IP  '
+    pd = p = icmp.payload
+    type = icmp.type;  pt = 'IP  '
     if type == 0 or type == 8:  # Echo Reply, Echo Request
         if type == 8:
             which = 'request,'
@@ -111,23 +113,21 @@ def print_icmp(icmp, offset, tag=''):  # IPv4 only  (IPv6 uses ICMP6 protocol)
         pt = 'Echo'
     elif type == 3:  # Destination Unreachable
         print(tag+get_tag()+"%sDestination unreachable, " % (margin), end='')
-        print_icmp_ip(p, margin)
+        print_icmp_ip(p, margin);  pd = p.data
     elif type == 4:  # Source Quench
         print(tag+"%sSource quench, " % (margin), end='')
-        print_icmp_ip(p, margin)
+        print_icmp_ip(p, margin);  pd = p.data
     elif type == 5:  # Redirect
-        redirect = icmp.redirect;
+        redirect = icmp.redirect
         print(tag+"%sRedirect, gateway=%s, " % (margin, redirect.gateway), end='')
-        print_icmp_ip(p, margin)
+        print_icmp_ip(p, margin);  pd = p.data
     elif type == 11:  # Time Exceeded
         print(tag+"%sTime exceeded, " % (margin), end='')
-        print_icmp_ip(p, margin)
+        print_icmp_ip(p, margin);  pd = p.data
     else:
         print(tag+get_tag()+" %sOther, ", end='')
-        pt = 'Data:'
-        print_icmp_ip(p,margin)
     t = margin + pt
-    print_data(t, offset+len(pt), p.data, 64, tag+get_tag())
+    print_data(t, offset+len(pt), pd, 64, tag+get_tag())
 
 def print_ip6_info(ip6, tag=''):
     print(tag+get_tag()+" %s -> %s, TTL=%d" % (
@@ -140,11 +140,11 @@ def print_icmp6(icmp6, offset, tag=''):  # IPv6 only
         margin, icmp6.type, icmp6.code, icmp6.checksum,
         icmp6.wire_len, icmp6.capture_len, icmp6.time))
     margin = ' ' * offset
-    type = icmp6.type;  p = icmp6.payload;  pt = 'Echo'
+    type = icmp6.type;  pd = p = icmp6.payload;  pt = 'Echo'
     if type == 1:  # Destination Unreachable
         print(tag+get_tag()+"%sDestination unreachable: " % (margin), end='')
         pt = 'IP6 '
-        print_ip6_info(p)
+        print_ip6_info(p);  pd = p.data
     elif type == 128 or type == 129:  # Echo Request, Echo Reply
         if type == 128:
             which = 'request:'
@@ -157,15 +157,15 @@ def print_icmp6(icmp6, offset, tag=''):  # IPv6 only
     elif type == 2:  # Packet Too Big
         print(tag+get_tag()+"%sPacket Too Big; MTU=%d: " % (margin, icmp6.toobig.mtu), end='')
         pt = 'IP  '
-        print_ip6_info(p)
+        print_ip6_info(p);  pd = p.data
     elif type == 3:  # Time Exceeded
         print(tag+get_tag()+"%sTime Exceeded: " % (margin), end='')
         pt = 'IP6 '
-        print_ip6_info(p)
+        print_ip6_info(p);  pd = p.data
     elif type == 4:  # Parameter Problem
         print(tag+get_tag()+"%sParameter Problem; pointer=%d, " % (margin, icmp6.param.pointer), end='')
         pt = 'IP6 '
-        print_ip6_info(p)
+        print_ip6_info(p);  pd = p.data
     else:
         if type == 133:
             s = "Router Solicitation"
@@ -188,7 +188,7 @@ def print_icmp6(icmp6, offset, tag=''):  # IPv6 only
             print(tag+get_tag()+"%s%s: src_prefix=%s " % (margin, s, icmp6.src_prefix))
         pt = 'Data'
     t = margin + pt
-    print_data(t, offset+3, p.data, 64, tag+get_tag())
+    print_data(t, offset+3, pd, 64, tag+get_tag())
 
 def test_println(message, tag=''):
     print(tag+' '+message)
