@@ -1,32 +1,47 @@
-python-libtrace INSTALL instructions
-------------------------------------
+# INSTALL instructions for python-libtrace 
+
+## Installing python-libtrace
+
+## Quick Start for Ubuntu 14.04/16.04
+
+```bash
+sudo apt install libtrace-dev libldns-dev
+git clone https://github.com/nevil-brownlee/python-libtrace.git
+cd python-libtrace
+sudo make install-py2 # for python 2
+```
+
+## Detailed install instructions
 
 Requirements:
 
- * libtrace 3.0.21 or later
  * python 2.7 or later, 3.4 or later
- * ldns, which requires an up-to-date version of openssl
-
-Installing python-libtrace
---------------------------
+ * libtrace 3.0.21 or later (http://research.wand.net.nz/software/libtrace.php)
+ * ldns, which requires an up-to-date version of openssl (libldns-dev)
 
 Check that you have the right version of libtrace, python, openssl
-and ldns (as listed above).  For openssl on Ubuntu, you may need
-to create a sumbolic link in /user/include, something like this:
-  openssl -> /home/nevil/openssl-1.0.1j/include/openssl
+and ldns (as listed above).  For openssl, you may need
+to create a symbolic link in /usr/include, something like this:
 
-tar zxf python-libtrace-x.y.tgz
-  # Unpacks everything into directory python-libtrace-x.y
+```
+ln -s /home/nevil/openssl-1.0.1j/include/openssl /usr/include/openssl
+```
 
-cd python-libtrace-x.y
+Then:
+
+```
+git clone https://github.com/nevil-brownlee/python-libtrace.git
+cd python-libtrace
 make install-py2 # for python 2
-or
+# or
 make install-py3 # for python 3
+```
 
 The above series of commands will build python-libtrace and
 install it into the place where python expects to find extension
 modules on your system. python-libtrace can be built for both
 python 2 and 3.
+
 You'll probably need to use sudo for the make install step.
 
 The library comes with a set of test cases. You can run them to
@@ -35,17 +50,26 @@ you want to make changes to the library. In this case, they can
 be used to make sure your changes did not break anything in the
 library.
 
-To run the tests, go to the 'test' subdirectory and run the sript
-'run_test' as follows:
+Testing
+-------
 
+To run the tests, go to the 'test' subdirectory and run the script
+'run_test' as follows for _python 2_:
+
+```bash
 export TZ=Pacific/Auckland  # Get the times right for trace file packets
-<plt-folder>/test$ python run_test.py -d v2-test-cases/ -t
+cd test
+python run_test.py -d v2-test-cases/ -t
+```
 
 Similar set of test cases exists in 'v3-test-cases' subdirectory. If you
-use python 3, you can use those test cases and run them using run_test
+use _python 3_, you can use those test cases and run them using run_test
 as follows:
 
-<plt-folder>/test$ python3 run_test.py -d v3-test-cases/ -t
+```bash
+cd test
+python3 run_test.py -d v3-test-cases/ -t
+```
 
 This command runs all test programs and reports the results. All tests
 should pass to make sure the library works properly.
@@ -58,18 +82,16 @@ tools that come with it is the libtrace wiki located at
 http://www.wand.net.nz/trac/libtrace/wiki
 
 python-libtrace is documented in a set of html pages in the
-doc subdirctory of the distribution.
+doc subdirectory of the distribution.
+
 A set of example programs is included in the doc/examples
 subdirectory.
 
 You should install these documentation files on a suitable
-webserver at your site (or you can see them at
-http://www.cs.auckland.ac.nz/~nevil/python-libtrace/ )
-
+webserver at your site or you can view them at
+http://www.cs.auckland.ac.nz/~nevil/python-libtrace
 
 Nevil Brownlee
-U Auckland, Wed, 8 Apr 15 (NZST)
-
 Email for queries or comments: n.brownlee@auckland.ac.nz
 
 --------------------------------------------------------------
