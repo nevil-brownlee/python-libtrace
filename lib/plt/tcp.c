@@ -1,4 +1,5 @@
-/* 1452, Fri 14 Mar 14 (PDT)
+/* 1025, Fri 18 Nov 16 (KST)
+   1452, Fri 14 Mar 14 (PDT)
    1140, Sat  9 Nov 13 (PST)  Mountain View
 
    tcp.c: RubyLibtrace, python version!
@@ -273,6 +274,51 @@ static PyObject *get_urg_ptr(DataObject *self, void *closure) {
    }
 set_read_only(urg_ptr);
 
+int get_opt_ptr(DataObject *self, uint8_t **op) {  /* Return len(options) */
+   libtrace_tcp_t *ltcp = get_tcp(self, 20);
+   if (!ltcp) return -1;  /* Not enough bytes */
+   uint8_t *hp = (uint8_t *)ltcp;  /* Pointer to header */
+   *op = &hp[20];
+   int doff = hp[12] >> 4;
+   return doff*4-20;
+   }
+
+static PyObject *get_options_data(DataObject *self, void *closure) {
+   uint8_t *op;
+   int o_len = get_opt_ptr(self, &op);
+   if (o_len < 0) Py_RETURN_FALSE;
+   PyObject *result = PyByteArray_FromStringAndSize((char *)op, o_len);
+   if (result == NULL) return NULL;
+   return result;
+   }
+set_read_only(options_data);
+
+static PyObject *get_options_ba(DataObject *self, void *closure) {
+   uint8_t *op;  /* Options bytes */
+   int o_len = get_opt_ptr(self, &op);
+   if (o_len <= 0) Py_RETURN_FALSE;
+
+   uint8_t *opt_vals = malloc(o_len);
+   if (opt_vals == NULL) Py_RETURN_FALSE;  /* Couldn't get memory */
+   int opt, t_len, x = 0, n_opts = 0;
+   while (x < o_len) {
+      opt = op[x];
+      if (opt == 0) break;  /* End of option list */
+      if (opt == 1) {  /* No-op */
+         x += 1;  continue;
+         }
+      t_len = op[x+1];
+      opt_vals[n_opts] = opt;  n_opts += 1;
+      if (x+t_len > o_len) break;  /* Not enough bytes! */
+      if (t_len != 0) x += t_len;
+      else break;  /* No more options bytes */
+      }
+   PyObject *result = PyByteArray_FromStringAndSize((char *)opt_vals, n_opts);
+   free(opt_vals);
+   return result;
+   }
+set_read_only(options_ba);
+
 static PyObject *tcp_get_payload(DataObject *self, void *closure) {
    libtrace_tcp_t *ltcp = get_tcp(self, 20);
    if (!ltcp) {
@@ -297,6 +343,51 @@ static PyObject *tcp_get_payload(DataObject *self, void *closure) {
    return (PyObject *)pld_obj;
    }
 set_read_only(payload);
+
+static PyObject *tcp_get_option(DataObject *self, PyObject *args) {
+   int opt_n = -1;
+   if (!PyArg_ParseTuple(args, "i:tcp_get_option",&opt_n)) {
+      PyErr_SetString(PyExc_SystemError, "Expected an integer");
+      return NULL;
+      }
+   if (opt_n < 2 || opt_n > 255) {
+      PyErr_SetString(PyExc_SystemError, "TCP option number < 2 or > 255");
+      return NULL;
+      }
+   uint8_t *op;  /* Options bytes */
+   int o_len = get_opt_ptr(self, &op);
+   if (o_len <= 0) Py_RETURN_FALSE;
+   int opt, t_len, x = 0;
+   while (x < o_len) {
+      opt = op[x];
+      if (opt == 0) break;  /* End of option list */
+      if (opt == 1) {  /* No-op */
+         x += 1;  continue;
+         }
+      t_len = op[x+1];
+      if (x+t_len > o_len) break;  /* Not enough bytes! */
+      if (opt == opt_n) {
+         switch (opt) {
+	 default:  /*
+	 case  8:  // Timestamps          RFC 7323
+	 case  5:  // SACK                RFC 2018
+	 case 30:  // Multipath TCP       RFC 6824
+	 case 28:  // User Timeout        RFC 5482
+	 case 29:  // TCP Authentication  RFC 5925 */
+  	    return PyByteArray_FromStringAndSize((char *)&op[x+2], t_len-2);
+	 /*    case  2:  // MSS                 RFC  793
+            return PV_PyInt_FromLong(ntohs(*(uint16_t *)&op[x+2]));
+         case  3:  // Window scale        RFC 7323
+	    return PV_PyInt_FromLong((unsigned long)op[x+2]); */
+         case  4:  // SACK permitted      RFC 2018
+	    Py_RETURN_TRUE;
+	    }
+         }
+      if (t_len != 0) x += t_len;
+      else break;  /* No more options bytes */
+      }
+   Py_RETURN_FALSE;  /* Requested option not present */
+   }
 
 static PyGetSetDef TCP_getseters[] = {
    {"src_port",
@@ -344,6 +435,12 @@ static PyGetSetDef TCP_getseters[] = {
    {"urg_ptr",
       (getter)get_urg_ptr, (setter)set_urg_ptr,
       "TCP Urgent pointer", NULL},
+   {"options_data",
+      (getter)get_options_data, (setter)set_options_data,
+      "TCP options data", NULL},
+   {"options_ba",
+      (getter)get_options_ba, (setter)set_options_ba,
+      "TCP bytearray of option values", NULL},
    {"payload",
       (getter)tcp_get_payload, (setter)set_payload,
       "TCP payload", NULL},
@@ -351,6 +448,8 @@ static PyGetSetDef TCP_getseters[] = {
    };
 
 static PyMethodDef tcp_methods[] = {
+   {"option", (PyCFunction)tcp_get_option, METH_VARARGS,
+      "Retuns the value of TCP option(n)"},
    {NULL}  /* Sentinel */
    };
 
