@@ -11,7 +11,7 @@ import plt  # Also imports IPprefix and datetime
 import sys     #  argv, exit
 from plt_testing import *
 
-in_uri = 'icmp-sample.pcap'
+in_uri = 'pcapfile:icmp-sample.pcap'
 out_uri = 'pcapfile:icmp-sample-out.pcap'
 n_records = 10
 test_println("copying first %d records from %s to %s ..." % (
