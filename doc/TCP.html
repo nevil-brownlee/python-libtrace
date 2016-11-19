@@ -1,9 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html><head>
+
+
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" /><title>Protocol Decodes: TCP</title><meta content="KompoZer" name="generator" /><link rel="stylesheet" type="text/css" href="plt-doc.css" /></head><body>
 <h2>Transport Layer Decodes</h2>
 <h3>Class TCP</h3>
-<p>Provides access to fields in a TCP header.</p><table class="indent1">
+<p>Provides access to fields in a TCP header.</p><table style="width: 614px; height: 1269px;" class="indent1">
 <tbody>
 <tr><td class="heading" colspan="2"><span style="font-weight: bold;">Instance Variables</span></td></tr><tr>
 <td class="name methodwidth"><strong>src_port</strong></td>
@@ -150,6 +152,28 @@ anInteger</em></td>
 <td class="description">TCP Checksum </td>
 </tr>
 <tr>
+<td class="name"><strong>options_data</strong><br />
+</td>
+<td class="name">tcp.options_data-&gt; aByteArray | False<br />
+</td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">bytearray containing the bytes of the TCP options part of the TCP header.&nbsp; Returns False if header has no TCP options<br />
+</td>
+</tr>
+<tr>
+<td class="name"><strong>options_ba</strong><br />
+</td>
+<td class="name">tcp.options_ba -&gt; aByteAray | False</td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">bytearray containing the option numbers of all this header's TCP options.&nbsp; Returns False if header has no TCP options</td>
+</tr>
+<tr>
 <td class="name"><strong>urg_ptr</strong></td>
 <td class="name">tcp.urgent -&gt; anInteger</td>
 </tr>
@@ -170,8 +194,20 @@ anInteger</em></td>
 an object containing the packet's TCP payload<br />
 </td>
 </tr>
+</tbody></table>
 
-</tbody>
-</table>
+<br /><table><tbody>
+<tr><td class="heading" colspan="2"><span style="font-weight: bold;"><br />Instance Function<br />
+</span></td></tr><tr>
+<td class="name methodwidth"><strong>option</strong>(n)<br />
+</td>
+<td class="name descriptionwidth"><em>tcp.option(n) </em>-&gt; aByteArray | False</td>
+</tr>
+<tr>
+<td class="description"><br />
+</td>
+<td class="description">bytearray containing the option's argument bytes.&nbsp; Returns False if option n is not present in the header </td>
+</tr>
+</tbody></table>
 
-<span style="font-weight: bold;" /><p>Nevil Brownlee<br />&nbsp;Sat, 15 Mar 14 (PDT)</p></body></html>
+<span style="font-weight: bold;"><p>Nevil Brownlee<br />Sat, 19 Nov 2016&nbsp; (JST)</p></span></body></html>
