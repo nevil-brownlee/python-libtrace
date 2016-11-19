@@ -13,10 +13,11 @@ def test_option(n):
     if isinstance(xn, bool):
         test_println("  opt %d: > %s <" % (n, xn), get_tag())
     else:
-        test_print(("  opt %d: >" % n,), tag='')
+        oline = "  opt %d: >" % n
         for c in xn:
-            test_print(("%02x" % c,), tag='')
-        test_println("<", get_tag())
+            oline += "% 02d" % c
+        oline += " <"
+        test_println(oline, get_tag())
 
 t = plt.trace("pcapfile:"+tcp_fn)
 t.start()
@@ -32,9 +33,11 @@ for pkt in t:
 
     test_println("pkt %d ---" % n, get_tag())
     xod = tcp.options_data
+    oline = " "
     for c in xod:
-        test_print(("%02x" % c,), tag='')
-    test_println("(%d)" % len(xod), get_tag())
+        oline += " %02x" % c
+    oline += "  (%s)" % len(xod)
+    test_println(oline, get_tag())
 
     ol = tcp.options_ba
     for opt in ol:
