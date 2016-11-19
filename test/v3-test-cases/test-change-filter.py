@@ -7,7 +7,7 @@
 from plt_testing import *
 
 try:
-    t = plt.trace('anon-v4.pcap')
+    t = plt.trace('pcapfile:anon-v4.pcap')
     filter = plt.filter('udp port 53')  # Only want DNS packets
     t.conf_filter(filter)
     t.conf_snaplen(128)
