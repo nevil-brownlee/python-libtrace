@@ -1,4 +1,5 @@
-/* 1509, Fri 21 Nov 14 (NZDT)
+/* 1837, Sun 20 Nov 16 (NZDT)
+   1509, Fri 21 Nov 14 (NZDT)
    1011, Tue  6 May 14 (NZST)
    1452, Fri 14 Mar 14 (PDT)
    1421, Fri  2 Aug 13 (CEST)
@@ -25,7 +26,7 @@
 
 #include <arpa/inet.h>
 
-#define PLTversion     "1.6"
+#define PLTversion     "1.7"
 
 #define RLT_KIND_PKT       1  /* data points to a libtrace_packet_t */
 #define RLT_KIND_STR       2  /* data points to a C byte array */
