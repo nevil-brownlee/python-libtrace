@@ -4,20 +4,19 @@
 #
 # Copyright (C) 2016, Nevil Brownlee, U Auckland | WAND
 
-from plt_testing import *
+import plt
 
 tcp_fn = "anon-v4.pcap"
 
 def test_option(n):
     xn = tcp.option(n)
     if isinstance(xn, bool):
-        test_println("  opt %d: > %s <" % (n, xn), get_tag())
+        print("  opt %d: > %s <" % (n, xn))
     else:
         oline = "  opt %d: >" % n
         for c in xn:
-            oline += "% 02d" % c
-        oline += " <"
-        test_println(oline, get_tag())
+            oline +=" %02x" % c
+        print(oline + " <")
 
 t = plt.trace("pcapfile:"+tcp_fn)
 t.start()
@@ -31,13 +30,12 @@ for pkt in t:
     if tcp.doff == 5:  # No TCP options
         continue
 
-    test_println("pkt %d ---" % n, get_tag())
+    print("pkt %d ---" % n)
     xod = tcp.options_data
     oline = " "
     for c in xod:
         oline += " %02x" % c
-    oline += "  (%s)" % len(xod)
-    test_println(oline, get_tag())
+    print(oline + "  (%d)" % len(xod))
 
     ol = tcp.options_ba
     for opt in ol:
