@@ -15,9 +15,8 @@ def test_option(n):
     else:
         oline = "  opt %d: >" % n
         for c in xn:
-            oline += "% 02d" % c
-        oline += " <"
-        test_println(oline, get_tag())
+            oline +=" %02x" % c
+        test_println(oline + " <", get_tag())
 
 t = plt.trace("pcapfile:"+tcp_fn)
 t.start()
@@ -36,8 +35,7 @@ for pkt in t:
     oline = " "
     for c in xod:
         oline += " %02x" % c
-    oline += "  (%s)" % len(xod)
-    test_println(oline, get_tag())
+    test_println(oline + "  (%d)" % len(xod), get_tag())
 
     ol = tcp.options_ba
     for opt in ol:
