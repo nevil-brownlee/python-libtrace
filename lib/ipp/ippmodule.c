@@ -23,6 +23,7 @@
 #include <Python.h>
 #include "structmember.h"
 
+#include <sys/socket.h>
 #include <arpa/inet.h>
 #include "pv.h"
 
