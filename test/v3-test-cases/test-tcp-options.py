@@ -1,4 +1,4 @@
-# 1008, Saun 13 Nov 2016 (KST)
+# 1008, Sun 13 Nov 2016 (KST)
 #
 # test-tcp-options.py: Test tcp options handling in plt
 #
