@@ -4,7 +4,7 @@ from distutils.core import setup, Extension
 
 setup(
     name='plt',
-    version='1.0',
+    version='1.7',
     description="python-libtrace, python bindings for WAND's libtrace library",
     author='Nevil Brownlee',
     author_email='n.brownlee@auckland.ac.nz',

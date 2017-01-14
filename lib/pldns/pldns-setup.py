@@ -4,7 +4,7 @@ from distutils.core import setup, Extension
 
 setup(
     name='pldns',
-    version='1.0',
+    version='1.7',
     description='pldns, a Python wrapper for ldns',
     author='Nevil Brownlee',
     author_email='n.brownlee@auckland.ac.nz',

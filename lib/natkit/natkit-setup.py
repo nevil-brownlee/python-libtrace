@@ -4,7 +4,7 @@ from distutils.core import setup, Extension
 
 setup(
     name='natkit',
-    version='1.0',
+    version='1.7',
     description="python-libtrace, Net Analysis ToolKIT",
     author='Nevil Brownlee',
     author_email='n.brownlee@auckland.ac.nz',

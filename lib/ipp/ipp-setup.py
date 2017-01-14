@@ -4,7 +4,7 @@ from distutils.core import setup, Extension
 
 setup(
     name='ipp',
-    version='1.0',
+    version='1.7',
     description='IPprefix, a library for IP addresses and widths',
     author='Nevil Brownlee',
     author_email='n.brownlee@auckland.ac.nz',
