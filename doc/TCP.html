@@ -3,6 +3,7 @@
 
 
 
+
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" /><title>Protocol Decodes: TCP</title><meta content="KompoZer" name="generator" /><link rel="stylesheet" type="text/css" href="plt-doc.css" /></head><body>
 <h2>Transport Layer Decodes</h2>
 <h3>Class TCP</h3>
@@ -155,14 +156,13 @@ anInteger</em></td>
 <tr>
 <td class="name"><strong>options_data</strong><br />
 </td>
-<td class="name">tcp.options_data-&gt; aCFFIArray | False<br />
+<td class="name">tcp.options_data-&gt; aByteArray | False<br />
 </td>
 </tr>
 <tr>
 <td><br />
 </td>
-<td class="description">pypy CFFI Cdata array containing the bytes of the TCP options part of the TCP header.&nbsp; <br />
-Returns False if header has no TCP options<br />
+<td class="description">Bytearray containing the bytes of the TCP options part of the TCP header.&nbsp; Returns False if header has no TCP options<br />
 </td>
 </tr>
 <tr>
@@ -173,8 +173,7 @@ Returns False if header has no TCP options<br />
 <tr>
 <td><br />
 </td>
-<td class="description">pypy CFFI Cdata array containing the option numbers of all this header's TCP options.&nbsp; <br />
-Returns False if header has no TCP options</td>
+<td class="description">Byterray containing the option numbers of all this header's TCP options.&nbsp; Returns False if header has no TCP options</td>
 </tr>
 <tr>
 <td class="name"><strong>urg_ptr</strong></td>
@@ -204,15 +203,16 @@ an object containing the packet's TCP payload<br />
 </span></td></tr><tr>
 <td class="name methodwidth"><strong>option</strong>(n)<br />
 </td>
-<td class="name descriptionwidth"><em>tcp.option(n) </em>-&gt; aCFFIArray | False</td>
+<td class="name descriptionwidth"><em>tcp.option(n) </em>-&gt; aByteArray | True | False</td>
 </tr>
 <tr>
 <td class="description"><br />
 </td>
-<td class="description">pypy CFFI Cdata array containing option n's value bytes.&nbsp; Returns True if option n is present but has no value,<br />
+<td class="description">Bytearray containing option n's value bytes.&nbsp; <br />
+Returns True if option n is present but has no value,<br />
 or False if option n is not present in the header <br />
 </td>
 </tr>
 </tbody></table>
 
-<span style="font-weight: bold;"><p>Nevil Brownlee<br />Mon, 16 Jan 2017 (NZDT)</p></span></body></html>
+<span style="font-weight: bold;"><p>Nevil Brownlee<br />Mon, 17 Jan 2017 (NZDT)</p></span></body></html>
