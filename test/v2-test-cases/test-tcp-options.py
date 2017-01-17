@@ -37,7 +37,7 @@ for pkt in t:
         oline += " %02x" % c
     test_println(oline + "  (%d)" % len(xod), get_tag())
 
-    ol = tcp.options_ba
+    ol = tcp.option_numbers
     for opt in ol:
         test_option(opt)
 
