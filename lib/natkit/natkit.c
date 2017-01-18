@@ -264,12 +264,14 @@ static PyObject *IPflow_fwd_key(IPflowObject *self) {
    if (self->fkey.version == 4) {
       memcpy(&key[6], self->fkey.addrs.v4.saddr, 4);
       memcpy(&key[10], self->fkey.addrs.v4.daddr, 4);
-      result = PV_PyString_FromStringAndSize_bytes(key, 14);
+      //result = PV_PyString_FromStringAndSize_bytes(key, 14);
+      result = PyByteArray_FromStringAndSize(key, 14);
       }
    else {
       memcpy(&key[6], self->fkey.addrs.v6.saddr, 16);
       memcpy(&key[22], self->fkey.addrs.v6.daddr, 16);
-      result = PV_PyString_FromStringAndSize_bytes(key, 38);
+      //result = PV_PyString_FromStringAndSize_bytes(key, 38);
+      result = PyByteArray_FromStringAndSize(key, 38);
       }
    if (result == NULL) return NULL;
    return result;
@@ -285,12 +287,14 @@ static PyObject *IPflow_rev_key(IPflowObject *self) {
    if (self->fkey.version == 4) {
       memcpy(&key[6], self->fkey.addrs.v4.daddr, 4);
       memcpy(&key[10], self->fkey.addrs.v4.saddr, 4);
-      result = PV_PyString_FromStringAndSize_bytes(key, 14);
+      //result = PV_PyString_FromStringAndSize_bytes(key, 14);
+      result = PyByteArray_FromStringAndSize(key, 14);
       }
    else {
       memcpy(&key[6], self->fkey.addrs.v6.daddr, 16);
       memcpy(&key[22], self->fkey.addrs.v6.saddr, 16);
-      result = PV_PyString_FromStringAndSize_bytes(key, 38);
+      //result = PV_PyString_FromStringAndSize_bytes(key, 38);
+      result = PyByteArray_FromStringAndSize(key, 38);
       }
    if (result == NULL) return NULL;
    return result;
