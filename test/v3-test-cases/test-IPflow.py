@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# Thu, 13 Mar 14 (PDT)
-# ip6.py:  Demonstrate IPv6 objects
+# Wed, 18 Jan 2017 (NZDT)
+# test-IPflow.py:  Demonstrate IPflow objects
 # Copyright (C) 2017, Nevil Brownlee, U Auckland | WAND
 
 import plt
@@ -16,12 +16,10 @@ def test_uri(uri, tag=''):
     for pkt in t:
         n += 1
         test_println("n = %d" % n, tag+get_tag("n:"+str(n)))
-        try:
-            ipf = natkit.IPflow(pkt)
-        except:
-            test_println("probably not an IP packet", tag+get_tag("n:"+str(n)))
+        ipf = natkit.IPflow(pkt)
+        if not ipf:
+            test_println(" ", tag+get_tag())
             continue
-
         nip += 1
 
         test_println("%5d: %d %3d  %5d %5d  %s  %s" % (n,  # v6
@@ -29,13 +27,14 @@ def test_uri(uri, tag=''):
            ipf.src_prefix, ipf.dst_prefix), tag+get_tag("n:"+str(n)))
 
         fwd = ipf.fwd_key
-        test_print("fwd =", tag+get_tag("n:"+str(n)))
+        test_print("fwd =",  tag+get_tag("n:"+str(n)))
+        print("type(fwd) = %s" % type(fwd))
         for b in fwd:
             test_print(" %02x" % b)
 
         rev = ipf.rev_key
         test_println('')
-        test_print("rev =", tag+get_tag("n:"+str(n)))
+        test_print("rev =",tag+get_tag("n:"+str(n)))
         for b in rev:
             test_print(" %02x" % b)
         test_println('')
