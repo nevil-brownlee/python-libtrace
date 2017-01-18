@@ -28,7 +28,6 @@ def test_uri(uri, tag=''):
 
         fwd = ipf.fwd_key
         test_print("fwd =",  tag+get_tag("n:"+str(n)))
-        print("type(fwd) = %s" % type(fwd))
         for b in fwd:
             test_print(" %02x" % b)
 
