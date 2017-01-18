@@ -2,7 +2,7 @@
 
 # Fri, 27 Jun 14 (NZST)
 # test-ip6-tunnel.py:  Demonstrate IPv6 objects tunnelled in IPv4
-# Copyright (C) 2015, Nevil Brownlee, U Auckland | WAND
+# Copyright (C) 2017, Nevil Brownlee, U Auckland | WAND
 
 from plt_testing import *
 

@@ -2,6 +2,12 @@
 Release notes for python-libtrace
 ---------------------------------
 
+python-libtrace-1.7, Jan 2017
+  Make bytearray the default type returned by icmp and icmp6.payload
+  Implement TCP Option handling
+  IPflow and Homeflow now return None it their pkt argument is not
+    a python-libtrace Data object
+
 python-libtrace-1.6, June 2015
   Reworked ippmodule to use inet-ntop() and inet_pton(),
     with check to make sure we don't use :: where it should

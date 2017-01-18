@@ -2,7 +2,7 @@
 
 # Thu, 13 Mar 14 (PDT)
 # icmp6.py: Demonstrate ICMP6 (v6) header decodes
-# Copyright (C) 2015, Nevil Brownlee, U Auckland | WAND
+# Copyright (C) 2017, Nevil Brownlee, U Auckland | WAND
 
 from plt_testing import *
 

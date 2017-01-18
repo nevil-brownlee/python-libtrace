@@ -2,7 +2,7 @@
 
 # Sat, 15 Mar 14 (PDT)
 # change-filter.py: Create packet filter, change it after seeing a few packets
-# Copyright (C) 2015, Nevil Brownlee, U Auckland | WAND
+# Copyright (C) 2017, Nevil Brownlee, U Auckland | WAND
 
 from plt_testing import *
 

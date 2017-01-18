@@ -2,7 +2,7 @@
 
 # Thu, 13 Mar 14 (PDT)
 # copy-first-n.rb: Copies first n records from one trace to another
-# Copyright (C) 2015, Nevil Brownlee, U Auckland | WAND
+# Copyright (C) 2017, Nevil Brownlee, U Auckland | WAND
 
 # python copy-first-n.py  pcapfile:anon-v4.pcap  pcapfile:first-n.pcap  30
 

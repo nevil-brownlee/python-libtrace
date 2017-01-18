@@ -2,13 +2,12 @@
 
 # Thu, 13 Mar 14 (PDT)
 # ip6.py:  Demonstrate IPv6 objects
-# Copyright (C) 2015, Nevil Brownlee, U Auckland | WAND
+# Copyright (C) 2017, Nevil Brownlee, U Auckland | WAND
 
-#import ipp
-import plt
+import ipp, plt
 import natkit
-from plt_testing import *
 import sys
+from plt_testing import *
 
 UAv4 = ipp.from_s("130.216.0.0/16")
 UAv6 = ipp.from_s("2001:df0::/47")
@@ -51,11 +50,7 @@ def test_uri(uri, tag=''):
         if not (pkt.ip or pkt.ip6):
             continue
 
-        try:
-            ipf = fh.flow(pkt)
-        except:
-            test_println("%4d: probably not an IP packet" % n, tag+get_tag("n:"+str(n)))
-            continue
+        ipf = fh.flow(pkt)
 
         if not ipf.is_inward:
             print_flow(n, ipf, tag+get_tag("n:"+str(n)))
@@ -70,19 +65,16 @@ def test_uri(uri, tag=''):
                 print_flow(n, ipf, tag+get_tag("n:"+str(n)))
 
             fwd = ipf.fwd_key
-            test_print(" fwd =", tag+get_tag("n:"+str(n)))
+            test_print("fwd =", tag+get_tag("n:"+str(n)))
             for b in fwd:
                 test_print(" %02x" % ord(b))
+            test_println('')
 
             hk = ipf.home_key
-            test_println('')
-            test_print(" hom =", tag+get_tag("n:"+str(n)))
+            test_print("hom =", tag+get_tag("n:"+str(n)))
             for b in hk:
                 test_print(" %02x" % ord(b))
             test_println('')
-
-        #if n == 480:
-        #    break
 
     t.close()
 

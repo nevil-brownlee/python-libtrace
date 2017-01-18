@@ -2,7 +2,7 @@
 
 # Thu, 13 Mar 14 (PDT)
 # ip6.py:  Demonstrate IPv6 objects
-# Copyright (C) 2015, Nevil Brownlee, U Auckland | WAND
+# Copyright (C) 2017, Nevil Brownlee, U Auckland | WAND
 
 import plt
 import natkit as nk

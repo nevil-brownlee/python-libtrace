@@ -2,7 +2,7 @@
 
 # Thu, 13 Mar 14 (PDT)
 # plt-test.py:  Test packet-level attributes
-# Copyright (C) 2015, Nevil Brownlee, U Auckland | WAND
+# Copyright (C) 2017, Nevil Brownlee, U Auckland | WAND
 
 import socket
 import sys

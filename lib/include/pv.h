@@ -1,7 +1,7 @@
 /* 1252, Wed 8 Apr 15 (NZST)
 
    python-libtrace: a Python module to make it easy to use libtrace
-   Copyright (C) 2015 by Habib Naderi, U Auckland | WAND
+   Copyright (C) 2017 by Habib Naderi, U Auckland | WAND
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by

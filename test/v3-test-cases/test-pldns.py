@@ -2,7 +2,7 @@
 
 # 1818, Sat  5 Jul 14 (NZST)
 # test-pldns.py:  Demonstrate Ldns objects
-# Copyright (C) 2015, Nevil Brownlee, U Auckland
+# Copyright (C) 2017, Nevil Brownlee, U Auckland
 
 import plt
 import pldns

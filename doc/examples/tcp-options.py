@@ -2,7 +2,7 @@
 #
 # tcp-options.py: Test tcp options handling in plt
 #
-# Copyright (C) 2016, Nevil Brownlee, U Auckland | WAND
+# Copyright (C) 2017, Nevil Brownlee, U Auckland | WAND
 
 import plt
 

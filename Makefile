@@ -3,7 +3,7 @@
 # Main Makefile for the python-libtrace distribution.
 #
 # python-libtrace: a python module to make it easy to use libtrace
-# Copyright (C) 2015 by Nevil Brownlee, U Auckland | WAND
+# Copyright (C) 2017 by Nevil Brownlee, U Auckland | WAND
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

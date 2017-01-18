@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # icmp.py: Demonstrate UDP header decodes
-# Copyright (C) 2015, Nevil Brownlee, U Auckland | WAND
+# Copyright (C) 2017, Nevil Brownlee, U Auckland | WAND
 
 from plt_testing import *
 

@@ -1,6 +1,6 @@
 # Thu, 13 Mar 14 (PDT)
 # plt-testing.py:  Support routines for testing python-libtrace
-# Copyright (C) 2015, Nevil Brownlee, U Auckland | WAND
+# Copyright (C) 2017, Nevil Brownlee, U Auckland | WAND
 
 import plt  # Also imports ipp and datetime
 

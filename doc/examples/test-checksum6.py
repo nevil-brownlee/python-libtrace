@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2015, Nevil Brownlee, U Auckland | WAND
+# Copyright (C) 2017, Nevil Brownlee, U Auckland | WAND
 
 from plt_testing import *
 

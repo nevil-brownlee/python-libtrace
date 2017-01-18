@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright (C) 2015 by Habib Naderi, U Auckland
+# Copyright (C) 2017 by Habib Naderi, U Auckland
 
 export TZ=Pacific/Auckland
 

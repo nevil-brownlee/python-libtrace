@@ -2,7 +2,7 @@
 
 # Sun, 23 Oct 2016 (NZDT)
 # icmp6.py: Demonstrate ICMP (v4) header decodes
-# Copyright (C) 2015, Nevil Brownlee, U Auckland | WAND
+# Copyright (C) 2017, Nevil Brownlee, U Auckland | WAND
 
 from plt_testing import *
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# Thu, 13 Mar 14 (PDT)
-# ip6.py:  Demonstrate IPv6 objects
-# Copyright (C) 2015, Nevil Brownlee, U Auckland | WAND
+# Wed, 18 Jan 2017 (NZDT)
+# test-IPflow.py:  Demonstrate IPflow objects
+# Copyright (C) 2017, Nevil Brownlee, U Auckland | WAND
 
 import plt
 import natkit
@@ -16,12 +16,10 @@ def test_uri(uri, tag=''):
     for pkt in t:
         n += 1
         test_println("n = %d" % n, tag+get_tag("n:"+str(n)))
-        try:
-            ipf = natkit.IPflow(pkt)
-        except:
-            test_println("probably not an IP packet", tag+get_tag("n:"+str(n)))
+        ipf = natkit.IPflow(pkt)
+        if not ipf:
+            test_println(" ", tag+get_tag())
             continue
-
         nip += 1
 
         test_println("%5d: %d %3d  %5d %5d  %s  %s" % (n,  # v6

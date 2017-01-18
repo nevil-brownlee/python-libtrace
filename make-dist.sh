@@ -5,7 +5,7 @@
 # Make python-libtrace distribution tarball
 #
 # python-libtrace: a Ruby module to make it easy to use libtrace
-# Copyright (C) 2008 by Nevil Brownlee, U Auckland | WAND
+# Copyright (C) 2017 by Nevil Brownlee, U Auckland | WAND
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

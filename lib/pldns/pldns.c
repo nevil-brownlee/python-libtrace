@@ -2,7 +2,7 @@
 
    pldns.c: python interface to NLnetLab's ldns C library
 
-   Copyright (C) 2015 by Nevil Brownlee, U Auckland | WAND
+   Copyright (C) 2017 by Nevil Brownlee, U Auckland | WAND
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by

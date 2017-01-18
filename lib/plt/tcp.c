@@ -5,7 +5,7 @@
    tcp.c: RubyLibtrace, python version!
 
    python-libtrace: a Python module to make it easy to use libtrace
-   Copyright (C) 2015 by Nevil Brownlee, U Auckland | WAND
+   Copyright (C) 2017 by Nevil Brownlee, U Auckland | WAND
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -293,7 +293,7 @@ static PyObject *get_options_data(DataObject *self, void *closure) {
    }
 set_read_only(options_data);
 
-static PyObject *get_options_ba(DataObject *self, void *closure) {
+static PyObject *get_option_numbers(DataObject *self, void *closure) {
    uint8_t *op;  /* Options bytes */
    int o_len = get_opt_ptr(self, &op);
    if (o_len <= 0) Py_RETURN_FALSE;
@@ -317,7 +317,7 @@ static PyObject *get_options_ba(DataObject *self, void *closure) {
    free(opt_vals);
    return result;
    }
-set_read_only(options_ba);
+set_read_only(option_numbers);
 
 static PyObject *tcp_get_payload(DataObject *self, void *closure) {
    libtrace_tcp_t *ltcp = get_tcp(self, 20);
@@ -438,8 +438,8 @@ static PyGetSetDef TCP_getseters[] = {
    {"options_data",
       (getter)get_options_data, (setter)set_options_data,
       "TCP options data", NULL},
-   {"options_ba",
-      (getter)get_options_ba, (setter)set_options_ba,
+   {"option_numbers",
+      (getter)get_option_numbers, (setter)set_option_numbers,
       "TCP bytearray of option values", NULL},
    {"payload",
       (getter)tcp_get_payload, (setter)set_payload,

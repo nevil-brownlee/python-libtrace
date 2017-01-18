@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # test-icmp6.py: count types of icmp6 packets
-# Copyright (C) 2013, Nevil Brownlee, U Auckland | CAIDA | Wand
+# Copyright (C) 2017, Nevil Brownlee, U Auckland | CAIDA | Wand
 
 from plt_testing import *
 

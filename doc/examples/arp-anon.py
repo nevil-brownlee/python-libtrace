@@ -2,7 +2,7 @@
 
 # Thu, 13 Mar 14 (PDT)
 # arp-anon.py:  Anonymise IPv4 addresses in ARP records
-# Copyright (C) 2015, Nevil Brownlee, U Auckland | WAND
+# Copyright (C) 2017, Nevil Brownlee, U Auckland | WAND
 
 # python arp-anon.py  pcapfile:anon-v4.pcap  pcapfile:first-n.pcap  30
 
