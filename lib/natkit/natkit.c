@@ -123,9 +123,8 @@ static PyMethodDef module_methods[] = {
    };
 
 
-#define FT_PKT_NOT_IP  1  /* Pkt not IPv4 or IPv6, return None */
-#define FT_FIRST_PKT   2  /* First pkt src->dst */
-#define FT_HOME_FLOW   3  /* src->dst means in to/out from Home network */
+#define FT_FIRST_PKT  1  /* First pkt src->dst */
+#define FT_HOME_FLOW  2  /* src->dst means in to/out from Home network */
 
 typedef struct {  /* Python stuff starts here */
    PyObject_HEAD
@@ -144,12 +143,16 @@ typedef struct {  /* Python stuff starts here */
       } fkey;
    } IPflowObject;
 
-static IPflowObject *get_IPflow(IPflowObject *ipf, PyObject *arg) {
-   if (!PyObject_IsInstance(arg, plt_Data)) {
+static IPflowObject *get_IPflow(PyObject *args) {
+   DataObject *dp = NULL;
+   if (!PyArg_ParseTuple(args, "O:Data", &dp)) {
+      PyErr_SetString(PyExc_ValueError,
+         "Expected an object");  return NULL;
+      }
+   if (!PyObject_IsInstance((PyObject *)dp, plt_Data)) {
       PyErr_SetString(PyExc_ValueError,
          "IPflow: arg not plt_Data Type");  return NULL;
       }
-   DataObject *dp = (DataObject *)arg;
    if (dp->kind != RLT_KIND_PKT) {
       PyErr_SetString(PyExc_ValueError,
          "Object didn't come from a plt Packet");  return NULL;
@@ -202,9 +205,10 @@ static IPflowObject *get_IPflow(IPflowObject *ipf, PyObject *arg) {
 	 pdst_addr =  (uint8_t *)&((libtrace_ip6_t *)l3p)->ip_dst;
          }
       else {
-	 ipf->flow_type = FT_PKT_NOT_IP;
-	 return ipf;
+	Py_INCREF(Py_None);  return (IPflowObject *)Py_None;
          }
+      IPflowObject *ipf = 
+	 (IPflowObject *)IPflowType.tp_alloc(&IPflowType, 0);
       ipf->fkey.version = version;  ipf->fkey.proto = proto;
       ipf->fkey.sport = src_port;  ipf->fkey.dport = dst_port;
       if (version == 4) {
@@ -215,7 +219,7 @@ static IPflowObject *get_IPflow(IPflowObject *ipf, PyObject *arg) {
        	 memcpy(ipf->fkey.addrs.v6.saddr, psrc_addr, 16);
 	 memcpy(ipf->fkey.addrs.v6.daddr, pdst_addr, 16);
          }
-      return ipf;
+      return (IPflowObject *)ipf;
       }
    PyErr_SetString(PyExc_ValueError, "Couldn't get Layer3 data");
    return NULL;
@@ -225,34 +229,14 @@ static void IPflow_dealloc(PyObject *self) {
    self->ob_type->tp_free((PyObject *)self);
    }
 
-static int IPflow_setup(IPflowObject *self, PyObject *args) {
-   PyObject *dp = NULL;
-   if (!PyArg_ParseTuple(args, "O:Data", &dp)) {
-      PyErr_SetString(PyExc_ValueError, "Expected an object");
-      return -1;
-      }
-   IPflowObject *ipf = get_IPflow(self, dp);
-   if (ipf == NULL) return -1;
-   if (ipf->flow_type == FT_PKT_NOT_IP) return 0;
-   self->flow_type = FT_FIRST_PKT;
-   self->src_home = self->dst_home = 0;
-   return 0;
-   }
-
 static PyObject *IPflow_new(PyTypeObject *type, PyObject *args) {
-   IPflowObject *self = (IPflowObject *)type->tp_alloc(type, 0);
-   int r = IPflow_setup(self, args);
-   if ((void *)PyErr_Occurred() != NULL) {
-      Py_DECREF(self);  return NULL;
+   IPflowObject *ipf = get_IPflow(args);
+   if (ipf == NULL) return NULL;  /* Err String set */
+   if (ipf != (IPflowObject *)Py_None) { /* Not an IPv4 or IPv6 pkt */
+      ipf->flow_type = FT_FIRST_PKT;
+      ipf->src_home = ipf->dst_home = 0;
       }
-   if (r == 0) {  /* OK */
-      if (self->flow_type == FT_PKT_NOT_IP) {
-	 Py_DECREF(self);  /* Forget this IPflow */
-	 Py_INCREF(Py_None);  return Py_None;
-	 }
-      else return (PyObject *)self;
-      }
-   return (PyObject*)self;  /* Keep comiler happy */
+   return (PyObject*)ipf;
    }
 
 static PyObject *IPflow_fwd_key(IPflowObject *self) {
@@ -640,23 +624,9 @@ int is_home(FlowHome *fh, uint8_t *addr) {
    }
 
 static PyObject *hf_key(FlowHome *self, PyObject *args) {
-   PyObject *dp = NULL;
-   if (!PyArg_ParseTuple(args, "O:Data", &dp)) {
-      PyErr_SetString(PyExc_ValueError, "Expected an object");
-      return NULL;
-      }
-   IPflowObject *flow =
-      (IPflowObject *)IPflowType.tp_alloc(&IPflowType, 0);
-   if (flow == NULL) return NULL;
-   int r = IPflow_setup(flow, args);
-   if ((void *)PyErr_Occurred() != NULL) {
-      Py_DECREF(flow);  return NULL;
-      }
-   if (r == 0) {  /* OK */
-      if (flow->flow_type == FT_PKT_NOT_IP) {
-	 Py_DECREF(flow);  /* Forget this IPflow */
-	 Py_INCREF(Py_None);  return Py_None;
-	 }
+   IPflowObject *flow = get_IPflow(args);
+   if (flow == NULL) return NULL;  /* Err String set */
+   if (flow != (IPflowObject *)Py_None) { /* Not an IPv4 or IPv6 pkt */
       flow->flow_type = FT_HOME_FLOW;
       if (flow->fkey.version == 4) {
          flow->src_home = is_home(self, flow->fkey.addrs.v4.saddr);
@@ -666,9 +636,8 @@ static PyObject *hf_key(FlowHome *self, PyObject *args) {
 	 flow->src_home = is_home(self, flow->fkey.addrs.v6.saddr);
 	 flow->dst_home = is_home(self, flow->fkey.addrs.v6.daddr);
 	 }
-      return (PyObject *)flow;
       }
-   return (PyObject *)flow;  /* Keep compiler happy */
+   return (PyObject*)flow;
    }
 
 static PyMethodDef FlowHome_methods[] = {
