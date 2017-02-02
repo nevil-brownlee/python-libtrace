@@ -384,26 +384,30 @@ static PyObject *IPprefix_isprefix(
          "versions must be the same (4 or 6)");
       return NULL;
       }
+
    s_len = (int)PV_PyInt_AsLong(self->length);
-   a_len = (int)PV_PyInt_AsLong(arg->length);
-   if (s_len == -1 || a_len == -1) {
-     PyErr_SetString(PyExc_AttributeError, 
-         "either or both lengths None");
+   if (arg->length == NULL) a_len = -1;  /* No length was set */
+   else a_len = (int)PV_PyInt_AsLong(arg->length);
+
+   if (s_len == -1) {
+      PyErr_SetString(PyExc_AttributeError, 
+         "IPprefix has length None");
       return NULL;
       }
-   if (s_len > a_len) {  /* Widths not <= */
-      result = Py_False;  Py_INCREF(result);  return result;
-   }
 
+   if (a_len > 0 && s_len > a_len) {  /* Widths not <= */
+      result = Py_False;  Py_INCREF(result);  return result;
+      }
    sp = PyByteArray_AsString(self->addr);
    ap = PyByteArray_AsString(arg->addr);
+
    nb = s_ver == 4 ? IP4_ADDR_LEN : IP6_ADDR_LEN;
    for (j = 0; j != nb; ++j)
       if (ap[j] != sp[j]) break;
-   r = j*8; 
+   r = j*8;
    if (r >= s_len) {  /* They differ at or after s_len */
-      result = Py_True;
-      Py_INCREF(result);  return result;
+      result = Py_True;  Py_INCREF(result);
+      return result;
       }
    xor = ap[j] ^ sp[j];
    while ((xor & 0x80) == 0) {
@@ -423,16 +427,13 @@ static PyObject *IPprefix_isrfc1918(IPprefixObject *self) {
    if (s_ver != 4) {
       r = Py_False;  Py_INCREF(r);  return r;
       }
-
    so = Py_BuildValue("(O)", self);  /* Make tuple for isprefix() args */
    r = IPprefix_isprefix(rfc1918o16, so);
-   if (r == NULL) return NULL;
-   if (r == Py_True) return r;
-   r = IPprefix_isprefix(rfc1918o12, so);
-   if (r == NULL) return NULL;
-   if (r == Py_True) return r;
-   r = IPprefix_isprefix(rfc1918o8, so);
-   if (r == NULL) return NULL;
+   if (r != NULL && r != Py_True) {
+      r = IPprefix_isprefix(rfc1918o12, so);
+      if (r != NULL && r != Py_True)
+         r = IPprefix_isprefix(rfc1918o8, so);
+      }
    Py_DECREF(so);
    return r;
    }
