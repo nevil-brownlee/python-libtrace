@@ -1,6 +1,6 @@
 [get_example_trace:23]fn = 1000packets.pcap.gz
 
-[<module>:23:{np:1}] pkt.seconds=189440.000044, ts_sec=189440, pkt_time=1970-01-03 16:37:20.000043
+[<module>:23:{np:1}] pkt.seconds=189440.000044, ts_sec=189440, pkt_time=1970-01-03 16:37:20.000044
 [<module>:58] Packet count: 1000
 [<module>:59] Captured bytes: 60704
 [<module>:63] Bitrate inbound: 0.00 Mbps
