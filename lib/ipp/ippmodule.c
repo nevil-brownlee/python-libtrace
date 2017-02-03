@@ -541,11 +541,18 @@ static PyObject *IPprefix_str(IPprefixObject *self) {
    return PV_PyString_FromString(v6a);
    }
 
+static int is_ipp_instance(IPprefixObject *arg);
+
 static PyObject *IPprefix_richcompare(
       IPprefixObject *a, IPprefixObject *b, int op) {
    int va, vb, nb, sc, cmp, la, lb;
    const char *sa, *sb;
    PyObject *result;
+
+   if (!is_ipp_instance(a) || !is_ipp_instance(b)) {
+      PyErr_SetString(PyExc_ValueError,
+         "one or both objects not IPprefix");  return NULL;
+      }
 
    va = (int)PV_PyInt_AsLong(a->version);
    vb = (int)PV_PyInt_AsLong(b->version);
@@ -627,6 +634,9 @@ static PyTypeObject IPprefixType = {
    (newfunc)IPprefix_new,       /* tp_new */
    };
 
+static int is_ipp_instance(IPprefixObject *arg) { 
+   return PyObject_IsInstance((PyObject *)arg, (PyObject *)&IPprefixType);
+   }
 
 static PyObject *IPprefix_complement(IPprefixObject *self) {
    int s_ver, s_len, nb, j;
@@ -878,6 +888,7 @@ PyMODINIT_FUNC initipp(void)  {
 
    if (PyType_Ready(&IPprefixType) < 0)
       RETURN;
+   Py_TYPE(&IPprefixType) = &PyType_Type;
 
 #if PYTHON3
    m = PyModule_Create(&ipp_module);
