@@ -66,6 +66,6 @@
 [<module>:129] r1918_8.equal(r1918_8a) = True (T)
 [<module>:130] r1918_8.has_bit_set(4) = True (T)
 [<module>:131] r1918_8.has_bit_set(5) = False (F)
-[<module>:132] r1918_8.complement() = 245.254.254.254/16 (245.254.254.254/16)
+[<module>:132] r1918_8.complement = 245.254.254.254/16 (245.254.254.254/16)
 [<module>:136] r1918_12.first_bit_different(r1918_12a) = 16 (16)
 [<module>:137] a1.first_bit_different(a2) = 30 (30)

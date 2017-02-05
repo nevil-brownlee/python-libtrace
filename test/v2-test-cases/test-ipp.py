@@ -108,28 +108,28 @@ n1918_16 = ipp.from_s("192.169.1.1/24")
 test_println( "{0} is_prefix {1}, {2} isp_refix {3} (T,F)\n".format(
    ipp.rfc1918s16, ipp.rfc1918s16.is_prefix(r1918_16),
    ipp.rfc1918s16, ipp.rfc1918s16.is_prefix(n1918_16)), get_tag())
-test_println("r1918_16.isrfc1918 = {0} (T)".format(r1918_16.is_rfc1918()), get_tag())
-test_println("n1918_16.isrfc1918 = {0} (F)".format(n1918_16.is_rfc1918()), get_tag())
+test_println("r1918_16.isrfc1918 = {0} (T)".format(r1918_16.is_rfc1918), get_tag())
+test_println("n1918_16.isrfc1918 = {0} (F)".format(n1918_16.is_rfc1918), get_tag())
 
 r1918_12 = ipp.from_s("172.16.1.1/16")
 r1918_8 = ipp.from_s("10.1.1.1/16")
 r1918_8a = ipp.from_s("10.1.1.1/12")
 r1918_12a = ipp.from_s("172.16.1.2/16")
 
-test_println("r1918_12.isrfc1918 = {0} (T)".format(r1918_12.is_rfc1918()), get_tag())
-test_println("r1918_8.isrfc1918 = {0} (T)\n".format(r1918_8.is_rfc1918()), get_tag())
+test_println("r1918_12.isrfc1918 = {0} (T)".format(r1918_12.is_rfc1918), get_tag())
+test_println("r1918_8.isrfc1918 = {0} (T)\n".format(r1918_8.is_rfc1918), get_tag())
 
 test_println( "ipp.version = {0}\n".format(ipp.version()), get_tag())
 
 zs = ipp.IPprefix(4, bytearray("12\x00\x51"))
 test_println( "zs = {0} (49.50.0.81)\n".format(zs), get_tag())
 
-test_println( "width(r1918_8) = %d (15)" % r1918_8.width(), get_tag())
+test_println( "width(r1918_8) = %d (15)" % r1918_8.width, get_tag())
 test_println( "r1918_8.equal(r1918_8) = %s (T)" % r1918_8.equal(r1918_8), get_tag())
 test_println( "r1918_8.equal(r1918_8a) = %s (T)" % r1918_8.equal(r1918_8a), get_tag())
 test_println( "r1918_8.has_bit_set(4) = %s (T)" % r1918_8.has_bit_set(4), get_tag())
 test_println( "r1918_8.has_bit_set(5) = %s (F)" % r1918_8.has_bit_set(5), get_tag())
-test_println( "r1918_8.complement() = %s (245.254.254.254/16)" % r1918_8.complement(), get_tag())
+test_println( "r1918_8.complement = %s (245.254.254.254/16)" % r1918_8.complement, get_tag())
 
 a1 = ipp.from_s("172.16.1.1/32")
 a2 = ipp.from_s("172.16.1.2/32")
