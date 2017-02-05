@@ -26,6 +26,13 @@
 #include <arpa/inet.h>
 #include "pv.h"
 
+#define set_read_only(attrib) \
+static int set_##attrib( \
+      IPprefixObject *self, PyObject *value, void *closure) { \
+   PyErr_SetString(PyExc_TypeError, #attrib " is read_only"); \
+   return -1; \
+   }
+
 typedef struct {  /* Python stuff starts here */
    PyObject_HEAD
    PyObject *version; /* IP version (4 or 6) */
@@ -38,6 +45,9 @@ static void IPprefix_dealloc(IPprefixObject* self) {
    Py_XDECREF(self->length);
    PV_free_self;
    }
+
+static int is_ipp_instance(IPprefixObject *arg);
+static PyTypeObject IPprefixType;
 
 #define PLTversion  "1.9"
 
@@ -262,19 +272,37 @@ static PyMemberDef IPprefixObject_members[] = {
    {NULL}  /* Sentinel */
    };
 
-static PyObject *IPprefix_width(IPprefixObject *self) {
-   int s_len;
-   PyObject *result;
-
-   s_len = (int)PV_PyInt_AsLong(self->length);
-   if (s_len == -1) {
-      PyErr_SetString(PyExc_AttributeError, "IPprefix length is None");
-      return NULL;
+static int IPprefix_setattr(
+      IPprefixObject *self, char *name, PyObject *v) {
+   int newlen, ver;
+   if (strcmp(name, "length") == 0) {
+      if (!PV_PyInt_Check(v)) {
+         PyErr_SetString(PyExc_TypeError, "length must be an integer");
+         return -1;
+         }
+      newlen = (int)PV_PyInt_AsLong(v);
+      if (newlen < 1) {
+         PyErr_SetString(PyExc_ValueError, "length must be > 0");
+         return -1;
+         }
+      ver = (int)PV_PyInt_AsLong(self->version);
+      if (ver == 4 && newlen > IP4_ADDR_LEN*8) {
+         PyErr_SetString(PyExc_ValueError, "IPv4 length must be <= 32");
+         return -1;
+         }
+      else if (ver == 6 && newlen > IP6_ADDR_LEN*8) {
+         PyErr_SetString(PyExc_ValueError, "IPv6 length must be <= 128");
+         return -1;
+         }
+      self->length = v;  /* Value OK */
+      Py_INCREF(v);  /* self now has a copy of v! */
+      return 0;
       }
-
-   result = PV_PyInt_FromLong((long)(s_len - 1));
-   if (result == NULL) return NULL;
-   return result;
+   else {
+      PyErr_SetString(PyExc_AttributeError, "version and addr are READONLY");
+      return -1;
+      }
+   return -1;
    }
 
 static PyObject *IPprefix_equal(IPprefixObject *self, PyObject *args) {
@@ -285,6 +313,10 @@ static PyObject *IPprefix_equal(IPprefixObject *self, PyObject *args) {
 
    if (!PyArg_ParseTuple(args, "O:IPprefix_equal", &arg))
       return NULL; 
+   if (!is_ipp_instance(arg)) {
+      PyErr_SetString(PyExc_ValueError,
+         "argument not IPprefix");  return NULL;
+      }
 
    s_ver = (int)PV_PyInt_AsLong(self->version);
    a_ver = (int)PV_PyInt_AsLong(arg->version);
@@ -331,6 +363,10 @@ static PyObject *IPprefix_fbd(IPprefixObject *self, PyObject *args) {
 
    if (!PyArg_ParseTuple(args, "O:IPprefix_fbd", &arg))
       return NULL; 
+   if (!is_ipp_instance(arg)) {
+      PyErr_SetString(PyExc_ValueError,
+         "argument not IPprefix");  return NULL;
+      }
 
    int s_ver = (int)PV_PyInt_AsLong(self->version);
    int a_ver = (int)PV_PyInt_AsLong(arg->version);
@@ -376,6 +412,10 @@ static PyObject *IPprefix_isprefix(
 
    if (!PyArg_ParseTuple(args, "O:IPprefix_isprefix", &arg))
       return NULL; 
+   if (!is_ipp_instance(arg)) {
+      PyErr_SetString(PyExc_ValueError,
+         "argument not IPprefix");  return NULL;
+      }
 
    s_ver = (int)PV_PyInt_AsLong(self->version);
    a_ver = (int)PV_PyInt_AsLong(arg->version);
@@ -417,9 +457,58 @@ static PyObject *IPprefix_isprefix(
    Py_INCREF(result);  return result;
    }
 
+static PyObject *get_width(IPprefixObject *self) {
+   int s_len;
+   PyObject *result;
+
+   s_len = (int)PV_PyInt_AsLong(self->length);
+   if (s_len == -1) {
+      PyErr_SetString(PyExc_AttributeError, "IPprefix length is None");
+      return NULL;
+      }
+
+   result = PV_PyInt_FromLong((long)(s_len - 1));
+   if (result == NULL) return NULL;
+   return result;
+   }
+set_read_only(width);
+
+static PyObject *get_complement(IPprefixObject *self) {
+   int s_ver, s_len, nb, j;
+   char *sp, a[IP6_ADDR_LEN];
+   IPprefixObject *result;
+
+   s_ver = (int)PV_PyInt_AsLong(self->version);
+   nb = s_ver == 4 ? IP4_ADDR_LEN : IP6_ADDR_LEN;
+   sp = PyByteArray_AsString(self->addr);
+   s_len = (int)PV_PyInt_AsLong(self->length);
+   for (j = 0; j != nb; ++j) a[j] = ~sp[j];
+
+   result = (IPprefixObject *)IPprefixType.tp_alloc(&IPprefixType, 0);
+   if (result != NULL) {
+      result->version = PV_PyInt_FromLong((long)s_ver);
+      if (result->version == NULL) {
+         Py_DECREF(result);  return NULL;
+         }
+      result->addr = PyByteArray_FromStringAndSize(a, nb);
+      if (result->addr == NULL) {
+         Py_DECREF(result->version);  Py_DECREF(result);  return NULL;
+         }
+      if (s_len >= 0) { 
+         result->length = PV_PyInt_FromLong((long)s_len);
+         if (result->length == NULL) {
+            Py_DECREF(result->version);  Py_DECREF(result->addr);
+            Py_DECREF(result);  return NULL;
+            }
+         }
+      }
+   return (PyObject *)result;
+   }
+set_read_only(complement)
+
 static IPprefixObject *rfc1918o16=NULL, *rfc1918o12=NULL, *rfc1918o8=NULL;
 
-static PyObject *IPprefix_isrfc1918(IPprefixObject *self) {
+static PyObject *get_is_rfc1918(IPprefixObject *self) {
    int s_ver;
    PyObject *r, *so;
 
@@ -437,59 +526,32 @@ static PyObject *IPprefix_isrfc1918(IPprefixObject *self) {
    Py_DECREF(so);
    return r;
    }
+set_read_only(is_rfc1918);
 
-static PyObject *IPprefix_complement(IPprefixObject *self);
+static PyGetSetDef IPP_getseters[] = {
+   {"width",
+      (getter)get_width, (setter)set_width,
+      "IPprefix width", NULL},
+   {"complement",
+      (getter)get_complement, (setter)set_complement,
+      "IPprefix complement", NULL},
+   {"is_rfc1918",
+      (getter)get_is_rfc1918, (setter)set_is_rfc1918,
+      "IPprefix is_rfc1918", NULL},
+   {NULL},  /* Sentinel */
+   };
 
 static PyMethodDef IPprefix_methods[] = {
-   {"width", (PyCFunction)IPprefix_width, METH_NOARGS,
-    "IPprefix.length-1" },
    {"equal", (PyCFunction)IPprefix_equal, METH_VARARGS,
     "Arg and self have the same version and addr" },
    {"has_bit_set", (PyCFunction)IPprefix_hasbitset, METH_VARARGS,
     "Self has specified bit == 1" },
    {"first_bit_different", (PyCFunction)IPprefix_fbd, METH_VARARGS,
     "(0-origin) bit position where IPprefixes differ" },
-   {"complement", (PyCFunction)IPprefix_complement, METH_NOARGS,
-    "Ones complement of self address" },
    {"is_prefix", (PyCFunction)IPprefix_isprefix, METH_VARARGS,
     "Self is a prefix of its arg IPprefix" },
-   {"is_rfc1918", (PyCFunction)IPprefix_isrfc1918, METH_NOARGS,
-    "True if self is an RFC1918 address" },
    {NULL}  /* Sentinel */
    };
-
-static int IPprefix_setattr(
-      IPprefixObject *self, char *name, PyObject *v) {
-   int newlen, ver;
-   if (strcmp(name, "length") == 0) {
-      if (!PV_PyInt_Check(v)) {
-         PyErr_SetString(PyExc_TypeError, "length must be an integer");
-         return -1;
-         }
-      newlen = (int)PV_PyInt_AsLong(v);
-      if (newlen < 1) {
-         PyErr_SetString(PyExc_ValueError, "length must be > 0");
-         return -1;
-         }
-      ver = (int)PV_PyInt_AsLong(self->version);
-      if (ver == 4 && newlen > IP4_ADDR_LEN*8) {
-         PyErr_SetString(PyExc_ValueError, "IPv4 length must be <= 32");
-         return -1;
-         }
-      else if (ver == 6 && newlen > IP6_ADDR_LEN*8) {
-         PyErr_SetString(PyExc_ValueError, "IPv6 length must be <= 128");
-         return -1;
-         }
-      self->length = v;  /* Value OK */
-      Py_INCREF(v);  /* self now has a copy of v! */
-      return 0;
-      }
-   else {
-      PyErr_SetString(PyExc_AttributeError, "version and addr are READONLY");
-      return -1;
-      }
-   return -1;
-   }
 
 static PyObject *IPprefix_str(IPprefixObject *self) {
    int ver = (int)PV_PyInt_AsLong(self->version);
@@ -541,8 +603,6 @@ static PyObject *IPprefix_str(IPprefixObject *self) {
    return PV_PyString_FromString(v6a);
    }
 
-static int is_ipp_instance(IPprefixObject *arg);
-
 static PyObject *IPprefix_richcompare(
       IPprefixObject *a, IPprefixObject *b, int op) {
    int va, vb, nb, sc, cmp, la, lb;
@@ -570,9 +630,9 @@ static PyObject *IPprefix_richcompare(
    sc = strncmp(sa, sb, nb);
 
    if (sc == 0) {  /* addr bytes the same */
-      if (a->length != NULL && b->length != NULL) {
-         la = (int)PV_PyInt_AsLong(a->length);
-         lb = (int)PV_PyInt_AsLong(b->length);
+      la = a->length == NULL ? -1 : (int)PV_PyInt_AsLong(a->length);
+      lb = a->length == NULL ? -1 : (int)PV_PyInt_AsLong(b->length);
+      if (la > 0 && lb > 0) {
          if (la != lb) sc = la > lb ? -1 : +1;
             /* longest prefix compares as less (more equal)*/
          //printf("sc == 0: la=%d, lb=%d, sc=> %d\n", la,lb, sc);
@@ -623,7 +683,7 @@ static PyTypeObject IPprefixType = {
    0,		                /* tp_iternext */
    IPprefix_methods,            /* tp_methods */
    IPprefixObject_members,      /* tp_members */
-   0,                           /* tp_getset */
+   IPP_getseters,               /* tp_getset */
    0,                           /* tp_base */
    0,                           /* tp_dict */
    0,                           /* tp_descr_get */
@@ -636,38 +696,6 @@ static PyTypeObject IPprefixType = {
 
 static int is_ipp_instance(IPprefixObject *arg) { 
    return PyObject_IsInstance((PyObject *)arg, (PyObject *)&IPprefixType);
-   }
-
-static PyObject *IPprefix_complement(IPprefixObject *self) {
-   int s_ver, s_len, nb, j;
-   char *sp, a[IP6_ADDR_LEN];
-   IPprefixObject *result;
-
-   s_ver = (int)PV_PyInt_AsLong(self->version);
-   nb = s_ver == 4 ? IP4_ADDR_LEN : IP6_ADDR_LEN;
-   sp = PyByteArray_AsString(self->addr);
-   s_len = (int)PV_PyInt_AsLong(self->length);
-   for (j = 0; j != nb; ++j) a[j] = ~sp[j];
-
-   result = (IPprefixObject *)IPprefixType.tp_alloc(&IPprefixType, 0);
-   if (result != NULL) {
-      result->version = PV_PyInt_FromLong((long)s_ver);
-      if (result->version == NULL) {
-         Py_DECREF(result);  return NULL;
-         }
-      result->addr = PyByteArray_FromStringAndSize(a, nb);
-      if (result->addr == NULL) {
-         Py_DECREF(result->version);  Py_DECREF(result);  return NULL;
-         }
-      if (s_len >= 0) { 
-         result->length = PV_PyInt_FromLong((long)s_len);
-         if (result->length == NULL) {
-            Py_DECREF(result->version);  Py_DECREF(result->addr);
-            Py_DECREF(result);  return NULL;
-            }
-         }
-      }
-   return (PyObject *)result;
    }
 
 static IPprefixObject *IPprefix_from_s(PyObject *self, PyObject *args) {
