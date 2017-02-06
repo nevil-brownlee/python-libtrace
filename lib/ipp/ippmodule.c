@@ -330,7 +330,7 @@ static PyObject *IPprefix_equal(IPprefixObject *self, PyObject *args) {
    ap = PyByteArray_AsString(arg->addr);
    nb = s_ver == 4 ? IP4_ADDR_LEN : IP6_ADDR_LEN;
 
-   result =  strncmp(sp, ap, nb) == 0 ? Py_True : Py_False;
+   result =  memcmp(sp, ap, nb) == 0 ? Py_True : Py_False;
    Py_INCREF(result);  return result;
    }
 
@@ -627,7 +627,7 @@ static PyObject *IPprefix_richcompare(
    sb = PyByteArray_AsString(b->addr);
    // printf("ver=%d, a: len=%d, >%s<, b: len=%d, >%s<\n",
    //    va, strlen((char *)sa), sa, strlen((char *)sb), sb);
-   sc = strncmp(sa, sb, nb);
+   sc = memcmp(sa, sb, nb);
 
    if (sc == 0) {  /* addr bytes the same */
       la = a->length == NULL ? -1 : (int)PV_PyInt_AsLong(a->length);
