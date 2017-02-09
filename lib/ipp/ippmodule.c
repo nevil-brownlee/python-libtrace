@@ -655,15 +655,15 @@ static PyObject *IPprefix_richcompare(
 
 static long IPprefix_hash( IPprefixObject *self) {
    int ver, nb, len, j;
-   char *sa;  uint16_t *sa16;
-   long hash;
+   char *sa;  uint32_t *sa32;
+   uint32_t hash;
    ver = (int)PV_PyInt_AsLong(self->version);
    nb = (ver == 4 ? IP4_ADDR_LEN : IP6_ADDR_LEN)/4;
    sa = PyByteArray_AsString(self->addr);
-   sa16 = (uint16_t *)sa;
-   len = self->length == NULL ? -1 : (int)PV_PyInt_AsLong(self->length);
-   hash = (ver*253 << 8) + (uint8_t)len;
-   for (j = 0; j != nb; j += 1) hash ^= sa16[j];
+   sa32 = (uint32_t *)sa;
+   len = self->length == NULL ? 129 : (int)PV_PyInt_AsLong(self->length);
+   hash = (len*63997 << 8) + (uint8_t)ver*41;
+   for (j = 0; j != nb; j += 1) hash ^= sa32[j]*99991;
    return (long)hash;
    }
 
