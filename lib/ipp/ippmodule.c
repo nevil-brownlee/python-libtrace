@@ -653,7 +653,7 @@ static PyObject *IPprefix_richcompare(
    return result;
    }
 
-static long IPprefix_hash( IPprefixObject *self) {
+static Py_hash_t IPprefix_hash( IPprefixObject *self) {
    int ver, nb, len, j;
    char *sa;  uint32_t *sa32;
    uint32_t hash;
@@ -664,7 +664,7 @@ static long IPprefix_hash( IPprefixObject *self) {
    len = self->length == NULL ? 129 : (int)PV_PyInt_AsLong(self->length);
    hash = (len*63997 << 8) + (uint8_t)ver*41;
    for (j = 0; j != nb; j += 1) hash ^= sa32[j]*99991;
-   return (long)hash;
+   return (Py_hash_t)(hash & 0x7FFFFFFF);  /* Don't return -1 */
    }
 
 static PyTypeObject IPprefixType = {
