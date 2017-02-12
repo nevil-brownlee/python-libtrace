@@ -55,7 +55,7 @@
 [<module>:84:{n:3}] now 1.2.3.4 => 5.6.7.8 
 [<module>:43] n=4
 [<module>:46:{n:4}] n=4, linktype=2, ethertype=0800 
-[<module>:54:{n:4}] time = >2008-03-29 11:22:20.364282<
+[<module>:54:{n:4}] time = >2008-03-29 11:22:20.364281<
 [<module>:57:{n:4}] seconds=1206742940.364282, ts_sec=1206742940, erf_time=5182921463543469516
 [<module>:60:{n:4}] n=4, wlen=58, clen=54
 [<module>:64:{n:4}]    ver=4, 207.209.4.47 -> 71.45.40.215, proto=6, tclass=0, ttl=64, hlen=5, plen=40
