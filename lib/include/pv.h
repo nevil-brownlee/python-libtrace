@@ -45,7 +45,8 @@
 #define PV_PyString_FromString(a) PyString_FromString(a)
 #define PV_PyString_FromStringAndSize(a, b) PyString_FromStringAndSize(a, b)
 #define PV_PyString_FromStringAndSize_bytes(a, b) PyString_FromStringAndSize(a, b)
-#define PV_PyObject_HEAD_INIT   PyObject_HEAD_INIT(0)\
+#define Py_hash_t  long
+#define PV_PyObject_HEAD_INIT   PyObject_HEAD_INIT(0)	\
                                 0,
 #endif
 
