@@ -277,6 +277,13 @@ static PyObject *Ldns_new(PyTypeObject *type, PyObject *args) {
          "Expected a LEVEL_5 object");  return NULL;
       }
    uint8_t *ba_p = arg->dp;  int ba_sz = arg->rem;
+   if (arg->proto == 6) {  /* Skip length for a TCP packet */
+      int dns_len = ntohs(*(uint16_t *)ba_p);
+      ba_p += 2;  ba_sz -= 2;
+      if (ba_sz < dns_len)  /* Display warning message */
+         fprintf(stderr, ">>> DNS record length %d, truncated to %d\n",
+	    dns_len, ba_sz);
+      }
 #if 0
    printf("Ldns_init:\n   ba_sz = %d\n", ba_sz);
    int j;  printf("   %02x", ba_p[0]);
