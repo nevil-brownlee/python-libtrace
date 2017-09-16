@@ -166,7 +166,8 @@ static PyObject *udp_get_payload(DataObject *self, void *closure) {
       }
    Py_INCREF(self);
    DataObject *pld_obj = plt_new_object(&TransportType,
-      RLT_TYPE_L5, RLT_KIND_CPY, NULL, (PyObject *)self,
+      RLT_TYPE_L5, RLT_KIND_CPY, NULL, Py_None,
+				       /* (PyObject *)self,  16 Sep 2017 */
       self->l2p, self->l2_rem, self->linktype, self->ethertype, self->vlan_tag,
       self->l3p, self->l3_rem, 17,  &up[udp_len], self->rem-udp_len);
    // pltData_dump(pld_obj, "*leaving tcp.udp_get_payload(pld_obj)");  //debug
