@@ -334,7 +334,7 @@ static PyObject *tcp_get_payload(DataObject *self, void *closure) {
    if (self->rem == tcp_len) {  /* No payload */
       PyObject *result = Py_None;  Py_INCREF(result);  return result; 
       }
-   Py_INCREF(self);
+   /* Py_INCREF(self);  17 Sep 2017 */
    DataObject *pld_obj = plt_new_object(&TransportType,
       RLT_TYPE_L5, RLT_KIND_CPY, NULL, Py_None,
 				       /* (PyObject *)self,  16 Sep 2017 */
