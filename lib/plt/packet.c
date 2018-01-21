@@ -88,7 +88,7 @@ static int set_data(DataObject *self, PyObject *value, void *closure) {
    long vsize = PyByteArray_GET_SIZE(value);
    if (size < vsize) {
       PyErr_SetString(PyExc_ValueError,
-         "Replacement data can't be longer than orignal");
+         "Replacement data can't be longer than original");
       return -1;
       }
    char *vp = PyByteArray_AS_STRING(value);
