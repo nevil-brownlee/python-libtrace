@@ -1,5 +1,6 @@
-/* 1452, Fri 14 Mar 14 (PDT)
-   1837, Wed 23 Oct 13 (NZDT)
+/* 1801, Fri 26 Jan 2018 (NZDT)
+   1452, Fri 14 Mar 2014 (PDT)
+   1837, Wed 23 Oct 2013 (NZDT)
 
    packet.c: RubyLibtrace, python version!
 
@@ -311,6 +312,30 @@ static PyObject *plt_get_udp_payload(DataObject *self) {
    }
 set_read_only(udp_payload);
 
+static PyObject *plt_get_sctp(DataObject *self) {
+   uint32_t remaining = self->l3_rem;  uint8_t proto;
+   uint8_t *l4p = NULL;
+   if (self->ethertype == 0x0800)
+      l4p = trace_get_payload_from_ip(
+         (libtrace_ip_t *)self->l3p, &proto, &remaining);
+   else if (self->ethertype == 0x86DD)
+      l4p = trace_get_payload_from_ip6(
+         (libtrace_ip6_t *)self->l3p, &proto, &remaining);
+   if (l4p && proto == 132) {  /* SCTP */
+      if (remaining >= 4) {  /* Enough for source port */
+    	 DataObject *udp_obj = plt_new_object(&UdpType,
+            RLT_TYPE_SCTP, self->kind, self->data, Py_None,
+            self->l2p, self->l2_rem,
+            self->linktype, self->ethertype, self->vlan_tag,
+            self->l3p, self->l3_rem, 17,  l4p, remaining);
+         // pltData_dump(udp_obj, "*leaving get_udp()");  //debug
+         return (PyObject *)udp_obj;
+         }
+      }
+   PyObject *result = Py_None;  Py_INCREF(result);  return result;
+   }
+set_read_only(sctp);
+
 static PyObject *plt_get_ethertype(DataObject *self) {
    PyObject *result = PV_PyInt_FromLong((long)self->ethertype);
    if (result == NULL) return NULL;
@@ -481,6 +506,9 @@ static PyGetSetDef Packet_getseters[] = {
    {"icmp6",
     (getter)plt_get_icmp6, (setter)set_icmp6,
       "ICMP6 header", NULL},
+   {"sctp",
+    (getter)plt_get_sctp, (setter)set_sctp,
+      "SCTP header", NULL},
 
    {"ethertype", (getter)plt_get_ethertype, (setter)set_ethertype,
       "packet's ethertype", NULL},
