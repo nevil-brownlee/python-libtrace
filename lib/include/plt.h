@@ -1,8 +1,9 @@
-/* 1837, Sun 20 Nov 16 (NZDT)
-   1509, Fri 21 Nov 14 (NZDT)
-   1011, Tue  6 May 14 (NZST)
-   1452, Fri 14 Mar 14 (PDT)
-   1421, Fri  2 Aug 13 (CEST)
+/* 1801, Fri 26 Jan 2018 (NZDT)
+   1837, Sun 20 Nov 2016 (NZDT)
+   1509, Fri 21 Nov 2014 (NZDT)
+   1011, Tue  6 May 2014 (NZST)
+   1452, Fri 14 Mar 2014 (PDT)
+   1421, Fri  2 Aug 2013 (CEST)
 
    plt.h: defines etc, and global declarations
                  for the python-libtrace libraries.
@@ -45,6 +46,7 @@
 #define RLT_TYPE_UDP      42
 #define RLT_TYPE_ICMP     43
 #define RLT_TYPE_ICMP6    44
+#define RLT_TYPE_SCTP     45
 #define RLT_TYPE_L5       50
 
 typedef struct {
