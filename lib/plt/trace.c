@@ -145,7 +145,7 @@ static PyObject *trace_close(TraceObject *self) {
    }
 
 static int get_packet(TraceObject *trace, DataObject *d) {
-  uint16_t ethertype;  uint32_t l3_rem = 0;  int vlan = 0, wlen = 0;
+  uint16_t ethertype;  uint32_t l3_rem = 0;  int vlan = 0;
    if (!trace->started) {
       PyErr_SetString(plt_exc_libtrace, "Trace not started");
       return -1;
@@ -177,18 +177,6 @@ static int get_packet(TraceObject *trace, DataObject *d) {
 	       }
 	    ethertype = vlan_et;
 	    l2_rem -= vlp-l3p;  l3p = vlp;  l3_rem = vlan_rem;
-	    }
-         wlen = trace_get_wire_length(trace->lt_pkt);  /* includes FCS!  17 May 14 */
-	 if (wlen < 64) {
-	    //printf("+++ wlen = %d\n", wlen);
-	    if (ethertype == 0x0800) {
-	       libtrace_ip_t *lip = l3p;
-	       uint16_t hdr_len = 4*lip->ip_hl,
-		  pkt_len = ntohs((uint16_t)lip->ip_len);
-	       //printf("+++ hdr_len=%d, pkt_len=%d\n", hdr_len, pkt_len);
-	       }
-	    else if (ethertype == 0x86DD) {
-	       }
 	    }
          }
       d->type = RLT_TYPE_PKT;  d->kind = RLT_KIND_PKT;
