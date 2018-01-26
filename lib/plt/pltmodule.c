@@ -1,5 +1,6 @@
-/* 1452, Fri 14 Mar 14 (PDT)
-   1421, Fri  2 Aug 13 (CEST)
+/* 1801, Fri 26 Jan 2018 (NZDT)
+   1452, Fri 14 Mar 2014 (PDT)
+   1421, Fri  2 Aug 2013 (CEST)
 
    pltmodule.c: RubyLibtrace, python version!
 
@@ -81,6 +82,7 @@ char const *plt_type_string(int t) {
    else if (t == RLT_TYPE_UDP) return "UDP";
    else if (t == RLT_TYPE_ICMP) return "ICMP";
    else if (t == RLT_TYPE_ICMP6) return "ICMP6";
+   else if (t == RLT_TYPE_SCTP) return "SCTP";
    else if (t == RLT_TYPE_L5) return "payload";
    return "unknown";
    }
