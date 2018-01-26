@@ -268,7 +268,8 @@ static PyObject *plt_get_tcp_payload(DataObject *self) {
    if (l4p && proto == 6) {
       void *payload = trace_get_payload_from_tcp(
          (libtrace_tcp_t *)l4p, &remaining);
-      if (payload) {
+      if (payload && remaining != 0) {  
+	 // Check payload length!  26 Jan 2018 
          DataObject *payload_obj = plt_new_object(&TransportType,
             RLT_TYPE_L5, self->kind, self->data, Py_None,
             self->l2p, self->l2_rem,
@@ -293,19 +294,18 @@ static PyObject *plt_get_udp_payload(DataObject *self) {
       l4p = trace_get_payload_from_ip6(
          (libtrace_ip6_t *)self->l3p, &proto, &remaining);
    if (l4p && proto == 17) {
-      if (remaining >= 16) {  /* No options in UDP header */
-         void *payload = trace_get_payload_from_udp(
-            (libtrace_udp_t *)l4p, &remaining);
-         if (payload) {
-	    DataObject *payload_obj = plt_new_object(&TransportType,
-               RLT_TYPE_L5, self->kind, self->data, Py_None,
-               self->l2p, self->l2_rem,
-               self->linktype, self->ethertype, self->vlan_tag,
-               self->l3p, self->l3_rem, self->proto, payload, remaining);
-            // pltData_dump(payload_obj, "*leaving get_udp_payload()");
-	    return (PyObject *)payload_obj;
-	    }
-         }
+      void *payload = trace_get_payload_from_udp(
+	 (libtrace_udp_t *)l4p, &remaining);
+      if (payload && remaining != 0) {
+	 // Check payload length!  26 Jan 2018 
+	 DataObject *payload_obj = plt_new_object(&TransportType,
+	    RLT_TYPE_L5, self->kind, self->data, Py_None,
+	    self->l2p, self->l2_rem,
+	    self->linktype, self->ethertype, self->vlan_tag,
+	    self->l3p, self->l3_rem, self->proto, payload, remaining);
+	 // pltData_dump(payload_obj, "*leaving get_udp_payload()");
+	 return (PyObject *)payload_obj;
+	 }
       }
    result = Py_None;  Py_INCREF(result);  return result;
    }
