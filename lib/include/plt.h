@@ -98,11 +98,17 @@ typedef struct {
    libtrace_out_t *op;
    } OutputTraceObject;
 
-typedef struct  {  /* In trace.c */
+typedef struct {  /* In trace.c */
    PyObject_HEAD
    int used;
    libtrace_filter_t *flt;
    } FilterObject;
+
+typedef struct {  /* In sctp.c */
+   PyObject_HEAD
+   DataObject sctp;
+   uint8_t *chunkp;
+   } SctpChunkObject;
 
 extern char plt_err_msg[120];  /* For building libtrace error messages */
 
@@ -139,6 +145,7 @@ extern PyTypeObject Icmp6Type;
 extern PyTypeObject RedirectType;
 extern PyTypeObject EchoType;
 extern PyTypeObject IcmpType;
+extern PyTypeObject SctpType;
 extern PyTypeObject TcpType;
 extern PyTypeObject UdpType;
 extern PyTypeObject Ip6Type;
@@ -166,6 +173,7 @@ void inittcp(void);
 void initudp(void);
 void initicmp(void);
 void initicmp6(void);
+void initsctp(void);
 void initipflow(void);
 
 void quack(int which);
