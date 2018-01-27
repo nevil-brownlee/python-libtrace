@@ -323,13 +323,13 @@ static PyObject *plt_get_sctp(DataObject *self) {
          (libtrace_ip6_t *)self->l3p, &proto, &remaining);
    if (l4p && proto == 132) {  /* SCTP */
       if (remaining >= 4) {  /* Enough for source port */
-    	 DataObject *udp_obj = plt_new_object(&UdpType,
+    	 DataObject *sctp_obj = plt_new_object(&SctpType,
             RLT_TYPE_SCTP, self->kind, self->data, Py_None,
             self->l2p, self->l2_rem,
             self->linktype, self->ethertype, self->vlan_tag,
-            self->l3p, self->l3_rem, 17,  l4p, remaining);
-         // pltData_dump(udp_obj, "*leaving get_udp()");  //debug
-         return (PyObject *)udp_obj;
+            self->l3p, self->l3_rem, 132,  l4p, remaining);
+         //pltData_dump(sctp_obj, "*leaving get_sctp()");  //debug
+         return (PyObject *)sctp_obj;
          }
       }
    PyObject *result = Py_None;  Py_INCREF(result);  return result;
