@@ -391,7 +391,7 @@ PyMODINIT_FUNC initplt(void)  {
    initpacket();
    initlayers();
    initinternet();  initip();  initip6();
-   inittcp();  initudp();  initicmp();  initicmp6();
+   inittcp();  initudp();  initicmp();  initicmp6();  initsctp();
 
    PyObject *mainModule = PyImport_AddModule("__main__");
    PyObject *ipp_module = PyImport_ImportModule("ipp");
