@@ -13,7 +13,7 @@ setup(
     ext_modules = [
         Extension(  "plt", 
             sources = [
-                "tcp.c", "udp.c", "icmp.c", "icmp6.c",
+                "tcp.c", "udp.c", "icmp.c", "icmp6.c", "sctp.c",
                 "ip6.c", "ip.c", "internet.c",
                 "layers.c",
                 "packet.c", "trace.c", "outputtrace.c",
