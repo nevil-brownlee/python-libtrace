@@ -181,7 +181,7 @@ static PyGetSetDef UDP_getseters[] = {
       "UDP source port", NULL},
    {"dst_port",
       (getter)get_dst_port, (setter)set_dst_port,
-      "UDPP dest port", NULL},
+      "UDP dest port", NULL},
    {"len",
       (getter)get_len, (setter)set_len,
       "UDP length", NULL},
