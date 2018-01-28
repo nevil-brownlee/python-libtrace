@@ -55,7 +55,6 @@ DataObject *plt_new_object(  /* Make a new plt Data object */
       void *dp, int rem) {
    DataObject *d = (DataObject *)py_type->tp_alloc(py_type, 0);
    d->type = type;  d->kind = kind;  d->data = data;
-   d->mom = mom;  Py_INCREF(mom);
    d->mom = mom;  if (mom == Py_None) Py_INCREF(mom);
    /* Class attribute functions are called via a _getseters struct, that
       increments Py_REFCNT for the object itself, i.e. in them 'self' has
