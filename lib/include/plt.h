@@ -104,10 +104,14 @@ typedef struct {  /* In trace.c */
    libtrace_filter_t *flt;
    } FilterObject;
 
+typedef uint8_t plt_sctp_t;  /* Address within an sctp payload */
+typedef uint8_t sctp_chunk_t;  /* Address of an sctp chunk */
+
 typedef struct {  /* In sctp.c */
    PyObject_HEAD
-   DataObject sctp;
-   uint8_t *chunkp;
+   DataObject *sctp;
+   sctp_chunk_t *chunkp;
+   int actual_length;
    } SctpChunkObject;
 
 extern char plt_err_msg[120];  /* For building libtrace error messages */
@@ -160,6 +164,7 @@ extern PyTypeObject TraceType;
 extern PyTypeObject FilterType;
 extern PyTypeObject OutputTraceType;
 extern PyTypeObject IPflowType;
+extern PyTypeObject SctpChunkType;
 
 void inittrace(void);
 void initoutputtrace(void);
