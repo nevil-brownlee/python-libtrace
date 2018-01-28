@@ -26,6 +26,116 @@
 #include "plt.h"
 #include "pv.h"
 
+/* SCTP Chunk class */
+
+//PyTypeObject SctpChunkType;  /* Forward declaration so we know it's an object */
+
+static void chunk_dealloc(SctpChunkObject *self) {
+   Py_DECREF(self->sctp);
+   PV_free_self;
+   }
+
+/*static PyObject *chunk_new(PyTypeObject *type, PyObject *args) {
+   SctpChunkObject *self = (SctpChunkObject *)type->tp_alloc(type, 0);
+   return (PyObject *)self;
+   } */
+
+static sctp_chunk_t *get_chunk(DataObject *op, int x) {
+   if (op->rem < x) return NULL;
+   sctp_chunk_t *cp = op->dp;
+   return cp;
+   }
+
+static PyObject *get_chunk_type(DataObject *self, void *closure) {
+    sctp_chunk_t *chunk = get_chunk(self, 1);
+    if (!chunk) {
+      PyErr_SetString(PyExc_ValueError,
+         "Data too short for chunk");  return NULL;
+      }
+    return PV_PyInt_FromLong((long)*(uint8_t *)&chunk[0]);
+   }
+set_read_only(chunk_type);
+
+static PyObject *get_chunk_flags(DataObject *self, void *closure) {
+    sctp_chunk_t *chunk = get_chunk(self, 2);
+    if (!chunk) {
+      PyErr_SetString(PyExc_ValueError,
+         "Data too short for chunk");  return NULL;
+      }
+   return PV_PyInt_FromLong((long)*(uint8_t *)&chunk[1]);
+   }
+set_read_only(chunk_flags);
+
+static PyObject *get_chunk_length(DataObject *self, void *closure) {
+    sctp_chunk_t *chunk = get_chunk(self, 4);
+    if (!chunk) {
+      PyErr_SetString(PyExc_ValueError,
+         "Data too short for chunk");  return NULL;
+      }
+    return PV_PyInt_FromLong((long)ntohs(*(uint16_t *)&chunk[2]));
+   }
+set_read_only(chunk_length);
+
+static PyGetSetDef chunk_getseters[] = {
+   {"type",
+      (getter)get_chunk_type, (setter)set_chunk_type,
+      "SCTP Chunk type", NULL},
+   {"flags",
+      (getter)get_chunk_flags, (setter)set_chunk_flags,
+      "SSCTP Chunk flags", NULL},
+   {"length",
+      (getter)get_chunk_length, (setter)set_chunk_length,
+      "SCTP Chunk length", NULL},
+   {NULL},  /* Sentinel */
+   };
+
+static PyMethodDef chunk_methods[] = {   {NULL}  /* Sentinel */
+   };
+
+PyTypeObject SctpChunkType = {
+   PV_PyObject_HEAD_INIT
+   "SctpChunkObject.support",     /*tp_name*/
+   sizeof(SctpChunkObject),       /*tp_basicsize*/
+   0,                           /*tp_itemsize*/
+   (destructor)chunk_dealloc,    /*tp_dealloc*/
+   0,                           /*tp_print*/
+   0,                           /*tp_getattr*/
+   0,                           /*tp_setattr*/
+   0,                           /*tp_compare*/
+   0,                           /*tp_repr*/
+   0,                           /*tp_as_number*/
+   0,                           /*tp_as_sequence*/
+   0,                           /*tp_as_mapping*/
+   0,                           /*tp_hash */
+   0,                           /*tp_call*/
+   0,                           /*tp_str*/
+   0,                           /*tp_getattro*/
+   0,                           /*tp_setattro (setattr works, this doesn't) */  
+   0,                           /*tp_as_buffer*/
+   Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /*tp_flags*/
+   "PythonLibtrace SCTP Chunk",       /* tp_doc */
+   0,		                /* tp_traverse */
+   0,		                /* tp_clear */
+   0,                           /* tp_richcompare */
+   0,		                /* tp_weaklistoffset */
+   0,		                /* tp_iter */
+   0,		                /* tp_iternext */
+   chunk_methods,                /* tp_methods */
+   0,  /* None python-accessible*/  /* tp_members */
+   chunk_getseters,              /* tp_getset */
+   &SctpType,                   /* tp_base */
+   0,                           /* tp_dict */
+   0,                           /* tp_descr_get */ 
+   0,                           /* tp_descr_set */
+   0,                           /* tp_dictoffset */
+   0,  /* Can't create one in python */  /* tp_init */
+   0,                           /* tp_alloc */
+   0,  /* Can't create one in python */  /* tp_new */
+   };
+
+
+/* sctp class */
+
 static void sctp_dealloc(PyObject *self) {
    self->ob_type->tp_free((PyObject *)self);
    }
@@ -74,8 +184,6 @@ static PyObject *sctp_new(PyTypeObject *type, PyObject *args) {
 static int sctp_init(DataObject *self, PyObject *args) {
    return 0;
    }
-
-typedef uint8_t plt_sctp_t;
 
 static plt_sctp_t *get_sctp(DataObject *op, int x) {
    if (op->proto != 132) {
@@ -133,8 +241,8 @@ static PyObject *sctp_get_chunks(DataObject *self, void *closure) {
       PyErr_SetString(PyExc_ValueError,
          "Captured packet has no sctp chunks");  return NULL;
       }
-   uint8_t *cp = (uint8_t *)&lsctp[12];  /* Pointer to first chunk */
-   int rem = self->rem - 12;  /* Bytes left to edxamine */
+   sctp_chunk_t *cp = (uint8_t *)&lsctp[12];  /* Pointer to first chunk */
+   int rem = self->rem - 12;  /* Bytes left to examine */
    int n_chunks = 0;
    while (1) {
      if (rem < 4) {
@@ -147,6 +255,12 @@ static PyObject *sctp_get_chunks(DataObject *self, void *closure) {
       if (rem < 0) {
 	 printf("   Incomplete chunk !!!\n");;
          }
+      
+      SctpChunkObject *chunk = SctpChunkType.tp_alloc(&SctpChunkType, 0);
+      chunk->sctp = self;
+      chunk->sctp_chunk_t = cp
+      chunk->actual_length = clen;
+
       if (rem == 0) {
  	 printf("   No more chunks\n");  break;
          }
@@ -230,132 +344,15 @@ PyTypeObject SctpType = {
    (newfunc)sctp_new,             /* tp_new */
    };
 
-#if 0
-/* Chunk class */
-
-static void chunk_dealloc(PyObject *self) {
-   // xdecref just to be sure we are not leaking mem
-   Py_XDECREF(((DataObject *)self)->mom);
-   self->ob_type->tp_free((PyObject *)self);
-   }
-
-static PyObject *chunk_new(PyTypeObject *type) {
-   PyObject *self = (PyObject *)type->tp_alloc(type, 0);
-   printf("chunk_new(): self=%p\n", self);  fflush(stdout);
-   return self;
-   }
-
-static int chunk_init(PyObject *self) {
-  printf("chunk_init(): self=%p\n", self);  fflush(stdout);
-   return 0;
-   }
-
-struct chunk {
-   uint8_t type;
-   uint8_t flags;
-   uint16_t length;
-   };
-
-static struct chunk *get_chunk(DataObject *op, int x) {
-   if (op->rem < x) return NULL;
-   plt_sctp_t *lsctp = op->dp;
-   return lsctp;
-   }
-
-static PyObject *get_chunk_type(DataObject *self, void *closure) {
-    struct chunk *chunk = get_chunk(self, 1);
-    if (!chunk) {
-      PyErr_SetString(PyExc_ValueError,
-         "Data too short for type");  return NULL;
-      }
-   return PV_PyInt_FromLong((long)ntohs(chunk->un.chunk.id));
-   }
-set_read_only(chunk_type);
-
-static PyObject *get_chunk_flags(DataObject *self, void *closure) {
-    struct chunk *chunk = get_chunk(self, 2);
-    if (!chunk) {
-      PyErr_SetString(PyExc_ValueError,
-         "Data too short for type");  return NULL;
-      }
-   return PV_PyInt_FromLong((long)ntohs(chunk->un.chunk.sequence));
-   }
-set_read_only(chunk_flags);
-
-static PyObject *get_chunk_length(DataObject *self, void *closure) {
-    struct chunk *chunk = get_chunk(self, 4);
-    if (!chunk) {
-      PyErr_SetString(PyExc_ValueError,
-         "Data too short for type");  return NULL;
-      }
-   return PV_PyInt_FromLong((long)ntohs(chunk->un.chunk.sequence));
-   }
-set_read_only(chunk_length);
-
-static PyGetSetDef CHUNK_getseters[] = {
-   {"type",
-      (getter)get_chunk_type, (setter)set_chunk_type,
-      "SCTP Chunk type", NULL},
-   {"flags",
-      (getter)get_chunk_flags, (setter)set_chunk_flags,
-      "SSCTP Chunk flags", NULL},
-   {"length",
-      (getter)get_chunk_length, (setter)set_chunk_length,
-      "SCTP Chunk length", NULL},
-   {NULL},  /* Sentinel */
-   };
-
-static PyMethodDef chunk_methods[] = {
-   {NULL}  /* Sentinel */
-   };
-
-PyTypeObject ChunkType = {
-   PV_PyObject_HEAD_INIT
-   "ChunkObject",                /*tp_name*/
-   sizeof(DataObject),          /*tp_basicsize*/
-   0,                           /*tp_itemsize*/
-   (destructor)chunk_dealloc,    /*tp_dealloc*/
-   0,                           /*tp_print*/
-   0,                           /*tp_getattr*/
-   0,                           /*tp_setattr*/
-   0,                           /*tp_compare*/
-   0,                           /*tp_repr*/
-   0,                           /*tp_as_number*/
-   0,                           /*tp_as_sequence*/
-   0,                           /*tp_as_mapping*/
-   0,                           /*tp_hash */
-   0,                           /*tp_call*/
-   0,                           /*tp_str*/
-   0,                           /*tp_getattro*/
-   0,                           /*tp_setattro (setattr works, this doesn't) */  
-   0,                           /*tp_as_buffer*/
-   Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /*tp_flags*/
-   "PythonLibtrace SCTP Chunk",       /* tp_doc */
-   0,		                /* tp_traverse */
-   0,		                /* tp_clear */
-   0,                           /* tp_richcompare */
-   0,		                /* tp_weaklistoffset */
-   0,		                /* tp_iter */
-   0,		                /* tp_iternext */
-   chunk_methods,                /* tp_methods */
-   0,                           /* tp_members */
-   Chunk_getseters,              /* tp_getset */
-   &SctpType,                   /* tp_base */
-   0,                           /* tp_dict */
-   0,                           /* tp_descr_get */ 
-   0,                           /* tp_descr_set */
-   0,                           /* tp_dictoffset */
-   (initproc)chunk_init,         /* tp_init */
-   0,                           /* tp_alloc */
-   (newfunc)chunk_new,           /* tp_new */
-   };
-#endif
-
 void initsctp(void) {
-   if (PyType_Ready(&SctpType) < 0) return;
-
-   Py_TYPE(&SctpType) = &PyType_Type;
-
-   Py_INCREF(&SctpType);
-   PyModule_AddObject(plt_module, "sctp", (PyObject *)&SctpType);
+   if (PyType_Ready(&SctpType) <= 0) {
+      Py_TYPE(&SctpType) = &PyType_Type;
+      Py_INCREF(&SctpType);
+      PyModule_AddObject(plt_module, "sctp", (PyObject *)&SctpType);
+      }
+   if (PyType_Ready(&SctpChunkType) <= 0) {
+      Py_TYPE(&SctpChunkType) = &PyType_Type;
+      Py_INCREF(&SctpChunkType);
+      PyModule_AddObject(plt_module, "chunk", (PyObject *)&SctpChunkType);
+      }
    }
