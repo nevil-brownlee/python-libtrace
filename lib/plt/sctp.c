@@ -2,6 +2,8 @@
 
    sctp.c: RubyLibtrace, python version!
 
+   RFC 4960: Stream Control Transmission Protocol
+
    python-libtrace: a Python module to make it easy to use libtrace
    Copyright (C) 2018 by Nevil Brownlee, U Auckland | WAND
 
@@ -41,7 +43,7 @@ static PyObject *sctp_new(PyTypeObject *type, PyObject *args) {
       if (arg->type < RLT_TYPE_Internet || arg->type >= RLT_TYPE_L4) {
          PyObject *result = Py_None;  Py_INCREF(result);  return result;
          }
-      else {  /* Layer 4 object */
+      else {  /* DataObject is a Layer 4 object */
 	 l3p = arg->l3p;  l3_rem = rem = arg->rem;
          if (arg->ethertype == 0x0800)
             l4p = trace_get_payload_from_ip(
@@ -49,16 +51,16 @@ static PyObject *sctp_new(PyTypeObject *type, PyObject *args) {
          else if (arg->ethertype == 0x86DD)
             l4p = trace_get_payload_from_ip6(
                (libtrace_ip6_t *)l3p, &proto, &rem);
-         if (l4p && proto != 17) {  /* Not SCTP transport */
+         if (l4p && proto != 132) {  /* Not SCTP transport */
             PyObject *result = Py_None;  Py_INCREF(result);  return result;
             }
          ethertype = arg->ethertype;
          }
       }
    else if (PyByteArray_CheckExact(arg)) {
-      l3p = data = NULL;  l3_rem = 0;
-      l4p = PyByteArray_AsString((PyObject *)arg);
-      rem = (uint32_t)PyByteArray_Size((PyObject *)arg);
+      data = NULL;
+      l3p = l4p = PyByteArray_AsString((PyObject *)arg);
+      l3_rem = rem = (uint32_t)PyByteArray_Size((PyObject *)arg);
       ethertype = 0;
       }
    else {
@@ -66,11 +68,11 @@ static PyObject *sctp_new(PyTypeObject *type, PyObject *args) {
          "Not a Data, Packet or ByteArray object");  return NULL;
       }
    Py_INCREF(arg);
-   DataObject *sctp_obj = plt_new_object(&SctpType,
-      RLT_TYPE_SCTP, RLT_KIND_CPY, data, (PyObject *)arg,
-      NULL, 0, 0, ethertype, 0,  l3p, l3_rem, 17,  l4p, rem);
-   // pltData_dump(sctp_obj, "*leaving plt.sctp()");  //debug
-   return (PyObject *)sctp_obj;
+   DataObject *tcp_obj = plt_new_object(&TcpType,
+      RLT_TYPE_STCP, RLT_KIND_CPY, data, (PyObject *)arg,
+      NULL, 0, 0, ethertype, 0,  l3p, l3_rem, 6,  l4p, rem);
+   // pltData_dump(tcp_obj, "*leaving sctp.tcp()");  //debug
+   return (PyObject *)tcp_obj;
    }
 
 static int sctp_init(DataObject *self, PyObject *args) {
