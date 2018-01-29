@@ -17,7 +17,8 @@ setup(
                 "ip6.c", "ip.c", "internet.c",
                 "layers.c",
                 "packet.c", "trace.c", "outputtrace.c",
-                "pltmodule.c" ],
+                "pltmodule.c",
+                ],
             libraries = ['trace'],
             library_dirs = ['/usr/local/lib'],
             include_dirs = ['/usr/local/include', '../include']
