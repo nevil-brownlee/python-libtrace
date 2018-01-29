@@ -69,7 +69,7 @@ static PyObject *sctp_new(PyTypeObject *type, PyObject *args) {
       }
    Py_INCREF(arg);
    DataObject *tcp_obj = plt_new_object(&TcpType,
-      RLT_TYPE_STCP, RLT_KIND_CPY, data, (PyObject *)arg,
+      RLT_TYPE_SCTP, RLT_KIND_CPY, data, (PyObject *)arg,
       NULL, 0, 0, ethertype, 0,  l3p, l3_rem, 6,  l4p, rem);
    // pltData_dump(tcp_obj, "*leaving sctp.tcp()");  //debug
    return (PyObject *)tcp_obj;
