@@ -59,7 +59,7 @@ def check_args(options):
 
     if options.file != None:
         if not os.path.exists(options.dir + '/' + options.file):
-            sys.stdout.write(options.file+" does not exist\n")
+            sys.stdout.write(options.file+" program does not exist\n")
             return False
         elif not S_ISREG(os.stat(options.dir + '/' + options.file).st_mode) or not is_test_file(options.file):
             sys.stdout.write(options.file+" is not a test program\n")
