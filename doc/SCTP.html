@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html><head>
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>IProtocol Decodes: SCTP</title>
+
+<meta name="generator" content="KompoZer" />
+<link rel="stylesheet" type="text/css" href="plt-doc.css" /></head><body>
+<h2 style="text-align: left;">Network Layer Decodes</h2>
+<h3>Class SCTP</h3>
+<p>Provides access to the header and chunks of an SCTP Packet.</p>
+
+<table class="indent1">
+<tbody>
+<tr>
+<td class="heading" colspan="2">Instance Variables</td>
+</tr>
+<tr>
+<td class="name methodwidth"><strong>src_port</strong><br />
+</td>
+<td class="name descriptionwidth"><em>sctp.src_port -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Source Port (16-bit).<br />
+ </td>
+</tr>
+<tr>
+<td class="name"><strong>dst_port</strong><br />
+</td>
+<td class="name"><em>sctp.code -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">Destination Port (16-bit).<br />
+ </td>
+</tr>
+<tr>
+<td class="name"><strong>verification_tag</strong><br />
+</td>
+<td class="name"><em>sctp.verification_tag -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td class="description">SCTP Verification Tag (32-bit).<br />
+ </td>
+</tr>
+<tr><td style="font-weight: bold;" class="name">checksum<br />
+</td><td class="name"><em>sctp.checksum -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td><td class="description">SCTP checksum (32-bit).<br />
+</td>
+</tr>
+<tr>
+<td style="font-weight: bold;" class="name">chunks<br />
+</td><td class="name"><em>sctp.chunks -&gt;aPythonList</em></td>
+</tr>
+<tr>
+<td><br />
+</td><td class="description">Returns a list of SCTP Chunk objects (see below).<br />
+</td>
+</tr>
+</tbody>
+</table>
+<p>An SCTP Chunk object has the following attributes ...<span style="font-style: italic;" /></p>
+
+
+<span style="font-weight: bold;"><table class="indent1"><tbody><tr><td class="heading" colspan="2">SCTP Chunk<br />
+</td></tr><tr><td class="name methodwidth"><strong style="font-weight: bold;"><span style="font-weight: bold;">type</span></strong><br />
+</td>
+<td style="font-weight: normal;" class="name descriptionwidth"><em>chunk.type-&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td style="font-weight: normal;" class="description">SCTP chunk type (8-bit).<br />
+ </td>
+</tr>
+<tr>
+<td class="name"><strong>flags</strong></td>
+<td style="font-weight: normal;" class="name"><em>chunk.flags -&gt;
+anInteger</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td style="font-weight: normal;" class="description">SCTP chunk flags (8-bit). </td>
+</tr>
+<tr>
+<td class="name"><strong>length&nbsp;</strong></td>
+<td style="font-weight: normal;" class="name">chunk.length -&gt; anInteger<br />
+</td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td style="font-weight: normal;" class="description">SCTP chunk length (16-bit). </td>
+</tr>
+<tr>
+<td class="name"><strong>is_ok&nbsp;</strong></td>
+<td style="font-weight: normal;" class="name"><em>chunk.is_ok -&gt; True or False<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td style="font-weight: normal;" class="description">True if all bytes in this chunk were captured,&nbsp; may be False if some of the chunk's later bytes were not captured.<br />
+</td>
+</tr>
+<tr>
+<td class="name"><strong>sequence&nbsp;</strong></td>
+<td style="font-weight: normal;" class="name"><em>chunk.bytes -&gt; aByteArray<br />
+</em></td>
+</tr>
+<tr>
+<td><br />
+</td>
+<td style="font-weight: normal;" class="description">Byte array containing the chunks payload bytes.<br />
+</td>
+</tr>
+    
+
+</tbody>
+</table></span><span style="font-weight: bold;">
+
+<br /></span>
+<p>Nevil Brownlee<br />Tue, 30 Jan 2018 (NZDT)</p>
+
+</body></html>
