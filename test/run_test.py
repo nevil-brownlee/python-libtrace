@@ -26,7 +26,7 @@ class constants:
 
 # prints program usage
 def usage():
-    sys.stdout.write ('usage: python'+ sys.argv[
+    sys.stdout.write ('usage: python '+ sys.argv[
         0]+ ' -t|-g -d <test-directory> [-r] [-n <num>] [-f <file-name>] [-w <working-dir>] [-h]\n')
 
 #return python cmd according to the python interpreter version
