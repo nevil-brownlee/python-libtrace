@@ -197,13 +197,13 @@ static PyObject *get_payload(DataObject *self, void *closure) {
       PyErr_SetString(PyExc_ValueError,
          "Data too short for payload");  return NULL;
       }
+   uint8_t *new_l3p;  uint8_t proto;
    switch (icmp6->type) {
    case 1:  /* Dest unreachable */
    case 2:  /* Packet too big (next-hop MTU in bytes 4-7) */
    case 3:  /* Time exceeded */
    case 4:  /* Parameter problem */
-         Py_INCREF(self);  /* Return anIP6 */
-	 uint8_t *new_l3p = self->dp+8, proto = new_l3p[9];
+         new_l3p = self->dp+8;  proto = new_l3p[9];
 	 int new_rem = self->rem-8;
 	 DataObject *icmp_obj = plt_new_object(&Ip6Type,
 	    RLT_TYPE_IP, RLT_KIND_CPY, NULL, (PyObject *)self,
@@ -223,7 +223,6 @@ static PyObject *get_payload(DataObject *self, void *closure) {
 set_read_only(payload);
 
 static PyObject *get_echo(DataObject *self) {
-   Py_INCREF(self);
    DataObject *echo_obj = plt_new_object(&Echo6Type,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,
@@ -235,7 +234,6 @@ static PyObject *get_echo(DataObject *self) {
 set_read_only(echo); 
 
 static PyObject *get_toobig(DataObject *self) {
-   Py_INCREF(self);
    DataObject *toobig_obj = plt_new_object(&Toobig6Type,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,
@@ -247,7 +245,6 @@ static PyObject *get_toobig(DataObject *self) {
 set_read_only(toobig);
 
 static PyObject *get_param(DataObject *self) {
-   Py_INCREF(self);
    DataObject *param_obj = plt_new_object(&Param6Type,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,
@@ -259,7 +256,6 @@ static PyObject *get_param(DataObject *self) {
 set_read_only(param);
 
 static PyObject *get_neighbour(DataObject *self) {
-   Py_INCREF(self);
    DataObject *neighbour_obj = plt_new_object(&Neighbour6Type,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,

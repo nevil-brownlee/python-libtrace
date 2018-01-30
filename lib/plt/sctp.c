@@ -154,7 +154,10 @@ static PyObject *sctp_get_chunks(DataObject *self, void *closure) {
       cp = &cp[clen];  /* Next chunk */
       }
    PyObject *clist = PyList_New(n_chunks);
-   if (!clist) printf("Failed to create list <<<<<<<\n");
+   if (!clist) {
+      PyErr_SetString(PyExc_ValueError,
+         "Failed to create list for cunks");  return NULL;
+      }
    rem = self->rem-12;  cp = fcp;  /* First chunk */
    int nc, lr;  for (nc = 0; nc != n_chunks; nc += 1) {
       int clen = ntohs(*(uint16_t *)&cp[2]);
@@ -164,7 +167,10 @@ static PyObject *sctp_get_chunks(DataObject *self, void *closure) {
       chunk->chunkp = cp;
       chunk->actual_length = clen;
       lr = PyList_SetItem(clist, nc, (PyObject *)chunk);
-      if (lr) printf("Failed to set list item\n");
+      if (lr) {
+	 PyErr_SetString(PyExc_ValueError,
+            "Failed to set chunk list item");  return NULL;
+      }
       rem -= clen;  cp = &cp[clen];
       }
    return clist;

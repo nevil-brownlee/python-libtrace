@@ -55,12 +55,7 @@ DataObject *plt_new_object(  /* Make a new plt Data object */
       void *dp, int rem) {
    DataObject *d = (DataObject *)py_type->tp_alloc(py_type, 0);
    d->type = type;  d->kind = kind;  d->data = data;
-   d->mom = mom;  if (mom == Py_None) Py_INCREF(mom);
-   /* Class attribute functions are called via a _getseters struct, that
-      increments Py_REFCNT for the object itself, i.e. in them 'self' has
-      a borrowed reference.  We must not Py_INCREF(self) from them!
-      However, most - if not all - such functions pass PyNone as mom,
-      we need to Py_INCREF(PyNone)  18 Sep 2017 (NZST) */
+   d->mom = mom;  Py_INCREF(mom);
    d->l2p = l2p;  d->l2_rem = l2_rem;
    d->linktype = linktype;  d->ethertype = ethertype;  d->vlan_tag = vlan_tag;
    d->l3p = l3p;  d->l3_rem = l3_rem;  d->proto = proto;

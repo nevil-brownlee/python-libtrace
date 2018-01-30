@@ -109,7 +109,7 @@ static PyObject *icmp_new(PyTypeObject *type, PyObject *args) {
    DataObject *icmp_obj = plt_new_object(&IcmpType,
       RLT_TYPE_ICMP, RLT_KIND_CPY, NULL, (PyObject *)arg,
       NULL, 0, 0, 0x0800, 0, NULL, 0, 1,  l4p, remaining);
-   pltData_dump(icmp_obj, "*leaving plt.icmp(ByteArray)");  //debug
+   //pltData_dump(icmp_obj, "*leaving plt.icmp(ByteArray)");  //debug
    return (PyObject *)icmp_obj;
    }
 
@@ -179,25 +179,25 @@ static int set_checksum(DataObject *self,
    }
 
 static PyObject *get_payload(DataObject *self, void *closure) {
-    struct icmp *icmp = get_icmp(self, 12);
-    if (!icmp) {
+   struct icmp *icmp = get_icmp(self, 12);
+   if (!icmp) {
       PyErr_SetString(PyExc_ValueError,
          "Data too short for payload");  return NULL;
       }
+   uint8_t *new_l3p;  uint8_t proto;
    switch (icmp->type) {
    case  3:  /* Dest unreachable */
    case  4:  /* Source quench */
    case  5:  /* Redirect (gateway address in icmp bytes 4-7) */
    case 11:  /* Time exceeded */
    case 12:  /* Parameter problem */
-         Py_INCREF(self);  /* Return anIP */
-	 uint8_t *new_l3p = self->dp+8, proto = new_l3p[9];
+         new_l3p = self->dp+8;  proto = new_l3p[9];
 	 int new_rem = self->rem-8;
-	 DataObject *icmp_obj = plt_new_object(&IpType,
+	 DataObject *ip_obj = plt_new_object(&IpType,
 	    RLT_TYPE_IP, RLT_KIND_CPY, NULL, (PyObject *)self,
 	    NULL, 0, 0, 0x0800, 0, new_l3p, new_rem, proto,  new_l3p, new_rem);
-	 // pltData_dump(icmp_obj, "*leaving icmp.get_payload(Data)");  //debug
-	 return (PyObject *)icmp_obj;
+	 //pltData_dump(ip_obj, "*leaving icmp.get_payload(Data)");  //debug
+	 return (PyObject *)ip_obj;
       }
    PyObject *result;  /* Return aByteArray */
    uint8_t *dp = self->dp+8;  int size = self->rem-8;
@@ -217,7 +217,7 @@ static PyObject *get_echo(DataObject *self) {
       self->l2p, self->l2_rem,
       self->linktype, self->ethertype, self->vlan_tag,
       self->l3p, self->l3_rem, self->proto,  self->dp, self->rem);
-   // pltData_dump(echo_obj, "*leaving icmp.get_echo()");  //debug
+   //pltData_dump(echo_obj, "*leaving icmp.get_echo()");  //debug
    return (PyObject *)echo_obj;
    }
 set_read_only(echo); 
