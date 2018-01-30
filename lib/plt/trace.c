@@ -145,7 +145,7 @@ static PyObject *trace_close(TraceObject *self) {
    }
 
 static int get_packet(TraceObject *trace, DataObject *d) {
-  uint16_t ethertype;  uint32_t l3_rem = 0;  int vlan = 0;
+   uint16_t ethertype;  uint32_t l3_rem = 0;  int vlan = 0;
    if (!trace->started) {
       PyErr_SetString(plt_exc_libtrace, "Trace not started");
       return -1;
