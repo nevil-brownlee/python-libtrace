@@ -1,0 +1,28 @@
+
+Wed, 31 Jan 2018 (NZDT)
+
+While working on test/v3 for sctp.c, test-icmp.py failed.
+  Noticed the following in pltmodule.c from 24 Jan 2018:
+In plt_new_object:
+   DataObject *d = (DataObject *)py_type->tp_alloc(py_type, 0);
+   d->type = type;  d->kind = kind;  d->data = data;
+   d->mom = mom;  Py_INCREF(mom);
+   d->mom = mom;  if (mom == Py_None) Py_INCREF(mom);
+   /* Class attribute functions are called via a _getseters struct, that
+      increments Py_REFCNT for the object itself, i.e. in them 'self' has
+      a borrowed reference.  We must not Py_INCREF(self) from them!
+      However, most - if not all - such functions pass PyNone as mom,
+      we need to Py_INCREF(PyNone)  18 Sep 2017 (NZST) */
+   d->l2p = l2p;  d->l2_rem = l2_rem;
+
+Remembered that this problem went away if d->mom was set to PyNone.
+(1): the d->mom = mom; lines are redundant
+(2): the second PyINCREF(mom) only increments for PyNone, which is silly!
+
+Deleted the second d->mom line (it doesn't matter if we PyINCR(PyNone),
+  it gets PyDECREFed in pltData_dealloc()
+Deleted the above comment.
+Checked that we never PyINCR(self) - we don't.
+
+After all that, all 34 of the test programs work properly, on pyv2 and v3.
+
