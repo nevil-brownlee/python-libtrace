@@ -223,6 +223,7 @@ static PyObject *get_payload(DataObject *self, void *closure) {
 set_read_only(payload);
 
 static PyObject *get_echo(DataObject *self) {
+   Py_INCREF(self);
    DataObject *echo_obj = plt_new_object(&Echo6Type,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,
@@ -234,6 +235,7 @@ static PyObject *get_echo(DataObject *self) {
 set_read_only(echo); 
 
 static PyObject *get_toobig(DataObject *self) {
+   Py_INCREF(self);
    DataObject *toobig_obj = plt_new_object(&Toobig6Type,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,
@@ -245,6 +247,7 @@ static PyObject *get_toobig(DataObject *self) {
 set_read_only(toobig);
 
 static PyObject *get_param(DataObject *self) {
+   Py_INCREF(self);
    DataObject *param_obj = plt_new_object(&Param6Type,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,
@@ -256,6 +259,7 @@ static PyObject *get_param(DataObject *self) {
 set_read_only(param);
 
 static PyObject *get_neighbour(DataObject *self) {
+   Py_INCREF(self);
    DataObject *neighbour_obj = plt_new_object(&Neighbour6Type,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,

@@ -212,6 +212,7 @@ static PyObject *get_payload(DataObject *self, void *closure) {
 set_read_only(payload);
 
 static PyObject *get_echo(DataObject *self) {
+   Py_INCREF(self);
    DataObject *echo_obj = plt_new_object(&EchoType,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,
@@ -223,6 +224,7 @@ static PyObject *get_echo(DataObject *self) {
 set_read_only(echo); 
 
 static PyObject *get_redirect(DataObject *self) {
+   Py_INCREF(self);
    DataObject *redirect_obj = plt_new_object(&RedirectType,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,
