@@ -22,15 +22,21 @@ for pkt in t:  # Get next packet
     s = "%4d: src_port %u, dst_port %d, vf tag %08x, checksum %08x" % (
         n, sctp.src_port, sctp.dst_port, sctp.verification_tag, sctp.checksum)
     test_println(s, get_tag())
-    for cx,ch in enumerate(sctp.chunks):
+
+    cho = sctp.chunks
+    for cx,ch in enumerate(cho):  ###sctp.chunks):
         s = "%4d    chunk %d:  type %d, flags %02x length %d bytes OK %s " % (
             n, cx, ch.type, ch.flags, ch.length, ch.is_ok)
         test_println(s, get_tag())
-        s = "  "*10
-        for c in ch.bytes[0:16]:
+        s = "  "*9 + "bytes:"
+        for x,c in enumerate(ch.bytes):
+            if x == 16:
+                break
             s += " %02x" % c
         test_println(s, get_tag())
     test_println("", get_tag())
+    #if n == 5:
+    #    break
     
 t.close()
 
