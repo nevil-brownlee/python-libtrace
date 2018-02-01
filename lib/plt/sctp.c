@@ -110,7 +110,7 @@ static PyObject *get_dst_port(DataObject *self, void *closure) {
 set_read_only(dst_port);
 
 static PyObject *get_verification_tag(DataObject *self, void *closure) {
-   plt_sctp_t *lsctp = get_sctp(self, 16);
+   plt_sctp_t *lsctp = get_sctp(self, 8);
    if (!lsctp) {
       PyErr_SetString(PyExc_ValueError,
          "Data too short for verification_tag");  return NULL;
@@ -120,7 +120,7 @@ static PyObject *get_verification_tag(DataObject *self, void *closure) {
 set_read_only(verification_tag);
 
 static PyObject *get_checksum(DataObject *self, void *closure) {
-   plt_sctp_t *lsctp = get_sctp(self, 8);
+   plt_sctp_t *lsctp = get_sctp(self, 12);
    if (!lsctp) {
       PyErr_SetString(PyExc_ValueError,
          "Data too short for checksum");  return NULL;
