@@ -193,6 +193,7 @@ static PyObject *get_payload(DataObject *self, void *closure) {
    case 12:  /* Parameter problem */
          new_l3p = self->dp+8;  proto = new_l3p[9];
 	 int new_rem = self->rem-8;
+	 Py_INCREF(self);
 	 DataObject *ip_obj = plt_new_object(&IpType,
 	    RLT_TYPE_IP, RLT_KIND_CPY, NULL, (PyObject *)self,
 	    NULL, 0, 0, 0x0800, 0, new_l3p, new_rem, proto,  new_l3p, new_rem);
