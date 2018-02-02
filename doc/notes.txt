@@ -26,12 +26,3 @@ Checked that we never PyINCR(self) - we don't.
 
 After all that, all 34 of the test programs work properly, on pyv2 and v3.
 
-Thu,  1 Feb 2018 (NZDT)
-
-test-icmp gave segment exception on 32-bit Ubuntu.  A result of the changes above.
-
-icmp.c and icmp6.c both make sub-objects that have self as mom.
-Since DataObjects DECREF(mom) when they're deallocated, we need to INCREF(self)
-  before calling plt_new_obj()
-Made that change, all the test programs run OK on 32-bit Ubuntu now.
-
