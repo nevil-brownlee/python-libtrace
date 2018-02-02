@@ -96,7 +96,6 @@ static PyObject *icmp6_new(PyTypeObject *type, PyObject *args) {
          } 
       if (l4p && proto == 58) {
          if (remaining >= 2) {   /* Need at least type and code */
-            Py_INCREF(arg);
     	    DataObject *icmp6_obj = plt_new_object(&Icmp6Type,
 	       RLT_TYPE_ICMP6, RLT_KIND_CPY, arg->data, (PyObject *)arg,
  	       arg->l2p, arg->l2_rem,
@@ -118,7 +117,6 @@ static PyObject *icmp6_new(PyTypeObject *type, PyObject *args) {
       PyErr_SetString(PyExc_ValueError,
          "Not a Data, Packet or ByteArray object");  return NULL;
       }
-   Py_INCREF(arg);
    DataObject *icmp6_obj = plt_new_object(&Icmp6Type,
       RLT_TYPE_ICMP6, RLT_KIND_CPY, NULL, (PyObject *)arg,
       NULL, 0, 0, 0x086DD, 0,  NULL, 0, 1,  l4p, remaining);
@@ -205,7 +203,6 @@ static PyObject *get_payload(DataObject *self, void *closure) {
    case 4:  /* Parameter problem */
          new_l3p = self->dp+8;  proto = new_l3p[9];
 	 int new_rem = self->rem-8;
-	 Py_INCREF(self);
 	 DataObject *icmp_obj = plt_new_object(&Ip6Type,
 	    RLT_TYPE_IP, RLT_KIND_CPY, NULL, (PyObject *)self,
 	    NULL, 0, 0, 0x0800, 0, new_l3p, new_rem, proto,  new_l3p, new_rem);
@@ -224,7 +221,6 @@ static PyObject *get_payload(DataObject *self, void *closure) {
 set_read_only(payload);
 
 static PyObject *get_echo(DataObject *self) {
-   Py_INCREF(self);
    DataObject *echo_obj = plt_new_object(&Echo6Type,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,
@@ -236,7 +232,6 @@ static PyObject *get_echo(DataObject *self) {
 set_read_only(echo); 
 
 static PyObject *get_toobig(DataObject *self) {
-   Py_INCREF(self);
    DataObject *toobig_obj = plt_new_object(&Toobig6Type,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,
@@ -248,7 +243,6 @@ static PyObject *get_toobig(DataObject *self) {
 set_read_only(toobig);
 
 static PyObject *get_param(DataObject *self) {
-   Py_INCREF(self);
    DataObject *param_obj = plt_new_object(&Param6Type,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,
@@ -260,7 +254,6 @@ static PyObject *get_param(DataObject *self) {
 set_read_only(param);
 
 static PyObject *get_neighbour(DataObject *self) {
-   Py_INCREF(self);
    DataObject *neighbour_obj = plt_new_object(&Neighbour6Type,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,

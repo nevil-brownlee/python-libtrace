@@ -193,7 +193,6 @@ static PyObject *get_payload(DataObject *self, void *closure) {
    case 12:  /* Parameter problem */
          new_l3p = self->dp+8;  proto = new_l3p[9];
 	 int new_rem = self->rem-8;
-	 Py_INCREF(self);
 	 DataObject *ip_obj = plt_new_object(&IpType,
 	    RLT_TYPE_IP, RLT_KIND_CPY, NULL, (PyObject *)self,
 	    NULL, 0, 0, 0x0800, 0, new_l3p, new_rem, proto,  new_l3p, new_rem);
@@ -213,19 +212,17 @@ static PyObject *get_payload(DataObject *self, void *closure) {
 set_read_only(payload);
 
 static PyObject *get_echo(DataObject *self) {
-   Py_INCREF(self);
+   //printf("echo 1: %d ---\n", Py_REFCNT(self));
    DataObject *echo_obj = plt_new_object(&EchoType,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,
       self->linktype, self->ethertype, self->vlan_tag,
       self->l3p, self->l3_rem, self->proto,  self->dp, self->rem);
-   //pltData_dump(echo_obj, "*leaving icmp.get_echo()");  //debug
    return (PyObject *)echo_obj;
    }
 set_read_only(echo); 
 
 static PyObject *get_redirect(DataObject *self) {
-   Py_INCREF(self);
    DataObject *redirect_obj = plt_new_object(&RedirectType,
       self->type, RLT_KIND_CPY, NULL, (PyObject *)self,
       self->l2p, self->l2_rem,
