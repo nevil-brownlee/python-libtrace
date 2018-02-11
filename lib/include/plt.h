@@ -1,4 +1,4 @@
-/* 1801, Fri 26 Jan 2018 (NZDT)
+/* 1750, Sun 11 Feb 2018 (NZDT)
    1837, Sun 20 Nov 2016 (NZDT)
    1509, Fri 21 Nov 2014 (NZDT)
    1011, Tue  6 May 2014 (NZST)
@@ -87,6 +87,7 @@ void pltData_dump(DataObject *self, const char *msg);
 typedef struct {
    PyObject_HEAD
    int started;
+   int timeout;
    libtrace_t *tr;
    libtrace_packet_t *lt_pkt;
    DataObject *py_packet;
