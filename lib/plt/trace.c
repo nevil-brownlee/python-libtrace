@@ -53,7 +53,7 @@ static int pltTrace_init(TraceObject *self, PyObject *args) {
       }
    libtrace_t *tr = trace_create(uri);
       /* libtrace doesn't check the URI until you start() it! */
-   self->tr = tr;  self->started = 0;
+   self->tr = tr;  self->timeout = 5;  self->started = 0;
    return 0;
    }
 
@@ -83,6 +83,18 @@ static PyObject *trace_conf_snaplen(TraceObject *self, PyObject *args) {
       PyErr_SetString(plt_exc_libtrace, plt_err_msg);
       return NULL;
       }
+   PyObject *result = Py_None;  Py_INCREF(result);  return result;
+   }
+
+static PyObject *trace_conf_timeout(TraceObject *self, PyObject *args) {
+  int timeout;
+   if (!PyArg_ParseTuple(args, "i:Trace_conf_timeout_init", &timeout))
+      return NULL;
+   if (trace_config(self->tr, TRACE_OPTION_EVENT_REALTIME, &timeout) == -1) {
+      // trace_perror(self->tr, "trace_config");  /* trace is an interface */
+      trace_get_err(self->tr);  /* Set failed; just clear error status */
+      }  /* else interface is a file */
+   self->timeout = timeout;
    PyObject *result = Py_None;  Py_INCREF(result);  return result;
    }
 
@@ -144,13 +156,63 @@ static PyObject *trace_close(TraceObject *self) {
    PyObject *result = Py_None;  Py_INCREF(result);  return result;
    }
 
+static uint32_t event_read_packet(
+      TraceObject *trace, libtrace_packet_t *packet) {
+   time_t user_timeout = trace->timeout;  /* Seconds */
+   libtrace_t *lt_trace = trace->tr;
+   libtrace_eventobj_t ev;
+   fd_set fdset;  int maxfd = 0;
+   struct timeval timeout, *tp = NULL;
+
+   time_t idle_timeout, time_now = time(NULL);
+   do {
+      FD_ZERO(&fdset);
+      ev = trace_event(lt_trace, packet);
+      if (ev.type == TRACE_EVENT_PACKET) { // 2
+	 if (ev.size > 0) return 1;  /* Read OK */
+	 return -1;  /* Error */
+	 }
+      else if (ev.type == TRACE_EVENT_TERMINATE) { // 3
+	 return 0;  /* EOF */
+	 }
+      else if (ev.type == TRACE_EVENT_SLEEP) { // 1
+	 /* Stop select when libtrace wants us to poll again
+	    or when our timeout triggers, whichever comes first */
+	 if (user_timeout == 0) {
+	    timeout.tv_sec = ev.seconds;  /* Time libtrace wants us to wait */
+	    }
+	 else {
+	    timeout.tv_sec = user_timeout;
+ 	    if (ev.seconds < user_timeout) timeout.tv_sec = ev.seconds;
+	    }
+	 }
+      else if (ev.type == TRACE_EVENT_IOWAIT) {  // 0
+ 	 /* Wait for fd to be ready or until user timeout triggers */
+	 if (user_timeout == 0)
+	    tp = NULL;  /* Select won't time out */
+	 else {
+	    timeout.tv_sec = user_timeout;  timeout.tv_usec = 0;
+	    tp = &timeout;
+	    }
+	 FD_SET(ev.fd, &fdset);	 maxfd = ev.fd;				
+	 }
+      idle_timeout = time_now + user_timeout;  /* time_t for timeout */
+      select(maxfd+1, &fdset, NULL, NULL, tp);
+
+      time_now = time(NULL);
+      } while (time_now < idle_timeout);
+
+   return -2;  /* Timeout */
+   }
+		
 static int get_packet(TraceObject *trace, DataObject *d) {
    uint16_t ethertype;  uint32_t l3_rem = 0;  int vlan = 0;
    if (!trace->started) {
       PyErr_SetString(plt_exc_libtrace, "Trace not started");
       return -1;
       }
-   int r = trace_read_packet(trace->tr, trace->lt_pkt);
+   /* int r = trace_read_packet(trace->tr, trace->lt_pkt); */
+   int r = event_read_packet(trace, trace->lt_pkt);
    if (r > 0) {
       libtrace_linktype_t linktype;  uint32_t l2_rem;  void *l3p;
       void *l2p = trace_get_layer2(trace->lt_pkt, &linktype, &l2_rem);
@@ -189,10 +251,14 @@ static int get_packet(TraceObject *trace, DataObject *d) {
       }
    else if (r == 0)  /* End of trace */
       return 0;
+   else if (r == -2) {
+      PyErr_SetString(plt_exc_libtrace, "timeout in trace read()");
+      return -5;
+      }
    libtrace_err_t lte = trace_get_err(trace->tr);
    set_err_msg2("get packet failed: r=%d, %s", r, lte.problem);
    PyErr_SetString(plt_exc_libtrace, plt_err_msg);
-   return -5;  /* trace_read_packet failed */
+   return -6;  /* trace_read_packet failed */
    }
 
 static PyObject* trace_packet_iter(PyObject *self) {
@@ -254,6 +320,8 @@ static PyMethodDef Trace_methods[] = {
     "Set Trace snaplen"},
    {"conf_promisc", (PyCFunction)trace_conf_promisc, METH_VARARGS,
     "Set Trace promisc"},
+   {"conf_timeout", (PyCFunction)trace_conf_timeout, METH_VARARGS,
+    "Set Trace timeout"},
    {"start", (PyCFunction)trace_plt_start, METH_NOARGS,
     "Start Trace"},
    {"pause", (PyCFunction)trace_plt_pause, METH_NOARGS,
