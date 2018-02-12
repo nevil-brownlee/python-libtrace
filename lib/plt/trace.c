@@ -87,13 +87,20 @@ static PyObject *trace_conf_snaplen(TraceObject *self, PyObject *args) {
    }
 
 static PyObject *trace_conf_timeout(TraceObject *self, PyObject *args) {
-  int timeout;
+   int timeout;  libtrace_err_t err;  
    if (!PyArg_ParseTuple(args, "i:Trace_conf_timeout_init", &timeout))
       return NULL;
    if (trace_config(self->tr, TRACE_OPTION_EVENT_REALTIME, &timeout) == -1) {
       // trace_perror(self->tr, "trace_config");  /* trace is an interface */
-      trace_get_err(self->tr);  /* Set failed; just clear error status */
-      }  /* else interface is a file */
+      err = trace_get_err(self->tr);  /* Set failed; just clear error status */
+      if (err.err_num != TRACE_ERR_OPTION_UNAVAIL) {
+	 char msg[60];
+	 snprintf(msg, sizeof(msg), "trace_config failed: %s", err.problem);
+  	 PyErr_SetString(PyExc_ValueError, msg);
+         return NULL;
+         }
+      /* else it's probably just a live interface */
+      }
    self->timeout = timeout;
    PyObject *result = Py_None;  Py_INCREF(result);  return result;
    }
