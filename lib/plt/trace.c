@@ -53,7 +53,7 @@ static int pltTrace_init(TraceObject *self, PyObject *args) {
       }
    libtrace_t *tr = trace_create(uri);
       /* libtrace doesn't check the URI until you start() it! */
-   self->tr = tr;  self->timeout = 5;  self->started = 0;
+   self->tr = tr;  self->timeout = 0;  self->started = 0;
    return 0;
    }
 
@@ -176,22 +176,26 @@ static uint32_t event_read_packet(
       FD_ZERO(&fdset);
       ev = trace_event(lt_trace, packet);
       if (ev.type == TRACE_EVENT_PACKET) { // 2
-	 if (ev.size > 0) return 1;  /* Read OK */
+	 if (ev.size > 0) return 1;  /* Read OK (or EOF) */
 	 return -1;  /* Error */
 	 }
       else if (ev.type == TRACE_EVENT_TERMINATE) { // 3
-	 return 0;  /* EOF */
+	 return 0;  /* Return as EOF */
 	 }
       else if (ev.type == TRACE_EVENT_SLEEP) { // 1
 	 /* Stop select when libtrace wants us to poll again
-	    or when our timeout triggers, whichever comes first */
+	    or when our timeout triggers, whichever comes first.
+	    ev.seconds = time libtrace wants us to wait */
 	 if (user_timeout == 0) {
-	    timeout.tv_sec = ev.seconds;  /* Time libtrace wants us to wait */
+	    timeout.tv_sec = (long)ev.seconds;
+	    timeout.tv_usec =  (long)((ev.seconds-timeout.tv_sec)*1000000.0);
 	    }
 	 else {
 	    timeout.tv_sec = user_timeout;
  	    if (ev.seconds < user_timeout) timeout.tv_sec = ev.seconds;
+	    timeout.tv_usec = 0;
 	    }
+	 tp = &timeout;
 	 }
       else if (ev.type == TRACE_EVENT_IOWAIT) {  // 0
  	 /* Wait for fd to be ready or until user timeout triggers */
@@ -213,13 +217,13 @@ static uint32_t event_read_packet(
    }
 		
 static int get_packet(TraceObject *trace, DataObject *d) {
-   uint16_t ethertype;  uint32_t l3_rem = 0;  int vlan = 0;
+   uint16_t ethertype;  uint32_t l3_rem = 0;  int r, vlan = 0;
    if (!trace->started) {
       PyErr_SetString(plt_exc_libtrace, "Trace not started");
       return -1;
       }
-   /* int r = trace_read_packet(trace->tr, trace->lt_pkt); */
-   int r = event_read_packet(trace, trace->lt_pkt);
+   if (trace->timeout == 0) r = trace_read_packet(trace->tr, trace->lt_pkt);
+   else r = event_read_packet(trace, trace->lt_pkt);
    if (r > 0) {
       libtrace_linktype_t linktype;  uint32_t l2_rem;  void *l3p;
       void *l2p = trace_get_layer2(trace->lt_pkt, &linktype, &l2_rem);
