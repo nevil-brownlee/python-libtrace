@@ -448,7 +448,7 @@ static PyGetSetDef TCP_getseters[] = {
 
 static PyMethodDef tcp_methods[] = {
    {"option", (PyCFunction)tcp_get_option, METH_VARARGS,
-      "Retuns the value of TCP option(n)"},
+      "Returns the value of TCP option(n)"},
    {NULL}  /* Sentinel */
    };
 
