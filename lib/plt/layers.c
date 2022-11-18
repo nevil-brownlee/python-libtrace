@@ -223,9 +223,9 @@ void initlayers(void) {
    if (PyType_Ready(&Layer3Type) < 0) return;
    if (PyType_Ready(&TransportType) < 0) return;
 
-   Py_TYPE(&Layer2Type) = &PyType_Type;
-   Py_TYPE(&Layer3Type) = &PyType_Type;
-   Py_TYPE(&TransportType) = &PyType_Type;
+   Py_SET_TYPE(&Layer2Type, &PyType_Type);
+   Py_SET_TYPE(&Layer3Type, &PyType_Type);
+   Py_SET_TYPE(&TransportType, &PyType_Type);
 
    PyModule_AddObject(plt_module, "TRACE_TYPE_ETH",
 		      PyLong_FromLong(TRACE_TYPE_ETH));

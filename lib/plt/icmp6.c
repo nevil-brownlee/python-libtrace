@@ -690,11 +690,11 @@ void initicmp6(void) {
    if (PyType_Ready(&Param6Type) < 0) return;
    if (PyType_Ready(&Neighbour6Type) < 0) return;
 
-   Py_TYPE(&Icmp6Type) = &PyType_Type;
-   Py_TYPE(&Echo6Type) = &PyType_Type;
-   Py_TYPE(&Toobig6Type) = &PyType_Type;
-   Py_TYPE(&Param6Type) = &PyType_Type;
-   Py_TYPE(&Neighbour6Type) = &PyType_Type;
+   Py_SET_TYPE(&Icmp6Type, &PyType_Type);
+   Py_SET_TYPE(&Echo6Type, &PyType_Type);
+   Py_SET_TYPE(&Toobig6Type, &PyType_Type);
+   Py_SET_TYPE(&Param6Type, &PyType_Type);
+   Py_SET_TYPE(&Neighbour6Type, &PyType_Type);
 
    Py_INCREF(&Icmp6Type);
    PyModule_AddObject(plt_module, "icmp6", (PyObject *)&Icmp6Type);

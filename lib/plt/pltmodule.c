@@ -374,7 +374,7 @@ PyMODINIT_FUNC initplt(void)  {
 
    if (PyType_Ready(&DataType) < 0) RETURN;
 
-   Py_TYPE(&DataType) = &PyType_Type;
+   Py_SET_TYPE(&DataType, &PyType_Type);
 
    Py_INCREF(&DataType);
    PyModule_AddObject(plt_module, "Data", (PyObject *)&DataType);

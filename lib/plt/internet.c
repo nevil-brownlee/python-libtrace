@@ -423,7 +423,7 @@ PyTypeObject InternetType = {
 void initinternet(void) {
    if (PyType_Ready(&InternetType) < 0) return;
 
-   Py_TYPE(&InternetType) = &PyType_Type;
+   Py_SET_TYPE(&InternetType, &PyType_Type);
 
    Py_INCREF(&InternetType);
    PyModule_AddObject(plt_module, "Internet", (PyObject *)&InternetType);

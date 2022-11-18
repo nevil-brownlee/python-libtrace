@@ -289,7 +289,7 @@ PyTypeObject IpType = {
 void initip(void) {
    if (PyType_Ready(&IpType) < 0) return;
 
-   Py_TYPE(&IpType) = &PyType_Type;
+   Py_SET_TYPE(&IpType, &PyType_Type);
 
    Py_INCREF(&IpType);
    PyModule_AddObject(plt_module, "ip", (PyObject *)&IpType);

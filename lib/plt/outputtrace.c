@@ -294,9 +294,9 @@ PyTypeObject FilterType = {
 
 void initoutputtrace(void) {
    if (PyType_Ready(&OutputTraceType) < 0) return;
-   Py_TYPE(&OutputTraceType) = &PyType_Type;
+   Py_SET_TYPE(&OutputTraceType, &PyType_Type);
    if (PyType_Ready(&FilterType) < 0) return;
-   Py_TYPE(&FilterType) = &PyType_Type;
+   Py_SET_TYPE(&FilterType, &PyType_Type);
 
    PyModule_AddObject(plt_module, "O_APPEND",
       PyLong_FromLong(O_APPEND));

@@ -722,10 +722,10 @@ PyObject *m=NULL;
    if (m == NULL) RETURN;
 
    if (PyType_Ready(&IPflowType) < 0) RETURN;
-   Py_TYPE(&IPflowType) = &PyType_Type;
+   Py_SET_TYPE(&IPflowType, &PyType_Type);
 
    if (PyType_Ready(&FlowHomeType) < 0) RETURN;
-   Py_TYPE(&FlowHomeType) = &PyType_Type;
+   Py_SET_TYPE(&FlowHomeType, &PyType_Type);
 
    Py_INCREF(&IPflowType);
    PyModule_AddObject(m, "IPflow", (PyObject *)&IPflowType);

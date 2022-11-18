@@ -483,9 +483,9 @@ void initicmp(void) {
    if (PyType_Ready(&EchoType) < 0) return;
    if (PyType_Ready(&RedirectType) < 0) return;
 
-   Py_TYPE(&IcmpType) = &PyType_Type;
-   Py_TYPE(&EchoType) = &PyType_Type;
-   Py_TYPE(&RedirectType) = &PyType_Type;
+   Py_SET_TYPE(&IcmpType, &PyType_Type);
+   Py_SET_TYPE(&EchoType, &PyType_Type);
+   Py_SET_TYPE(&RedirectType, &PyType_Type);
 
    Py_INCREF(&IcmpType);
    PyModule_AddObject(plt_module, "icmp", (PyObject *)&IcmpType);

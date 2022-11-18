@@ -241,7 +241,7 @@ PyTypeObject UdpType = {
 void initudp(void) {
    if (PyType_Ready(&UdpType) < 0) return;
 
-   Py_TYPE(&UdpType) = &PyType_Type;
+   Py_SET_TYPE(&UdpType, &PyType_Type);
 
    Py_INCREF(&UdpType);
    PyModule_AddObject(plt_module, "udp", (PyObject *)&UdpType);

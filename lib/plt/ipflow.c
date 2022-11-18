@@ -151,7 +151,7 @@ PyTypeObject IPflowType = {
 
 void initipflow(void)  {
    if (PyType_Ready(&IPflowType) < 0) return;
-   Py_TYPE(&IPflowType) = &PyType_Type;
+   Py_SET_TYPE(&IPflowType, &PyType_Type);
 
    Py_INCREF(&IPflowType);
    PyModule_AddObject(plt_module, "IPflow", (PyObject *)&IPflowType);

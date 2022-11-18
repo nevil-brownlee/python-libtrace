@@ -497,7 +497,7 @@ PyTypeObject TcpType = {
 void inittcp(void) {
    if (PyType_Ready(&TcpType) < 0) return;
 
-   Py_TYPE(&TcpType) = &PyType_Type;
+   Py_SET_TYPE(&TcpType, &PyType_Type);
 
    Py_INCREF(&TcpType);
    PyModule_AddObject(plt_module, "tcp", (PyObject *)&TcpType);
