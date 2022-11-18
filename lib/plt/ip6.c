@@ -182,7 +182,7 @@ PyTypeObject Ip6Type = {
 void initip6(void) {
    if (PyType_Ready(&Ip6Type) < 0) return;
 
-   Py_TYPE(&Ip6Type) = &PyType_Type;
+   Py_SET_TYPE(&Ip6Type, &PyType_Type);
 
    Py_INCREF(&Ip6Type);
    PyModule_AddObject(plt_module, "ip6", (PyObject *)&Ip6Type);

@@ -582,7 +582,7 @@ PyTypeObject PacketType = {
 void initpacket(void) {
    if (PyType_Ready(&PacketType) < 0) return;
 
-   Py_TYPE(&PacketType) = &PyType_Type;
+   Py_SET_TYPE(&PacketType, &PyType_Type);
 
    Py_INCREF(&PacketType);
    PyModule_AddObject(plt_module, "packet", (PyObject *)&PacketType);

@@ -395,7 +395,7 @@ PyTypeObject TraceType = {
 void inittrace(void) {
    if (PyType_Ready(&TraceType) < 0) return;
 
-   Py_TYPE(&TraceType) = &PyType_Type;
+   Py_SET_TYPE(&TraceType, &PyType_Type);
 
    Py_INCREF(&TraceType);
    PyModule_AddObject(plt_module, "trace", (PyObject *)&TraceType);

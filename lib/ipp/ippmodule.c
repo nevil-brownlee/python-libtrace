@@ -931,7 +931,7 @@ PyMODINIT_FUNC initipp(void)  {
 
    if (PyType_Ready(&IPprefixType) < 0)
       RETURN;
-   Py_TYPE(&IPprefixType) = &PyType_Type;
+   Py_SET_TYPE(&IPprefixType, &PyType_Type);
 
 #if PYTHON3
    m = PyModule_Create(&ipp_module);

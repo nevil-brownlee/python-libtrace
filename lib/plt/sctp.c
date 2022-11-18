@@ -386,12 +386,12 @@ PyTypeObject SctpChunkType = {
 
 void initsctp(void) {
    if (PyType_Ready(&SctpType) <= 0) {
-      Py_TYPE(&SctpType) = &PyType_Type;
+      Py_SET_TYPE(&SctpType, &PyType_Type);
       Py_INCREF(&SctpType);
       PyModule_AddObject(plt_module, "sctp", (PyObject *)&SctpType);
       }
    if (PyType_Ready(&SctpChunkType) <= 0) {
-      Py_TYPE(&SctpChunkType) = &PyType_Type;
+      Py_SET_TYPE(&SctpChunkType, &PyType_Type);
       Py_INCREF(&SctpChunkType);
       PyModule_AddObject(plt_module, "chunk", (PyObject *)&SctpChunkType);
       }
